@@ -6,11 +6,11 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 @Injectable({ providedIn: 'root' })
 export class HttpRequestInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        var token = localStorage.getItem('login-token');
+        var token = localStorage.getItem('admin_token');
         if(token){
             const newReq = req.clone(
                 {
-                    headers: req.headers.set('login-token', token)
+                    headers: req.headers.set('token', token)
                 }
             )
             return next.handle(newReq);

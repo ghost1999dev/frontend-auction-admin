@@ -42,6 +42,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { AdminsComponent } from './admins/admins.component';
 
 const routes: Routes = [
   {
@@ -55,39 +56,31 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: DashboardComponent,
-        canActivate: [RoleGuard],
-        data: { allowedRoles: [1, 2] } 
+        component: DashboardComponent
       },
       {
         path: 'profile',
         component: ProfileComponent,
-        canActivate: [RoleGuard],
-        data: { allowedRoles: [1, 2] } 
       },
       {
         path: 'auctions',
         component: AuctionsComponent,
-        canActivate: [RoleGuard],
-        data: { allowedRoles: [1] } 
       },
       {
         path: 'projects',
-        component: ProjectComponent,
-        canActivate: [RoleGuard],
-        data: { allowedRoles: [1, 2] } 
+        component: ProjectComponent 
       },
       {
         path: 'favorites',
-        component: FavoritesComponent,
-        canActivate: [RoleGuard],
-        data: { allowedRoles: [1] } 
+        component: FavoritesComponent
       },
       {
         path: 'users',
-        component: UsersComponent,
-        canActivate: [RoleGuard],
-        data: { allowedRoles: [1] } 
+        component: UsersComponent
+      },
+      {
+        path: 'admins',
+        component: AdminsComponent
       }
     ]
   },
@@ -103,6 +96,7 @@ const routes: Routes = [
     FavoritesComponent,
     UsersComponent,
     ProfileComponent,
+    AdminsComponent
   ],
   imports: [
     CommonModule,

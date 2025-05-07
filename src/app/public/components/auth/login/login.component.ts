@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { AdminLoginRequest } from 'src/app/core/models/admin';
+import { AdminLoginService } from 'src/app/core/services/adminLogin.service';
 import { LayoutService } from 'src/app/core/services/layout.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
@@ -15,50 +17,52 @@ export class LoginComponent implements OnInit {
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
   loginForm!: FormGroup;
   submitted: boolean = false;
-
+  loading = false;
+  
   constructor(
-    private router: Router,
     public layoutService: LayoutService,
     private fb: FormBuilder,
-    public notificationServices: NotificationService,
-    public authSvc: AuthService
+    private adminLoginService: AdminLoginService,
+    private router: Router,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
     });
   }
 
-  onLogin(): void {
-    const formValue = this.loginForm.value;
+  get f() { return this.loginForm.controls; }
 
-    this.authSvc.login(formValue)
-    .subscribe((res: any) => {
-      if(res){        
-        this.onLoggedin()
+  onSubmit(): void {
+    this.submitted = true;
+
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    const credentials: AdminLoginRequest = this.loginForm.value;
+
+    this.adminLoginService.loginAdmin(credentials).subscribe({
+      next: () => {
+        this.notificationService.showSuccessCustom('Login successful');
         this.router.navigate(['/main/dashboard']);
-        this.notificationServices.showSuccessCustom('Welcome to CodeBind');
+      },
+      error: (error: any) => {
+        this.notificationService.showErrorCustom(error.error.message || 'Login failed');
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
       }
-    },
-    (err: any) => {
-      this.notificationServices.showErrorCustom('Incorrect username or password');
-    })
-
+    });
   }
 
   onLoggedin() {
     localStorage.setItem('isLoggedin', 'true');
   }
 
-  loginWithGoogle() {
-    // Redirige al endpoint de autenticación de Google en tu backend
-    window.location.href = 'http://localhost:4000/passport/auth/google/callback';
-  }
-
-  loginWithGitHub() {
-    // Redirige al endpoint de autenticación de Google en tu backend
-    window.location.href = 'http://localhost:4000/passport/auth/github/callback';
-  }
 }

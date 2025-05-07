@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   public logout():void{
-    localStorage.removeItem('login-token');
+    localStorage.removeItem('admin_token');
     localStorage.removeItem('isLoggedin');
     this.userService.clearCache()
     this.developerService.clearDevelopersCache()
@@ -63,7 +63,7 @@ export class AuthService {
   }
 
   private checkToken(): void{
-    let userToken = localStorage.getItem('login-token') as string;
+    let userToken = localStorage.getItem('admin_token') as string;
     const isExpired = helper.isTokenExpired(userToken);
     if(isExpired) {
       this.logout();
@@ -73,11 +73,11 @@ export class AuthService {
   }
 
   public saveToken(token:string):void{
-    localStorage.setItem('login-token', token);
+    localStorage.setItem('admin_token', token);
   }
 
   IsLoggedIn() {
-    return !!localStorage.getItem('login-token');
+    return !!localStorage.getItem('admin_token');
   }
 
   public handlerError(err: { error?: any, message?: any, status?: number }): Observable<never> {

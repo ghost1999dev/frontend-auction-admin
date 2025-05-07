@@ -73,6 +73,6 @@ export class AppComponent implements OnInit {
   }
 
   getTokens() {
-    return localStorage.getItem("login-token");
+    return localStorage.getItem("admin_token");
   }
 }

@@ -46,7 +46,7 @@ export class RoleGuard implements CanActivate {
   }
 
   private getToken(): string | null {
-    return localStorage.getItem("login-token");
+    return localStorage.getItem("admin_token");
   }
 
   private getUserIdFromToken(token: string): number {

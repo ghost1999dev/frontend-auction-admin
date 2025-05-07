@@ -19,76 +19,27 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getUserById(this.id)
+    this.initializeMenuBasedOnRole()
   }
 
   private initializeMenuBasedOnRole() {
-    if (this.user?.role_id === 1) { // Company - mostrar todo
-      this.model = [
-        {
-          label: 'Home',
-          items: [
-            { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/main/dashboard'] }
-          ]
-        },
-        {
-          label: 'Menu',
-          items: [
-            //{ label: 'Auctions', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
-            { label: 'Projects', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
-            //{ label: 'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
-            //{ label: 'Users', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
-          ]
-        },
-      ];
-    } else if (this.user?.role_id === 2) { // Developer - no mostrar nada o menú reducido
-      this.model = [
-        {
-          label: 'Home',
-          items: [
-            { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/main/dashboard'] }
-          ]
-        },
-        {
-          label: 'Menu',
-          items: [
-            //{ label: 'Auctions', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
-            { label: 'Projects', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
-            //{ label: 'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
-            //{ label: 'Users', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
-          ]
-        },
-      ];
-    }
+    this.model = [
+      {
+        label: 'Home',
+        items: [
+          { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/main/dashboard'] }
+        ]
+      },
+      {
+        label: 'Menu',
+        items: [
+          //{ label: 'Auctions', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
+          { label: 'Projects Management', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
+          { label: 'Admin Management', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
+          //{ label: 'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
+          { label: 'Users Management', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
+        ]
+      },
+    ];
   }
-
-  public getUserById(id: any){
-    this.userService.getUsersById(id)
-    .subscribe((next: any) => {
-      if(next){
-        this.user = next;
-        this.initializeMenuBasedOnRole();
-      }else{
-        
-      }
-    })
-  }
-
-  getUserInfo() {
-    const token = this.getTokens();
-    let payload;
-    if (token) {
-      payload = token.split(".")[1];
-      payload = window.atob(payload);
-      return JSON.parse(payload)['id'];
-    } else {
-      return null;
-    }
-  }
-  
-  getTokens() {
-    return localStorage.getItem("login-token");
-  }
-
-  id: any = this.getUserInfo();
 }

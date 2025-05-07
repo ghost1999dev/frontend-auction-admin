@@ -492,7 +492,7 @@ export class ProfileComponent implements OnInit {
   }
   
   getTokens() {
-    return localStorage.getItem("login-token");
+    return localStorage.getItem("admin_token");
   }
 
   id: any = this.getUserInfo();
