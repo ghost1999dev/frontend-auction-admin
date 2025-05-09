@@ -34,10 +34,10 @@ export class SidebarComponent implements OnInit {
         label: 'Menu',
         items: [
           //{ label: 'Auctions', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
-          { label: 'Projects Management', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
-          { label: 'Admin Management', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
+          { label:  'Projects', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
+          { label: 'Admin', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
           //{ label: 'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
-          { label: 'Users Management', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
+          { label: 'Users', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
         ]
       },
     ];
