@@ -1,4 +1,91 @@
-<div class="user-list-container">
-  <h2 class="title">Welcome to Users of API REST </h2>
+<!-- users.component.html -->
+<div class="card" *ngIf="!showAddEditDialog">
+  <div class="flex justify-content-between align-items-center mb-4">
+      <h1>User Management</h1>
+      <button pButton pRipple label="New User" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+  </div>
 
+  <p-table #dt [value]="users" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
+          [globalFilterFields]="['name','email','phone','status']" [paginator]="true" 
+          [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+          [(selection)]="selectedUsers" selectionMode="multiple" [rowHover]="true" dataKey="id">
+      <ng-template pTemplate="caption">
+          <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+              <h5 class="m-0"></h5>
+              <span class="block mt-2 md:mt-0 p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto"/>
+              </span>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+              <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+              <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+              <th>Actions</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+          <tr>
+              <td>
+                  <span class="p-column-title">Name</span>
+                  {{user.name}}
+              </td>
+              <td>
+                  <span class="p-column-title">Email</span>
+                  {{user.email}}
+              </td>
+              <td>
+                  <span class="p-column-title">Phone</span>
+                  {{user.phone || 'N/A'}}
+              </td>
+              <td>
+                  <span class="p-column-title">Status</span>
+                  <p-tag [severity]="user.status ? 'success' : 'danger'" [value]="user.status ? 'Active' : 'Inactive'"></p-tag>
+              </td>
+              <td>
+                  <div class="flex gap-2">
+                      <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" 
+                              (click)="editUser(user)"></button>
+                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" 
+                              (click)="deleteUser(user)"></button>
+                  </div>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
 </div>
+
+<app-add-edit-users
+  *ngIf="showAddEditDialog"
+  [userId]="currentUserId"
+  (saved)="onUserSaved()"
+  (cancelled)="showAddEditDialog = false">
+</app-add-edit-users>
+
+<p-dialog [(visible)]="deleteUserDialog" [style]="{width: '450px'}" header="Confirm" [modal]="true">
+  <div class="flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+      <span>Are you sure you want to delete <b>{{user.name}}</b>?</span>
+  </div>
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="deleteUserDialog = false"></button>
+      <button pButton pRipple label="Yes" icon="pi pi-check" class="p-button-text" (click)="confirmDelete()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteUsersDialog" [style]="{width: '450px'}" header="Confirm" [modal]="true">
+  <div class="flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+      <span>Are you sure you want to delete the selected users?</span>
+  </div>
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="deleteUsersDialog = false"></button>
+      <button pButton pRipple label="Yes" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteSelected()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

@@ -1,6 +1,6 @@
 export interface userResponse{
     message: string;
-    usersWithImage: usersWithImage[]
+    users: usersWithImage[]
 }
 
 export interface userResponseById{

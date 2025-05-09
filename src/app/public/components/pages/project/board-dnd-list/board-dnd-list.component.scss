@@ -1,0 +1,57 @@
+.status-list {
+    background-color: #ebecf0;
+    border-radius: 8px;
+    width: 272px;
+    min-width: 272px; /* Añade esto para evitar que se reduzca */
+    margin: 0;
+    height: fit-content;
+    max-height: calc(100vh - 150px);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  }
+  
+  /* El resto del CSS puede permanecer igual */
+  
+  .header {
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #172b4d;
+    margin: 0;
+    flex-grow: 1;
+    cursor: pointer;
+  }
+  
+  .badge {
+    background-color: #dfe1e6;
+    color: #5e6c84;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .issue-card-container {
+    padding: 0 8px 8px;
+    overflow-y: auto;
+    flex-grow: 1;
+    min-height: 10px;
+  }
+  
+  .drag-placeholder {
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 4px;
+    margin: 8px 0;
+    height: 60px;
+  }

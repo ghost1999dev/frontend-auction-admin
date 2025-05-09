@@ -1,0 +1,98 @@
+<div class="card">
+    <div class="flex justify-content-between align-items-center mb-5">
+      <h2>{{ userId ? 'Edit User' : 'Add New User' }}</h2>
+    </div>
+  
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="grid">
+        <!-- Left Column -->
+        <div class="col-12 md:col-6">
+          <!-- Name Field -->
+          <div class="field mb-4">
+            <label for="name" class="block mb-2 font-medium">Name*</label>
+            <input type="text" pInputText id="name" formControlName="name" class="w-full"
+                  [ngClass]="{'ng-invalid ng-dirty': submitted && f['name'].errors}">
+            <small class="p-error block mt-1" *ngIf="submitted && f['name'].errors?.['required']">
+              Name is required
+            </small>
+          </div>
+  
+          <!-- Email Field with Verification -->
+          <div class="field mb-4">
+            <label for="email" class="block mb-2 font-medium">Email*</label>
+            <div class="p-inputgroup">
+              <input type="email" pInputText id="email" formControlName="email" class="w-full"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f['email'].errors}"
+                    [disabled]="verificationCodeSent">
+              <button pButton type="button" icon="pi pi-send" class="p-button-primary" 
+                      (click)="verifyEmail()" [disabled]="userId || verificationCodeSent || !f['email'].valid"></button>
+            </div>
+            <small class="p-error block mt-1" *ngIf="submitted && f['email'].errors?.['required']">
+              Email is required
+            </small>
+            <small class="p-error block mt-1" *ngIf="submitted && f['email'].errors?.['email']">
+              Please enter a valid email
+            </small>
+          </div>
+
+          <!-- Verification Code Field -->
+          <div class="field mb-4" *ngIf="verificationCodeSent && !userId">
+            <label for="code" class="block mb-2 font-medium">Verification Code*</label>
+            <input type="text" pInputText id="code" [(ngModel)]="verificationCode" class="w-full"
+                  [ngModelOptions]="{standalone: true}" required>
+          </div>
+  
+          <!-- Password Field -->
+          <div class="field mb-4" *ngIf="!userId">
+            <label for="password" class="block mb-2 font-medium">Password*</label>
+            <p-password id="password" formControlName="password" [feedback]="false" class="w-full"
+                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['password'].errors}">
+            </p-password>
+            <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['required']">
+              Password is required
+            </small>
+            <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['minlength']">
+              Password must be at least 6 characters
+            </small>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-12 md:col-6">
+          <!-- Phone Field -->
+          <div class="field mb-4">
+            <label for="phone" class="block mb-2 font-medium">Phone</label>
+            <input type="text" pInputText id="phone" formControlName="phone" class="w-full">
+          </div>
+  
+          <!-- Address Field -->
+          <div class="field mb-4">
+            <label for="address" class="block mb-2 font-medium">Address</label>
+            <textarea pInputTextarea id="address" formControlName="address" rows="3" class="w-full"></textarea>
+          </div>
+
+          <!-- Role Dropdown -->
+          <div class="field mb-4">
+            <label for="role_id" class="block mb-2 font-medium">Role*</label>
+            <p-dropdown id="role_id" formControlName="role_id" [options]="roles" 
+                       optionLabel="name" optionValue="id" placeholder="Select a role" class="w-full category-dropdown"
+                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['role_id'].errors}">
+            </p-dropdown>
+            <small class="p-error block mt-1" *ngIf="submitted && f['role_id'].errors?.['required']">
+              Role is required
+            </small>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Form Actions -->
+      <div class="flex justify-content-end gap-3 mt-5">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" 
+                class="p-button-outlined p-button-secondary" (click)="onCancel()" [disabled]="loading"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" 
+                class="p-button-primary" type="submit" [disabled]="loading">
+          <i *ngIf="loading" class="pi pi-spinner pi-spin mr-2"></i>
+        </button>
+      </div>
+    </form>
+</div>

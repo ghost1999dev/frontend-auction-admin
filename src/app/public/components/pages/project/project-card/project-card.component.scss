@@ -1,0 +1,157 @@
+:host {
+    /* Light Theme Variables */
+    --card-bg-light: #ffffff;
+    --text-primary-light: #172b4d;
+    --text-secondary-light: #5e6c84;
+    --hover-bg-light: #f4f5f7;
+    --shadow-light: 0 1px 3px rgba(0,0,0,0.1);
+    --border-light: 1px solid #e2e8f0;
+    
+    /* Dark Theme Variables */
+    --card-bg-dark: #2d3748;
+    --text-primary-dark: #f7fafc;
+    --text-secondary-dark: #cbd5e0;
+    --hover-bg-dark: #4a5568;
+    --shadow-dark: 0 1px 3px rgba(0,0,0,0.3);
+    --border-dark: 1px solid #4a5568;
+  }
+  
+  .status-card {
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  /* Light Theme */
+  .status-card.light-theme {
+    background-color: var(--card-bg-light);
+    border: var(--border-light);
+    box-shadow: var(--shadow-light);
+    color: var(--text-primary-light);
+  }
+  
+  .status-card.light-theme:hover {
+    background-color: var(--hover-bg-light);
+  }
+  
+  /* Dark Theme */
+  .status-card.dark-theme {
+    background-color: var(--card-bg-dark);
+    border: var(--border-dark);
+    box-shadow: var(--shadow-dark);
+    color: var(--text-primary-dark);
+  }
+  
+  .status-card.dark-theme:hover {
+    background-color: var(--hover-bg-dark);
+  }
+  
+  /* Common Styles */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .card-header h5 {
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  .card-actions i {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .card-actions i:hover {
+    opacity: 1;
+  }
+  
+  .card-description {
+    font-size: 12px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    color: var(--text-secondary-light);
+  }
+  
+  .dark-theme .card-description {
+    color: var(--text-secondary-dark);
+  }
+  
+  .card-meta-row {
+    display: flex;
+    gap: 12px;
+    margin: 8px 0;
+  }
+  
+  .meta-item {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-secondary-light);
+  }
+  
+  .dark-theme .meta-item {
+    color: var(--text-secondary-dark);
+  }
+  
+  .tag {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    display: inline-block;
+    color: white;
+  }
+  
+  .card-progress {
+    height: 4px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 4px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #0052cc;
+    transition: width 0.3s ease;
+  }
+  
+  /* Status Badges */
+  .status-card .badge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  /* Active/Inactive Status */
+  .status-card.active .badge {
+    background-color: #e3fcef;
+    color: #006644;
+  }
+  
+  .dark-theme.status-card.active .badge {
+    background-color: #276749;
+    color: #c6f6d5;
+  }
+  
+  .status-card.inactive .badge {
+    background-color: #dfe1e6;
+    color: #42526e;
+  }
+  
+  .dark-theme.status-card.inactive .badge {
+    background-color: #4a5568;
+    color: #f7fafc;
+  }

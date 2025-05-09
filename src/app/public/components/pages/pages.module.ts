@@ -12,6 +12,7 @@ import { TableModule } from 'primeng/table';
 import { MenuModule } from 'primeng/menu'; // Import MenuModule
 import { ChartModule } from 'primeng/chart'; // Import ChartModule
 import { AuctionsComponent } from './auctions/auctions.component';
+import { ToastModule } from 'primeng/toast';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
@@ -43,6 +44,14 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { AdminsComponent } from './admins/admins.component';
+import { AddEditAdminsComponent } from './admins/add-edit-admins/add-edit-admins.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { AddEditUsersComponent } from "./users/add-edit-users/add-edit-users.component";
+import { BoardDndListComponent } from './project/board-dnd-list/board-dnd-list.component';
+import { ProjectStatusBoardComponent } from './project/project-status-board/project-status-board.component';
+import { ProjectCardComponent } from './project/project-card/project-card.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ProjectDetailComponent } from './project/project-detail/project-detail.component';
 
 const routes: Routes = [
   {
@@ -71,6 +80,10 @@ const routes: Routes = [
         component: ProjectComponent 
       },
       {
+        path: 'view/projects/:id',
+        component: ProjectDetailComponent
+      },
+      {
         path: 'favorites',
         component: FavoritesComponent
       },
@@ -96,13 +109,20 @@ const routes: Routes = [
     FavoritesComponent,
     UsersComponent,
     ProfileComponent,
-    AdminsComponent
+    AdminsComponent,
+    AddEditAdminsComponent,
+    AddEditUsersComponent,
+    ProjectStatusBoardComponent,
+    ProjectCardComponent,
+    BoardDndListComponent,
+    ProjectDetailComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
     TableModule,
+    DragDropModule,
     MenuModule,
     ChartModule,
     DialogModule,
@@ -110,13 +130,12 @@ const routes: Routes = [
     PasswordModule,
     ToolbarModule,
     InputTextareaModule,
-
     DropdownModule,
     PaginatorModule,
-    
     StyleClassModule,
     PanelMenuModule,
-
+    ToastModule,
+    ConfirmDialogModule,
     InputTextModule,
     SidebarModule,
     BadgeModule,
@@ -125,7 +144,7 @@ const routes: Routes = [
     RippleModule,
     ReactiveFormsModule,
     NgxMaskDirective,
-    NgxMaskPipe,    
+    NgxMaskPipe,
     AvatarModule,
     BadgeModule,
     ButtonModule,
@@ -135,9 +154,7 @@ const routes: Routes = [
     TooltipModule,
     SkeletonModule,
     FormsModule,
-
-    RouterModule.forChild(routes)
-  ],
+    RouterModule.forChild(routes),],
   providers: [
     provideNgxMask(),
     MessageService, // Add this line

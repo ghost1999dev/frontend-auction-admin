@@ -1,0 +1,47 @@
+/* Reemplaza el contenido actual con esto: */
+#_div-container {
+    padding: 20px;
+  }
+  
+  #_title-activity {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  #_title-header-h5 {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .DropList {
+    overflow-x: auto;
+    padding-bottom: 8px;
+    width: 100%;
+  }
+  
+  .d-flex[cdkDropListGroup] {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 80vh;
+  }
+  
+  /* Scrollbar styling */
+  .DropList::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .DropList::-webkit-scrollbar-track {
+    //background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .DropList::-webkit-scrollbar-thumb {
+    //background: #c1c1c1;
+    border-radius: 4px;
+  }
+  
+  .DropList::-webkit-scrollbar-thumb:hover {
+    //background: #a8a8a8;
+  }

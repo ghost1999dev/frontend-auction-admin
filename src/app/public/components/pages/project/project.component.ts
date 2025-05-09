@@ -1,16 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
-import { forkJoin } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: 'app-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss'],
-  providers: [MessageService] // Add this line
 })
 export class ProjectComponent implements OnInit {
-
 
   constructor(
   ) { }

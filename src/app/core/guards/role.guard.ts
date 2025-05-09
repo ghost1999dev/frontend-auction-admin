@@ -28,7 +28,7 @@ export class RoleGuard implements CanActivate {
     }
 
     const userId = this.getUserIdFromToken(token);
-    return this.userService.getUsersById(userId)
+    return this.userService.getUserById(userId)
     .pipe(
       map((user: any) => {
         if (user && allowedRoles.includes(user.role_id)) {

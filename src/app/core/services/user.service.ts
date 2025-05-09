@@ -1,7 +1,6 @@
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HandlerErrorService } from './handler-error.service';
 import { catchError, forkJoin, map, Observable, shareReplay, throwError } from 'rxjs';
 import { activateReq, activateRes, addUser, addUserResponse, updateFieldsGoogle, updateFieldsGoogleRes, updatePasswordUser, updatePasswordUserResponse, updateUser, updateUserErrorResponse, updateUserResponse, userResponse, userResponseById, usersWithImage } from '../models/users';
 import { environment } from 'src/environments/environment';
@@ -14,106 +13,116 @@ import { CompaniesService } from './companies.service';
 export class UserService {
 
   private usersCache: Observable<usersWithImage[]> | null = null;
-  private userCache = new Map<any, Observable<usersWithImage[]>>();
+  private userCache = new Map<number, Observable<usersWithImage[]>>();
 
   constructor(
-    private http: HttpClient,  
-    private developerService: DeveloperService,
-    private companiesService: CompaniesService,
-    private NotificationService: NotificationService
+    private http: HttpClient,
+    private notificationService: NotificationService
   ) { }
 
-  getUsers(): Observable<usersWithImage[]> {
+  // Cache management
+  clearCache(): void {
+    this.usersCache = null;
+    this.userCache.clear();
+  }
+
+  clearUserCache(id: number): void {
+    this.userCache.delete(id);
+  }
+
+  // User CRUD Operations
+  getAllUsers(): Observable<usersWithImage[]> {
     if (!this.usersCache) {
       this.usersCache = this.http.get<userResponse>(`${environment.server_url}users/show/all`).pipe(
-        map(response => response.usersWithImage),
-        shareReplay(1)
+        map(response => response.users),
+        shareReplay(1),
+        catchError((err) => this.handlerError(err))
       );
     }
     return this.usersCache;
   }
 
-  getUsersById(id: any): Observable<usersWithImage[]> {
+  getUserById(id: number): Observable<usersWithImage[]> {
     if (!this.userCache.has(id)) {
-      const user$: any = this.http.get<userResponseById>(`${environment.server_url}users/show/${id}`).pipe(
+      const user$ = this.http.get<userResponseById>(`${environment.server_url}users/show/${id}`).pipe(
         map(response => response.user),
-        shareReplay(1)
+        shareReplay(1),
+        catchError((err) => this.handlerError(err))
       );
       this.userCache.set(id, user$);
     }
     return this.userCache.get(id)!;
   }
 
-  clearCache(): void {
-    this.usersCache = null;
-    this.userCache.clear();
-  }
-
-  clearUserCache(id: any): void {
-    this.userCache.delete(id);
-  }
-
-  createUsers(data: addUser) : Observable<addUserResponse | void>{
-    return this.http.post<addUserResponse>(`${environment.server_url}users/create`, data)
-    .pipe(
-      map((res:addUserResponse)=> {
-        return res;
+  createUser(userData: addUser): Observable<addUserResponse> {
+    return this.http.post<addUserResponse>(`${environment.server_url}users/create`, userData).pipe(
+      map(response => {
+        this.clearCache();
+        return response;
       }),
       catchError((err) => this.handlerError(err))
     );
   }
 
-  updatedUsers(data: updateUser, id: any) : Observable<updateUserResponse | void>{
-    return this.http.put<updateUserResponse>(`${environment.server_url}users/update/${id}`, data)
-    .pipe(
-      map((res:updateUserResponse)=> {
-        return res;
+  updateUser(id: number, userData: updateUser): Observable<updateUserResponse> {
+    return this.http.put<updateUserResponse>(`${environment.server_url}users/update/${id}`, userData).pipe(
+      map(response => {
+        this.clearUserCache(id);
+        return response;
       }),
       catchError((err) => this.handlerError(err))
     );
   }
 
-  updatedPasswordUsers(data: updatePasswordUser, id: any) : Observable<updatePasswordUserResponse | void>{
-    return this.http.put<updatePasswordUserResponse>(`${environment.server_url}users/update-password/${id}`, data)
-    .pipe(
-      map((res:updatePasswordUserResponse)=> {
-        return res;
-      }),
-      catchError((err: any) => this.handlerError(err.status))
-    );
-  }
-
-  updatedUsersPassport(data: updateFieldsGoogle, id: any) : Observable<updateFieldsGoogleRes | void>{
-    return this.http.patch<updateFieldsGoogleRes>(`${environment.server_url}users/update-fields/${id}`, data)
-    .pipe(
-      map((res:updateFieldsGoogleRes)=> {
-        return res;
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${environment.server_url}users/delete/${id}`).pipe(
+      map(response => {
+        this.clearCache();
+        this.clearUserCache(id);
+        return response;
       }),
       catchError((err) => this.handlerError(err))
     );
   }
 
-  validateEmailUser(data: activateReq) : Observable<activateRes | void>{
-    return this.http.post<activateRes>(`${environment.server_url}users/validate-email`, data)
-    .pipe(
-      map((res:activateRes)=> {
-        console.log(res)
-        return res;
+  updatePassword(id: number, passwordData: updatePasswordUser): Observable<updatePasswordUserResponse> {
+    return this.http.put<updatePasswordUserResponse>(
+      `${environment.server_url}users/update-password/${id}`, 
+      passwordData
+    ).pipe(
+      catchError((err) => this.handlerError(err))
+    );
+  }
+
+  // Additional User Operations
+  uploadImage(id: number, image: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', image);
+    return this.http.put(`${environment.server_url}users/upload-image/${id}`, formData).pipe(
+      map(response => {
+        this.clearUserCache(id);
+        return response;
       }),
       catchError((err) => this.handlerError(err))
     );
   }
 
-  checkUserRoles(userId: number): Observable<{ hasRole: boolean }> {
-    return forkJoin([
-      this.companiesService.getAllCompanies(),
-      this.developerService.getAllDevelopers()
-    ]).pipe(
-      map(([companies, developers]) => {
-        const isCompany = companies.some(c => c.user_id === userId);
-        const isDeveloper = developers.some(d => d.user_id === userId);
-        return { hasRole: isCompany || isDeveloper };
-      })
+  verifyEmail(emailData: activateReq): Observable<activateRes> {
+    return this.http.post<activateRes>(`${environment.server_url}users/validate-email`, emailData).pipe(
+      catchError((err) => this.handlerError(err))
+    );
+  }
+
+  updateGoogleFields(id: number, fields: updateFieldsGoogle): Observable<updateFieldsGoogleRes> {
+    return this.http.patch<updateFieldsGoogleRes>(
+      `${environment.server_url}users/update-fields/${id}`, 
+      fields
+    ).pipe(
+      map(response => {
+        this.clearUserCache(id);
+        return response;
+      }),
+      catchError((err: any) => this.handlerError(err))
     );
   }
 
@@ -124,26 +133,26 @@ export class UserService {
   
     switch (err.error.status) {
       case 400:
-        this.NotificationService.showErrorCustom(err.error.message);
+        this.notificationService.showErrorCustom(err.error.message);
         break;
       case 401:
-        this.NotificationService.showErrorCustom(err.error.message);
+        this.notificationService.showErrorCustom(err.error.message);
         break;
       case 404:
-        this.NotificationService.showErrorCustom(err.error.message);
+        this.notificationService.showErrorCustom(err.error.message);
         break;
       case 429:
-        this.NotificationService.showErrorCustom(err.error.message);
+        this.notificationService.showErrorCustom(err.error.message);
         break;
       case 500:
-        this.NotificationService.showErrorCustom(err.error.message);
+        this.notificationService.showErrorCustom(err.error.message);
         break;
       default:
-        this.NotificationService.showErrorCustom(err.message .message);
+        this.notificationService.showErrorCustom(err.message .message);
     }
 
     for (let i = 0; i < err.error.details.length; i++) {
-      this.NotificationService.showErrorCustom(err.error.details[i])
+      this.notificationService.showErrorCustom(err.error.details[i])
     }
   
     return throwError(err);

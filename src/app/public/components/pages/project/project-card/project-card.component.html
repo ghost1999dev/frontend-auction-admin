@@ -1,0 +1,31 @@
+<div class="status-card" [ngClass]="getStatusClass() + ' ' + (isDarkMode ? 'dark-theme' : 'light-theme')">
+    <div class="card-header">
+      <h5>{{ project.project_name }}</h5>
+      <div class="card-actions">
+        <i class="bx bx-dots-vertical-rounded" (click)="showCardOptions($event)"></i>
+      </div>
+    </div>
+    
+    <div class="card-body">
+      <p class="card-description">{{ project.description || 'No description provided' }}</p>
+      
+      <div class="card-meta-row">
+        <span class="meta-item" *ngIf="project.budget">
+          <i class="bx bx-dollar"></i> {{ project.budget | currency }}
+        </span>
+        <span class="meta-item" *ngIf="project.days_available">
+          <i class="bx bx-time"></i> {{ project.days_available }} days
+        </span>
+      </div>
+      
+      <div *ngIf="project.category" class="card-tags">
+        <span class="tag" [style.backgroundColor]="getCategoryColor()">
+          {{ project.category.name }}
+        </span>
+      </div>
+    </div>
+
+    <div class="card-progress">
+      <div class="progress-bar" [style.width]="getProgress() + '%'"></div>
+    </div>
+</div>

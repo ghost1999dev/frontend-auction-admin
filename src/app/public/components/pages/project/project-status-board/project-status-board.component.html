@@ -1,0 +1,37 @@
+<div class="container-xxl flex-grow-1 container-p-y" *ngIf="!showProjectDetail">
+    <div id="_div-container">
+      <div class="card-datatable table-responsive">
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+          <div class="card-header flex-column flex-md-row">
+            <div class="head-label text-center">
+              <h4 class="card-title mb-0 fw-bold" id="_title-activity">Project Status Board Manager</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card" id="_div-container">
+      <div class="card-datatable table-responsive">
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+          <div class="row">
+            <div class="col-sm-12 col-md-9">
+              <!-- Filter options can be added here -->
+            </div>
+            <div class="col-sm-12 col-md-3 d-flex justify-content-center justify-content-md-end">
+              <div id="DataTables_Table_0_filter mt-1" class="dataTables_filter"> 
+              </div>
+            </div>
+          </div>
+          <div class="DropList">
+            <div class="d-flex" cdkDropListGroup>
+              <div class="board-dnd-list" board-dnd-list *ngFor="let lane of lanes" 
+                   [lanes]="lane" [columnId]="lane.id"
+                   (projectSelected)="openProjectDetail($event)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

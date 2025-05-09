@@ -1,0 +1,24 @@
+<div class="status-list">
+    <div class="header">
+      <span class="title">{{ lanes.title }}</span>
+      <span class="badge">{{ lanes.issues.length }}</span>
+    </div>
+    
+    <div class="issue-card-container" 
+         cdkDropList
+         [cdkDropListData]="lanes.issues"
+         (cdkDropListDropped)="moveTask($event)"
+         [id]="lanes.id.toString()">
+         
+         <div *ngFor="let project of lanes.issues">
+              <app-project-card 
+                [project]="project"
+                cdkDrag
+                [routerLink]="['/main/view/projects/', project.id]" 
+                [cdkDragData]="project">
+              </app-project-card>
+          </div>
+      
+      <div *cdkDragPlaceholder class="drag-placeholder"></div>
+    </div>
+</div>
