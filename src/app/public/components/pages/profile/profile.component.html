@@ -33,7 +33,7 @@
         
         <p-badge 
           *ngIf="admin.status === 'active'"
-          value="Active" 
+          value="Activo" 
           severity="success"
           class="status-badge">
         </p-badge>
@@ -41,7 +41,7 @@
       
       <div class="profile-info">
         <h2>{{ admin.full_name }}</h2>
-        <p-tag value="Administrator" severity="info"></p-tag>
+        <p-tag value="Administrador" severity="info"></p-tag>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
       <div class="detail-item">
         <i class="pi pi-user"></i>
         <div>
-          <span class="detail-label">Username</span>
+          <span class="detail-label">Nombre de Usuario</span>
           <span class="detail-value">{{ admin.username }}</span>
         </div>
       </div>
@@ -59,7 +59,7 @@
       <div class="detail-item">
         <i class="pi pi-envelope"></i>
         <div>
-          <span class="detail-label">Email</span>
+          <span class="detail-label">Correo electrónico</span>
           <span class="detail-value">{{ admin.email }}</span>
         </div>
       </div>
@@ -67,15 +67,15 @@
       <div class="detail-item">
         <i class="pi pi-phone"></i>
         <div>
-          <span class="detail-label">Phone</span>
-          <span class="detail-value">{{ admin.phone || 'Not specified' }}</span>
+          <span class="detail-label">Teléfono</span>
+          <span class="detail-value">{{ admin.phone || 'No especificado' }}</span>
         </div>
       </div>
 
       <div class="detail-item">
         <i class="pi pi-calendar"></i>
         <div>
-          <span class="detail-label">Member Since</span>
+          <span class="detail-label">Miembro desde</span>
           <span class="detail-value">{{ admin.createdAt | date }}</span>
         </div>
       </div>
@@ -83,7 +83,7 @@
 
     <div class="profile-actions">
       <button pButton pRipple icon="pi pi-pencil" (click)="showEditDialog()" 
-              label="Edit Profile" class="p-button-outlined"></button><!-- 
+              label="Editar Perfil" class="p-button-outlined"></button><!-- 
       <button pButton pRipple icon="pi pi-lock" (click)="showPasswordDialog()" 
               label="Change Password" class="p-button-outlined ml-2"></button> -->
     </div>
@@ -91,41 +91,41 @@
 </div>
 
 <!-- Edit Profile Dialog -->
-<p-dialog [(visible)]="profileDialog" [style]="{width: '550px'}" header="Edit Profile" [modal]="true" class="p-fluid">
+<p-dialog [(visible)]="profileDialog" [style]="{width: '550px'}" header="Editar Perfil" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content">
     <div class="field">
-      <label for="full_name">Full Name*</label>
+      <label for="full_name">Nombre completo*</label>
       <input type="text" pInputText id="full_name" [(ngModel)]="adminUpdate.full_name" required 
              [ngClass]="{'ng-invalid ng-dirty': submitted && !adminUpdate.full_name}"/>
       <small class="ng-dirty ng-invalid" *ngIf="submitted && !adminUpdate.full_name">
-        Full name is required
+        Nombre completo es requerido
       </small>
     </div>
     
     <div class="field">
-      <label for="email">Email*</label>
+      <label for="email">Correo electrónico*</label>
       <input type="email" pInputText id="email" [(ngModel)]="adminUpdate.email" required 
              [ngClass]="{'ng-invalid ng-dirty': submitted && !adminUpdate.email}"/>
       <small class="ng-dirty ng-invalid" *ngIf="submitted && !adminUpdate.email">
-        Email is required
+        Correo electrónico es requerido
       </small>
     </div>
 
     <div class="field">
-      <label for="username">Username</label>
+      <label for="username">Nombre de Usuario</label>
       <input type="text" pInputText id="username" [(ngModel)]="adminUpdate.username"/>
     </div>
 
     <div class="field">
-      <label for="phone">Phone</label>
+      <label for="phone">Teléfono</label>
       <input type="text" pInputText id="phone" [(ngModel)]="adminUpdate.phone"/>
     </div>
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" 
+    <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" 
             (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" 
+    <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" 
             (click)="updateProfile()"></button>
   </ng-template>
 </p-dialog>

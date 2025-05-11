@@ -48,11 +48,11 @@ export class LoginComponent implements OnInit {
 
     this.adminLoginService.loginAdmin(credentials).subscribe({
       next: () => {
-        this.notificationService.showSuccessCustom('Login successful');
+        this.notificationService.showSuccessCustom('Inicio de sesión exitoso');
         this.router.navigate(['/main/dashboard']);
       },
       error: (error: any) => {
-        this.notificationService.showErrorCustom(error.error.message || 'Login failed');
+        this.notificationService.showErrorCustom(error.error.message || 'Error de inicio de sesion');
         this.loading = false;
       },
       complete: () => {

@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { forkJoin } from 'rxjs';
 import { usersWithImage } from 'src/app/core/models/users';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
-  providers: [MessageService]
 })
 export class UsersComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
@@ -34,7 +33,7 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private messageService: MessageService,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -50,11 +49,7 @@ export class UsersComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to load users'
-        });
+        this.notificationService.showErrorCustom('Failed to load users');
         this.loading = false;
       }
     });
@@ -69,20 +64,12 @@ export class UsersComponent implements OnInit {
     this.deleteUserDialog = false;
     this.userService.deleteUser(this.user.id).subscribe({
       next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'User deleted successfully'
-        });
+        this.notificationService.showSuccessCustom('User deleted successfully');
         this.loadUsers();
         this.user = {} as usersWithImage;
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error.error?.message || 'Failed to delete user'
-        });
+        this.notificationService.showErrorCustom(error.error?.message || 'Failed to delete user');
       }
     });
   }
@@ -90,11 +77,7 @@ export class UsersComponent implements OnInit {
   confirmDeleteSelected(): void {
     this.deleteUsersDialog = false;
     if (!this.selectedUsers || this.selectedUsers.length === 0) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'No users selected'
-      });
+      this.notificationService.showErrorCustom('No users selected');
       return;
     }
 
@@ -104,20 +87,12 @@ export class UsersComponent implements OnInit {
 
     forkJoin(deleteOperations).subscribe({
       next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: `${this.selectedUsers.length} users deleted`
-        });
+        this.notificationService.showSuccessCustom(`${this.selectedUsers.length} users deleted`);
         this.loadUsers();
         this.selectedUsers = [];
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to delete some users'
-        });
+        this.notificationService.showErrorCustom('Failed to delete some users');
       }
     });
   }

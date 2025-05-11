@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { delay, forkJoin, map, Observable, of, Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { Product } from 'src/app/core/models/product';
@@ -16,7 +16,6 @@ import { UserService } from 'src/app/core/services/user.service';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [MessageService]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
@@ -32,8 +31,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   clicked = false
 
   constructor(
-    public layoutService: LayoutService,
-    private messageService: MessageService) {
+    public layoutService: LayoutService) {
       this.subscription = this.layoutService.configUpdate$.subscribe(() => {
           this.initChart();
       });
@@ -57,7 +55,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
           datasets: [
               {
-                  label: 'First Dataset',
+                  label: 'Primer conjunto de datos',
                   data: [65, 59, 80, 81, 56, 55, 40],
                   fill: false,
                   backgroundColor: documentStyle.getPropertyValue('--bluegray-700'),
@@ -65,7 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                   tension: .4
               },
               {
-                  label: 'Second Dataset',
+                  label: 'Segundo conjunto de datos',
                   data: [28, 48, 40, 19, 86, 27, 90],
                   fill: false,
                   backgroundColor: documentStyle.getPropertyValue('--green-600'),

@@ -15,14 +15,12 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
 import { MenuitemComponent } from './menuitem/menuitem.component';
 import { RouterModule } from '@angular/router';
-import { ViewHeaderComponent } from './view-header/view-header.component'; // Import RouterModule
 import { ChartModule } from 'primeng/chart';
 import { DividerModule } from 'primeng/divider';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { PanelModule } from 'primeng/panel';
 import { StyleClassModule } from 'primeng/styleclass';
-import { ViewFooterComponent } from './view-footer/view-footer.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +29,6 @@ import { ViewFooterComponent } from './view-footer/view-footer.component';
     SidebarComponent,
     FooterComponent,
     MenuitemComponent,
-    ViewHeaderComponent,
-    ViewFooterComponent
   ],
   imports: [
     CommonModule,
@@ -58,8 +54,6 @@ import { ViewFooterComponent } from './view-footer/view-footer.component';
     SidebarComponent,
     FooterComponent,
     MenuitemComponent,
-    ViewHeaderComponent,
-    ViewFooterComponent
   ]
 })
 export class SharedModule { }

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { AdminUpdateRequest, AdminCreateRequest } from 'src/app/core/models/admin';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -12,6 +11,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 })
 export class AddEditAdminsComponent implements OnInit {
 
+  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
   @Input() adminId?: number;
   @Output() saved = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
@@ -23,7 +23,7 @@ export class AddEditAdminsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
-    private messageService: MessageService
+    private notificationService: NotificationService,
   ) {
     this.adminForm = this.fb.group({
       full_name: ['', Validators.required],
@@ -40,6 +40,45 @@ export class AddEditAdminsComponent implements OnInit {
     if (this.adminId) {
       this.loadAdmin(this.adminId);
     }
+  }
+
+  
+  formatPhone(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, '');
+    
+    // Permitir borrado completo
+    if (value.length === 0) {
+      this.adminForm.get('phone')?.setValue('', { emitEvent: false });
+      return;
+    }
+    
+    // Asegurar que el código de país sea 503
+    const countryCode = '503';
+    let mainNumber = value;
+    
+    // Si el valor comienza con 503, lo usamos
+    if (value.startsWith('503')) {
+      mainNumber = value.substring(3);
+    }
+    // Si no, asumimos que es parte del número principal
+    
+    let formattedValue = `+(${countryCode})`;
+    
+    if (mainNumber.length > 0) {
+      formattedValue += ` ${mainNumber.substring(0, 4)}`;
+      if (mainNumber.length > 4) {
+        formattedValue += `-${mainNumber.substring(4, 8)}`;
+      }
+    }
+
+    this.adminForm.get('phone')?.setValue(formattedValue, { emitEvent: false });
+    
+    // Manejo básico del cursor
+    setTimeout(() => {
+      const newCursorPosition = formattedValue.length;
+      input.setSelectionRange(newCursorPosition, newCursorPosition);
+    });
   }
 
   loadAdmin(id: number): void {
@@ -59,11 +98,7 @@ export class AddEditAdminsComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error.error?.message || 'Failed to load admin'
-        });
+        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo cargar el administrador');
         this.loading = false;
       }
     });
@@ -83,19 +118,11 @@ export class AddEditAdminsComponent implements OnInit {
       // Update admin
       this.adminService.updateAdmin(this.adminId, formData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Admin updated successfully'
-          });
+          this.notificationService.showSuccessCustom('Administrador actualizado exitosamente');
           this.saved.emit();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error.error?.message || 'Failed to update admin'
-          });
+          this.notificationService.showErrorCustom(error.error?.message || 'No se pudo actualizar el administrador');
           this.loading = false;
         },
         complete: () => {
@@ -106,19 +133,11 @@ export class AddEditAdminsComponent implements OnInit {
       // Create admin
       this.adminService.createAdmin(formData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Admin created successfully'
-          });
+          this.notificationService.showErrorCustom('Administrador creado exitosamente');
           this.saved.emit();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error.error?.message || 'Failed to create admin'
-          });
+          this.notificationService.showErrorCustom(error.error?.message || 'No se pudo crear el administrador');
           this.loading = false;
         },
         complete: () => {

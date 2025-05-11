@@ -1,6 +1,6 @@
 <div class="card">
     <div class="flex justify-content-between align-items-center mb-5">
-      <h2>{{ userId ? 'Edit User' : 'Add New User' }}</h2>
+      <h2>{{ userId ? 'Editar usuario' : 'Agregar nuevo usuario' }}</h2>
     </div>
   
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
@@ -9,17 +9,17 @@
         <div class="col-12 md:col-6">
           <!-- Name Field -->
           <div class="field mb-4">
-            <label for="name" class="block mb-2 font-medium">Name*</label>
+            <label for="name" class="block mb-2 font-medium">Nombre*</label>
             <input type="text" pInputText id="name" formControlName="name" class="w-full"
                   [ngClass]="{'ng-invalid ng-dirty': submitted && f['name'].errors}">
             <small class="p-error block mt-1" *ngIf="submitted && f['name'].errors?.['required']">
-              Name is required
+              El nombre es obligatorio
             </small>
           </div>
   
           <!-- Email Field with Verification -->
           <div class="field mb-4">
-            <label for="email" class="block mb-2 font-medium">Email*</label>
+            <label for="email" class="block mb-2 font-medium">Correo electrónico*</label>
             <div class="p-inputgroup">
               <input type="email" pInputText id="email" formControlName="email" class="w-full"
                     [ngClass]="{'ng-invalid ng-dirty': submitted && f['email'].errors}"
@@ -28,31 +28,31 @@
                       (click)="verifyEmail()" [disabled]="userId || verificationCodeSent || !f['email'].valid"></button>
             </div>
             <small class="p-error block mt-1" *ngIf="submitted && f['email'].errors?.['required']">
-              Email is required
+              Se requiere correo electrónico
             </small>
             <small class="p-error block mt-1" *ngIf="submitted && f['email'].errors?.['email']">
-              Please enter a valid email
+              Por favor, introduzca un correo electrónico válido
             </small>
           </div>
 
           <!-- Verification Code Field -->
           <div class="field mb-4" *ngIf="verificationCodeSent && !userId">
-            <label for="code" class="block mb-2 font-medium">Verification Code*</label>
+            <label for="code" class="block mb-2 font-medium">Código de verificación*</label>
             <input type="text" pInputText id="code" [(ngModel)]="verificationCode" class="w-full"
                   [ngModelOptions]="{standalone: true}" required>
           </div>
   
           <!-- Password Field -->
           <div class="field mb-4" *ngIf="!userId">
-            <label for="password" class="block mb-2 font-medium">Password*</label>
+            <label for="password" class="block mb-2 font-medium">Contraseña*</label>
             <p-password id="password" formControlName="password" [feedback]="false" class="w-full"
                        [ngClass]="{'ng-invalid ng-dirty': submitted && f['password'].errors}">
             </p-password>
             <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['required']">
-              Password is required
+              Se requiere contraseña
             </small>
             <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['minlength']">
-              Password must be at least 6 characters
+              La contraseña debe tener al menos 6 caracteres
             </small>
           </div>
         </div>
@@ -61,13 +61,13 @@
         <div class="col-12 md:col-6">
           <!-- Phone Field -->
           <div class="field mb-4">
-            <label for="phone" class="block mb-2 font-medium">Phone</label>
+            <label for="phone" class="block mb-2 font-medium">Teléfono</label>
             <input type="text" pInputText id="phone" formControlName="phone" class="w-full">
           </div>
   
           <!-- Address Field -->
           <div class="field mb-4">
-            <label for="address" class="block mb-2 font-medium">Address</label>
+            <label for="address" class="block mb-2 font-medium">Dirección</label>
             <textarea pInputTextarea id="address" formControlName="address" rows="3" class="w-full"></textarea>
           </div>
 
@@ -79,7 +79,7 @@
                        [ngClass]="{'ng-invalid ng-dirty': submitted && f['role_id'].errors}">
             </p-dropdown>
             <small class="p-error block mt-1" *ngIf="submitted && f['role_id'].errors?.['required']">
-              Role is required
+              Se requiere rol
             </small>
           </div>
         </div>
@@ -87,9 +87,9 @@
   
       <!-- Form Actions -->
       <div class="flex justify-content-end gap-3 mt-5">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" 
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
                 class="p-button-outlined p-button-secondary" (click)="onCancel()" [disabled]="loading"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" 
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
                 class="p-button-primary" type="submit" [disabled]="loading">
           <i *ngIf="loading" class="pi pi-spinner pi-spin mr-2"></i>
         </button>

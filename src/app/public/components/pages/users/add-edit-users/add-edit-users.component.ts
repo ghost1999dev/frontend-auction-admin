@@ -1,16 +1,15 @@
 // add-edit-users.component.ts
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { ROLES } from 'src/app/core/models/role';
 import { usersWithImage } from 'src/app/core/models/users';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-add-edit-users',
   templateUrl: './add-edit-users.component.html',
   styleUrls: ['./add-edit-users.component.scss'],
-  providers: [MessageService]
 })
 export class AddEditUsersComponent implements OnInit {
 
@@ -30,7 +29,7 @@ export class AddEditUsersComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private messageService: MessageService
+    private notificationService: NotificationService,
   ) {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
@@ -70,11 +69,7 @@ export class AddEditUsersComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error.error?.message || 'Failed to load user'
-        });
+        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo cargar el usuario');
         this.loading = false;
       }
     });
@@ -88,19 +83,11 @@ export class AddEditUsersComponent implements OnInit {
     this.userService.verifyEmail({ email }).subscribe({
       next: (response) => {
         this.verificationCodeSent = true;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Verification code sent to email'
-        });
+        this.notificationService.showSuccessCustom('Código de verificación enviado al correo electrónico');
         this.loading = false;
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error.error?.message || 'Failed to send verification code'
-        });
+        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo enviar el código de verificación');
         this.loading = false;
       }
     });
@@ -126,30 +113,18 @@ export class AddEditUsersComponent implements OnInit {
 
       this.userService.updateUser(this.userId, updateData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'User updated successfully'
-          });
+          this.notificationService.showSuccessCustom('No se pudo actualizar el usuario');
           this.saved.emit();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error.error?.message || 'Failed to update user'
-          });
+          this.notificationService.showErrorCustom(error.error?.message || 'No se pudo actualizar el usuario');
           this.loading = false;
         }
       });
     } else {
       // Create user
       if (!this.verificationCode) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Please verify your email first'
-        });
+        this.notificationService.showErrorCustom('Por favor, verifique su correo electrónico primero');
         this.loading = false;
         return;
       }
@@ -159,19 +134,11 @@ export class AddEditUsersComponent implements OnInit {
 
       this.userService.createUser(formData).subscribe({
         next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'User created successfully'
-          });
+          this.notificationService.showSuccessCustom('Usuario creado exitosamente');
           this.saved.emit();
         },
         error: (error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: error.error?.message || 'Failed to create user'
-          });
+          this.notificationService.showErrorCustom(error.error?.message || 'Error al crear el usuario');
           this.loading = false;
         }
       });

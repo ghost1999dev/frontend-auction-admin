@@ -1,8 +1,8 @@
 <!-- users.component.html -->
 <div class="card" *ngIf="!showAddEditDialog">
   <div class="flex justify-content-between align-items-center mb-4">
-      <h1>User</h1>
-      <button pButton pRipple label="New User" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+      <h1>Usuarios</h1>
+      <button pButton pRipple label="Nuevo usuario" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
   </div>
 
   <p-table #dt [value]="users" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
@@ -15,36 +15,36 @@
               <h5 class="m-0"></h5>
               <span class="block mt-2 md:mt-0 p-input-icon-left">
                   <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto"/>
+                  <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..." class="w-full sm:w-auto"/>
               </span>
           </div>
       </ng-template>
       <ng-template pTemplate="header">
           <tr>
-              <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-              <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-              <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon></th>
-              <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-              <th>Actions</th>
+              <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="email">Correo electrónico <p-sortIcon field="email"></p-sortIcon></th>
+              <th pSortableColumn="phone">Teléfono <p-sortIcon field="phone"></p-sortIcon></th>
+              <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
+              <th>Comportamiento</th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-user>
           <tr>
               <td>
-                  <span class="p-column-title">Name</span>
+                  <span class="p-column-title">Nombre</span>
                   {{user.name}}
               </td>
               <td>
-                  <span class="p-column-title">Email</span>
+                  <span class="p-column-title">Correo electrónico</span>
                   {{user.email}}
               </td>
               <td>
-                  <span class="p-column-title">Phone</span>
+                  <span class="p-column-title">Teléfono</span>
                   {{user.phone || 'N/A'}}
               </td>
               <td>
-                  <span class="p-column-title">Status</span>
-                  <p-tag [severity]="user.status ? 'success' : 'danger'" [value]="user.status ? 'Active' : 'Inactive'"></p-tag>
+                  <span class="p-column-title">Estado</span>
+                  <p-tag [severity]="user.status ? 'success' : 'danger'" [value]="user.status ? 'Activo' : 'Inactivo'"></p-tag>
               </td>
               <td>
                   <div class="flex gap-2">
@@ -69,22 +69,22 @@
 <p-dialog [(visible)]="deleteUserDialog" [style]="{width: '450px'}" header="Confirm" [modal]="true">
   <div class="flex align-items-center justify-content-center">
       <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-      <span>Are you sure you want to delete <b>{{user.name}}</b>?</span>
+      <span>¿Estás seguro de que quieres eliminar <b>{{user.name}}</b>?</span>
   </div>
   <ng-template pTemplate="footer">
       <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="deleteUserDialog = false"></button>
-      <button pButton pRipple label="Yes" icon="pi pi-check" class="p-button-text" (click)="confirmDelete()"></button>
+      <button pButton pRipple label="Si" icon="pi pi-check" class="p-button-text" (click)="confirmDelete()"></button>
   </ng-template>
 </p-dialog>
 
 <p-dialog [(visible)]="deleteUsersDialog" [style]="{width: '450px'}" header="Confirm" [modal]="true">
   <div class="flex align-items-center justify-content-center">
       <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-      <span>Are you sure you want to delete the selected users?</span>
+      <span>¿Está seguro de que desea eliminar los usuarios seleccionados?</span>
   </div>
   <ng-template pTemplate="footer">
       <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="deleteUsersDialog = false"></button>
-      <button pButton pRipple label="Yes" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteSelected()"></button>
+      <button pButton pRipple label="Si" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteSelected()"></button>
   </ng-template>
 </p-dialog>
 

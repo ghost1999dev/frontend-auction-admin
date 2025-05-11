@@ -25,19 +25,19 @@ export class SidebarComponent implements OnInit {
   private initializeMenuBasedOnRole() {
     this.model = [
       {
-        label: 'Home',
+        label: 'Inicio',
         items: [
-          { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/main/dashboard'] }
+          { label: 'Panel', icon: 'pi pi-fw pi-home', routerLink: ['/main/dashboard'] }
         ]
       },
       {
-        label: 'Menu',
+        label: 'Menú',
         items: [
           //{ label: 'Auctions', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
-          { label:  'Projects', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
-          { label: 'Admin', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
+          { label:  'Proyectos', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
+          { label: 'Administradores', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
           //{ label: 'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
-          { label: 'Users', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
+          //{ label: 'Users', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
         ]
       },
     ];

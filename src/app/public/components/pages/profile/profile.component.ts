@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
 import { Admin, AdminResponse } from 'src/app/core/models/admin';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -27,8 +27,8 @@ export class ProfileComponent implements OnInit {
   confirmPassword: string = '';
 
   constructor(
+    private notificationService: NotificationService,
     private adminService: AdminService,
-    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -38,18 +38,13 @@ export class ProfileComponent implements OnInit {
   loadAdminProfile(): void {
     this.loading = true;
     // Assuming we have the admin ID from auth service or similar
-    
     this.adminService.getAdminById(this.id).subscribe({
       next: (response: any) => {
         this.admin = response;
         this.loading = false;
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to load admin profile'
-        });
+        this.notificationService.showErrorCustom('No se pudo cargar el perfil de administrador');
         this.loading = false;
       }
     });
@@ -78,20 +73,12 @@ export class ProfileComponent implements OnInit {
     
     this.adminService.updateAdmin(adminId, this.adminUpdate).subscribe({
       next: (response) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Profile updated successfully'
-        });
+        this.notificationService.showSuccessCustom('Perfil actualizado exitosamente');
         this.loadAdminProfile();
         this.profileDialog = false;
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error.error?.message || 'Failed to update profile'
-        });
+        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo actualizar el perfil');
         this.loading = false;
       }
     });
