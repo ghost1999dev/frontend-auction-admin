@@ -38,9 +38,8 @@ export class ProfileComponent implements OnInit {
   loadAdminProfile(): void {
     this.loading = true;
     // Assuming we have the admin ID from auth service or similar
-    const adminId = 1; // Replace with actual admin ID
     
-    this.adminService.getAdminById(adminId).subscribe({
+    this.adminService.getAdminById(this.id).subscribe({
       next: (response: any) => {
         this.admin = response;
         this.loading = false;
@@ -103,4 +102,22 @@ export class ProfileComponent implements OnInit {
     this.passwordDialog = false;
     this.submitted = false;
   }
+
+    getUserInfo() {
+    const token = this.getTokens();
+    let payload;
+    if (token) {
+      payload = token.split(".")[1];
+      payload = window.atob(payload);
+      return JSON.parse(payload)['id'];
+    } else {
+      return null;
+    }
+  }
+  
+  getTokens() {
+    return localStorage.getItem("admin_token");
+  }
+
+  id: any = this.getUserInfo();
 }
