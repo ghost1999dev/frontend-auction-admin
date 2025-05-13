@@ -97,7 +97,7 @@ export class AdminService {
     );
   }
 
-  updateProjectStatus(id: number, statusData: ProjectStatusUpdate): Observable<any> {
+  updateProjectStatus(id: any, statusData: ProjectStatusUpdate): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/update-project-status/${id}`, statusData).pipe(
       map(response => response.data),
       catchError(err => this.handlerError(err))

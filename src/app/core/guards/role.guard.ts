@@ -4,13 +4,14 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { UserService } from '../services/user.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { AdminService } from '../services/admin.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleGuard implements CanActivate {
   constructor(
-    private userService: UserService,
+    private adminServices: AdminService,
     private router: Router
   ) {}
 
@@ -27,11 +28,11 @@ export class RoleGuard implements CanActivate {
       return of(false);
     }
 
-    const userId = this.getUserIdFromToken(token);
-    return this.userService.getUserById(userId)
+    const adminId = this.getUserIdFromToken(token);
+    return this.adminServices.getAdminById(adminId)
     .pipe(
-      map((user: any) => {
-        if (user && allowedRoles.includes(user.role_id)) {
+      map((admin: any) => {
+        if (admin && allowedRoles.includes(admin.role_id)) {
           return true;
         } else {
           this.router.navigate(['/error/main']);

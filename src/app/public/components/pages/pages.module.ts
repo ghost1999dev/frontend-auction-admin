@@ -52,6 +52,7 @@ import { ProjectStatusBoardComponent } from './project/project-status-board/proj
 import { ProjectCardComponent } from './project/project-card/project-card.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ProjectDetailComponent } from './project/project-detail/project-detail.component';
+import { AddEditProjectsComponent } from './project/add-edit-projects/add-edit-projects.component';
 
 const routes: Routes = [
   {
@@ -65,35 +66,51 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3, 4] } 
       },
       {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3, 4] } 
       },
       {
         path: 'auctions',
         component: AuctionsComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
       },
       {
         path: 'projects',
-        component: ProjectComponent 
+        component: ProjectComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3, 4] } 
       },
       {
         path: 'view/projects/:id',
-        component: ProjectDetailComponent
+        component: ProjectDetailComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3, 4] } 
       },
       {
         path: 'favorites',
-        component: FavoritesComponent
+        component: FavoritesComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
       },
       {
         path: 'users',
-        component: UsersComponent
+        component: UsersComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
       },
       {
         path: 'admins',
-        component: AdminsComponent
+        component: AdminsComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
       }
     ]
   },
@@ -116,6 +133,7 @@ const routes: Routes = [
     ProjectCardComponent,
     BoardDndListComponent,
     ProjectDetailComponent,
+    AddEditProjectsComponent
   ],
   imports: [
     CommonModule,

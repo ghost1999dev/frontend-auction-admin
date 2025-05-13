@@ -16,7 +16,6 @@ export class AddEditUsersComponent implements OnInit {
   @Input() userId?: number;
   @Output() saved = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
-  roles = ROLES;
   selectedRole!: number; // This will store the selected role ID
 
   userForm: FormGroup;
@@ -25,6 +24,11 @@ export class AddEditUsersComponent implements OnInit {
   emailVerified = false;
   verificationCodeSent = false;
   verificationCode = '';
+
+  public roles: any =  [
+    { name: 'Compañia', id: 1 },
+    { name: 'Desarrollador', id: 2 }
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +42,7 @@ export class AddEditUsersComponent implements OnInit {
       address: [''],
       image: [''],
       password: ['', this.userId ? null : [Validators.required, Validators.minLength(6)]],
-      role_id: [null, Validators.required],
+      role_id: [null],
       account_type: [1, Validators.required],
       code: ['']
     });
@@ -113,7 +117,7 @@ export class AddEditUsersComponent implements OnInit {
 
       this.userService.updateUser(this.userId, updateData).subscribe({
         next: () => {
-          this.notificationService.showSuccessCustom('No se pudo actualizar el usuario');
+          this.notificationService.showSuccessCustom('Usuario Actualizado exitosamente');
           this.saved.emit();
         },
         error: (error) => {

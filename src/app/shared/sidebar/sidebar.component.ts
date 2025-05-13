@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { AdminService } from 'src/app/core/services/admin.service';
 import { LayoutService } from 'src/app/core/services/app.layout.service';
 import { UserService } from 'src/app/core/services/user.service';
 
@@ -10,19 +11,19 @@ import { UserService } from 'src/app/core/services/user.service';
 export class SidebarComponent implements OnInit {
 
   model: any[] = [];
-  public user: any;
+  public admin: any;
 
   constructor(
     public layoutService: LayoutService, 
     public el: ElementRef,     
-    private userService: UserService,
+    private adminServices: AdminService,
   ) { }
 
   ngOnInit() {
-    this.initializeMenuBasedOnRole()
+    this.getAdminById(this.id);
   }
 
-  private initializeMenuBasedOnRole() {
+  private initializeMenuAdmin() {
     this.model = [
       {
         label: 'Inicio',
@@ -35,11 +36,64 @@ export class SidebarComponent implements OnInit {
         items: [
           //{ label: 'Auctions', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
           { label:  'Proyectos', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
-          { label: 'Administradores', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
+          //{ label: 'Administradores', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
           //{ label: 'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
           //{ label: 'Users', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
         ]
       },
     ];
   }
+
+  private initializeMenuSuperAdmin() {
+    this.model = [
+      {
+        label: 'Inicio',
+        items: [
+          { label: 'Panel', icon: 'pi pi-fw pi-home', routerLink: ['/main/dashboard'] }
+        ]
+      },
+      {
+        label: 'Menú',
+        items: [
+          //{ label:'Subastas', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
+          { label:'Proyectos', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
+          { label:'Administradores', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
+          //{ label:'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
+          { label:'Users', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
+        ]
+      },
+    ];
+  }
+
+  public getAdminById(id: any){
+    this.adminServices.getAdminById(id)
+    .subscribe((next: any) => {
+      if(next){
+        this.admin = next;
+        if(next.role_id === 3){
+          this.initializeMenuAdmin()
+        }else if(next.role_id === 4){
+          this.initializeMenuSuperAdmin()
+        }
+      }
+    })
+  }
+
+    getUserInfo() {
+    const token = this.getTokens();
+    let payload;
+    if (token) {
+      payload = token.split(".")[1];
+      payload = window.atob(payload);
+      return JSON.parse(payload)['id'];
+    } else {
+      return null;
+    }
+  }
+  
+  getTokens() {
+    return localStorage.getItem("admin_token");
+  }
+
+  id: any = this.getUserInfo();
 }

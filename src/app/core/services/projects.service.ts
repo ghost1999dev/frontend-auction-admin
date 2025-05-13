@@ -93,6 +93,9 @@ export class ProjectsService {
       case 401:
         this.notificationServices.showErrorCustom(err.error.message);
         break;
+      case 403:
+        this.notificationServices.showErrorCustom(err.error.message);
+        break;
       case 404:
         this.notificationServices.showErrorCustom(err.error.message);
         break;

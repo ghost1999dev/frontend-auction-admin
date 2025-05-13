@@ -27,6 +27,7 @@ export interface AdminLoginRequest {
     status: string;
     createdAt?: string;
     updatedAt?: string;
+    role_id:number;
   }
   
   export interface AdminCreateRequest {
