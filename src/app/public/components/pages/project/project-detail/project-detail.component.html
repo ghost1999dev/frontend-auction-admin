@@ -58,4 +58,23 @@
         <p>Last updated: {{ formatDate(project.updatedAt) }}</p>
       </div>
     </div>
-  </div>
+
+    <div class="status-update-section mt-5" *ngIf="project">
+      <h3>Update project status</h3>
+      <div class="status-selector">
+        <p-dropdown [options]="statusOptions" 
+                    [(ngModel)]="selectedStatus"
+                    optionLabel="label" 
+                    optionValue="value"
+                    placeholder="Select status"
+                    (onChange)="onStatusChange()">
+        </p-dropdown>
+        <button pButton 
+                label="Update Status" 
+                class="p-button-primary update-button ml-3"
+                (click)="updateStatus()"
+                [disabled]="selectedStatus === project.status">
+        </button>
+      </div>
+    </div>
+</div>

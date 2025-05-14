@@ -29,9 +29,9 @@ export class AddEditProjectsComponent {
   statusOptions = [
     { label: 'Pendiente', value: 0 },
     { label: 'Activo', value: 1 },
-    { label: 'Inactivo', value: 2 },
-    { label: 'Rechazado', value: 3 },
-    { label: 'Completado', value: 4 }
+    //{ label: 'Inactivo', value: 2 },
+    //{ label: 'Rechazado', value: 3 },
+    //{ label: 'Completado', value: 4 }
   ];
 
   constructor(

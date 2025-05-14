@@ -26,6 +26,26 @@ export class ProjectComponent implements OnInit {
 
   loading: boolean = false;
 
+  statusFilterOptions = [
+    { label: 'Todos', value: null },
+    { label: 'Pendiente', value: 0 },
+    { label: 'Activo', value: 1 },
+    //{ label: 'Inactivo', value: 2 },
+    { label: 'Rechazado', value: 3 },
+    { label: 'Completado', value: 4 }
+  ];
+  
+  selectedStatusFilter: number | null = null;
+  filteredProjects: Project[] = [];
+
+  public statusMap: any = {
+    0: { label: 'Pendiente', severity: 'warning' },
+    1: { label: 'Activo', severity: 'success' },
+    2: { label: 'Inactivo', severity: 'danger' },
+    3: { label: 'Rechazado', severity: 'danger' },
+    4: { label: 'Completado', severity: 'info' }
+  };
+
   constructor(
     private projectsService: ProjectsService,
     private notificationService: NotificationService,
@@ -35,11 +55,12 @@ export class ProjectComponent implements OnInit {
     this.loadProjects();
   }
 
-  loadProjects(): void {
+   loadProjects(): void {
     this.loading = true;
     this.projectsService.getAllProjects().subscribe({
       next: (projects) => {
         this.projects = projects;
+        this.filteredProjects = [...this.projects]; // Inicialmente muestra todos
         this.loading = false;
       },
       error: (error) => {
@@ -48,6 +69,24 @@ export class ProjectComponent implements OnInit {
       }
     });
   }
+
+  // Filtra por estado
+  filterByStatus(): void {
+    if (this.selectedStatusFilter === null) {
+      this.filteredProjects = [...this.projects];
+    } else {
+      this.filteredProjects = this.projects.filter(
+        project => project.status === this.selectedStatusFilter
+      );
+    }
+  }
+
+  // Tu función existente de filtro global
+  onGlobalFilter(table: Table, event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    table.filterGlobal(filterValue, 'contains');
+  }
+
 
   deleteProject(project: Project): void {
     this.project = { ...project };
@@ -89,10 +128,6 @@ export class ProjectComponent implements OnInit {
         this.notificationService.showErrorCustom('No se pudieron eliminar algunos proyectos');
       }
     });
-  }
-
-  onGlobalFilter(table: Table, event: Event): void {
-    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
   openNew(): void {
