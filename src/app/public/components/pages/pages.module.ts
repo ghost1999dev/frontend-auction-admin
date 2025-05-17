@@ -53,6 +53,8 @@ import { ProjectCardComponent } from './project/project-card/project-card.compon
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ProjectDetailComponent } from './project/project-detail/project-detail.component';
 import { AddEditProjectsComponent } from './project/add-edit-projects/add-edit-projects.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { AddEditCategoryComponent } from './categories/add-edit-category/add-edit-category.component';
 
 const routes: Routes = [
   {
@@ -111,6 +113,12 @@ const routes: Routes = [
         component: AdminsComponent,
         canActivate: [RoleGuard],
         data: { allowedRoles: [4] } 
+      },
+      {
+        path: 'categories',
+        component: CategoriesComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
       }
     ]
   },
@@ -133,7 +141,9 @@ const routes: Routes = [
     ProjectCardComponent,
     BoardDndListComponent,
     ProjectDetailComponent,
-    AddEditProjectsComponent
+    AddEditProjectsComponent,
+    CategoriesComponent,
+    AddEditCategoryComponent
   ],
   imports: [
     CommonModule,
