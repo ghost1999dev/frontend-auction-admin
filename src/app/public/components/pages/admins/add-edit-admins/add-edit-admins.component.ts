@@ -16,6 +16,11 @@ export class AddEditAdminsComponent implements OnInit {
   @Output() saved = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 
+  public roles: any =  [
+    { name: 'Admin', id: 'Administrador' },
+    { name: 'SuperAdmin', id: 'SuperAdministrador' }
+  ];
+
   adminForm: FormGroup;
   loading = false;
   submitted = false;
@@ -32,6 +37,7 @@ export class AddEditAdminsComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', this.adminId ? null : Validators.required],
       image: [''],
+      role_id: [''],
       status: ['active']
     });
   }
@@ -131,6 +137,7 @@ export class AddEditAdminsComponent implements OnInit {
       });
     } else {
       // Create admin
+      console.log(this.adminForm.value)
       this.adminService.createAdmin(formData).subscribe({
         next: () => {
           this.notificationService.showErrorCustom('Administrador creado exitosamente');

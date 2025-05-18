@@ -9,7 +9,7 @@
           <!-- Name Field -->
           <div class="field mb-4">
             <label for="name" class="block mb-2 font-medium">Nombre*</label>
-            <input type="text" pInputText id="name" formControlName="name" class="w-full"
+            <input type="text" onkeydown="return /[a-ñA-ZÑ, ]/i.test(event.key)"  pInputText id="name" formControlName="name" class="w-full"
                   [ngClass]="{'ng-invalid ng-dirty': submitted && f['name'].errors}">
             <small class="p-error block mt-1" *ngIf="submitted && f['name'].errors?.['required']">
               El nombre es obligatorio

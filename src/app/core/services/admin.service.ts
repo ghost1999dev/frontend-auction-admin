@@ -35,7 +35,7 @@ export class AdminService {
   getAllAdmins(): Observable<AdminResponse> {
     if (!this.adminsCache) {
       this.adminsCache = this.http.get<AdminResponse>(`${this.apiUrl}/show/all`).pipe(
-        map(response => response.data),
+        map(response => response.admins),
         shareReplay(1),
         catchError(err => this.handlerError(err))
       );
