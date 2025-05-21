@@ -7,7 +7,7 @@
     <p-table #dt [value]="admins" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
             [globalFilterFields]="['full_name','email','username','status']" [paginator]="true" 
             [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
             [(selection)]="selectedAdmins" selectionMode="multiple" [rowHover]="true" dataKey="id">
         <ng-template pTemplate="caption">
             <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">

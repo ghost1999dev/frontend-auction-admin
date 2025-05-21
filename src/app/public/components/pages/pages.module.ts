@@ -57,6 +57,8 @@ import { CategoriesComponent } from './categories/categories.component';
 import { AddEditCategoryComponent } from './categories/add-edit-category/add-edit-category.component';
 import { AddEditAuctionComponent } from './auctions/add-edit-auction/add-edit-auction.component';
 import { CalendarModule } from 'primeng/calendar';
+import { DeveloperListComponent } from './developer-list/developer-list.component';
+import { CompanyListComponent } from './company-list/company-list.component';
 
 const routes: Routes = [
   {
@@ -121,6 +123,18 @@ const routes: Routes = [
         component: CategoriesComponent,
         canActivate: [RoleGuard],
         data: { allowedRoles: [4] } 
+      },
+      {
+        path: 'developers',
+        component: DeveloperListComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
+      },
+      {
+        path: 'companies',
+        component: CompanyListComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
       }
     ]
   },
@@ -146,7 +160,9 @@ const routes: Routes = [
     AddEditProjectsComponent,
     CategoriesComponent,
     AddEditCategoryComponent,
-    AddEditAuctionComponent
+    AddEditAuctionComponent,
+    DeveloperListComponent,
+    CompanyListComponent
   ],
   imports: [
     CommonModule,

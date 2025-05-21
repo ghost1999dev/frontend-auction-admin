@@ -1,0 +1,52 @@
+<div class="card" *ngIf="!showAddEditDialog">
+  <div class="flex justify-content-between align-items-center mb-4">
+      <h1>Empresas</h1>
+      <button pButton pRipple label="Nueva Empresa" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+  </div>
+
+  <p-table #dt [value]="companies" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
+          [globalFilterFields]="['user.name','nrc_number','business_type','nit_number']" [paginator]="true" 
+          [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
+          [(selection)]="selectedCompanies" selectionMode="multiple" [rowHover]="true" dataKey="id">
+      <ng-template pTemplate="caption">
+          <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+              <h5 class="m-0"></h5>
+              <span class="block mt-2 md:mt-0 p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..." class="w-full sm:w-auto"/>
+              </span>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+              <th pSortableColumn="user.name">Nombre <p-sortIcon field="user.name"></p-sortIcon></th>
+              <th pSortableColumn="nrc_number">Número NRC <p-sortIcon field="nrc_number"></p-sortIcon></th>
+              <th pSortableColumn="business_type">Tipo de Negocio <p-sortIcon field="business_type"></p-sortIcon></th>
+              <th pSortableColumn="nit_number">Número NIT <p-sortIcon field="nit_number"></p-sortIcon></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-company>
+          <tr>
+              <td>
+                  <span class="p-column-title">Nombre</span>
+                  {{company.user?.name || 'N/A'}}
+              </td>
+              <td>
+                  <span class="p-column-title">Número NRC</span>
+                  {{company.nrc_number || 'N/A'}}
+              </td>
+              <td>
+                  <span class="p-column-title">Tipo de Negocio</span>
+                  {{company.business_type || 'N/A'}}
+              </td>
+              <td>
+                  <span class="p-column-title">Número NIT</span>
+                  {{company.nit_number || 'N/A'}}
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+<p-toast></p-toast>
