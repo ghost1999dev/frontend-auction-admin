@@ -91,17 +91,17 @@ private updateProjectStatus(projectId: number, newStatus: number): void {
   getStatusText(status: number): string {
     switch (status) {
       case 0:
-        return "Inactive";
+        return "Inactivo";
       case 1:
-        return "Active";
+        return "Activo";
       case 2:
-        return "Pending";
+        return "Pendiente";
       case 4:
-        return "Complete";
+        return "Completado";
       case 3:
-        return "Rejected";
+        return "Rechazado";
       default:
-        return "Unknown";
+        return "Desconocido";
     }
   }
 

@@ -54,6 +54,44 @@ export class AddEditUsersComponent implements OnInit {
     }
   }
 
+    formatPhone(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, '');
+    
+    // Permitir borrado completo
+    if (value.length === 0) {
+      this.userForm.get('phone')?.setValue('', { emitEvent: false });
+      return;
+    }
+    
+    // Asegurar que el código de país sea 503
+    const countryCode = '503';
+    let mainNumber = value;
+    
+    // Si el valor comienza con 503, lo usamos
+    if (value.startsWith('503')) {
+      mainNumber = value.substring(3);
+    }
+    // Si no, asumimos que es parte del número principal
+    
+    let formattedValue = `+(${countryCode})`;
+    
+    if (mainNumber.length > 0) {
+      formattedValue += ` ${mainNumber.substring(0, 4)}`;
+      if (mainNumber.length > 4) {
+        formattedValue += `-${mainNumber.substring(4, 8)}`;
+      }
+    }
+
+    this.userForm.get('phone')?.setValue(formattedValue, { emitEvent: false });
+    
+    // Manejo básico del cursor
+    setTimeout(() => {
+      const newCursorPosition = formattedValue.length;
+      input.setSelectionRange(newCursorPosition, newCursorPosition);
+    });
+  }
+
   loadUser(id: number): void {
     this.loading = true;
     this.userService.getUserById(id).subscribe({

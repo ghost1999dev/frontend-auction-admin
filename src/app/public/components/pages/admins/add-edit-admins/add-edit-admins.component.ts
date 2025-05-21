@@ -34,11 +34,11 @@ export class AddEditAdminsComponent implements OnInit {
       full_name: ['', Validators.required],
       phone: [''],
       email: ['', [Validators.required, Validators.email]],
-      username: ['', Validators.required],
+      //username: ['', Validators.required],
       password: ['', this.adminId ? null : Validators.required],
       image: [''],
-      role_id: [''],
-      status: ['active']
+      role: [''],
+      //status: ['active']
     });
   }
 
@@ -140,7 +140,7 @@ export class AddEditAdminsComponent implements OnInit {
       console.log(this.adminForm.value)
       this.adminService.createAdmin(formData).subscribe({
         next: () => {
-          this.notificationService.showErrorCustom('Administrador creado exitosamente');
+          this.notificationService.showSuccessCustom('Administrador creado exitosamente');
           this.saved.emit();
         },
         error: (error) => {

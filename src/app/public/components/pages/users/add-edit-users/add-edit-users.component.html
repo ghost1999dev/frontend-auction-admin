@@ -62,7 +62,7 @@
           <!-- Phone Field -->
           <div class="field mb-4">
             <label for="phone" class="block mb-2 font-medium">Teléfono</label>
-            <input type="text" pInputText id="phone" formControlName="phone" class="w-full">
+            <input type="text" (input)="formatPhone($event)" pInputText id="phone" formControlName="phone" class="w-full">
           </div>
   
           <!-- Address Field -->

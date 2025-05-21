@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit {
       {
         label: 'Menú',
         items: [
-          //{ label:'Subastas', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
+          { label:'Subastas', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
           { label:'Proyectos', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
           { label:'Administradores', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
           //{ label:'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },

@@ -55,6 +55,8 @@ import { ProjectDetailComponent } from './project/project-detail/project-detail.
 import { AddEditProjectsComponent } from './project/add-edit-projects/add-edit-projects.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { AddEditCategoryComponent } from './categories/add-edit-category/add-edit-category.component';
+import { AddEditAuctionComponent } from './auctions/add-edit-auction/add-edit-auction.component';
+import { CalendarModule } from 'primeng/calendar';
 
 const routes: Routes = [
   {
@@ -143,7 +145,8 @@ const routes: Routes = [
     ProjectDetailComponent,
     AddEditProjectsComponent,
     CategoriesComponent,
-    AddEditCategoryComponent
+    AddEditCategoryComponent,
+    AddEditAuctionComponent
   ],
   imports: [
     CommonModule,
@@ -179,6 +182,7 @@ const routes: Routes = [
     CardModule,
     DividerModule,
     TagModule,
+    CalendarModule,
     TooltipModule,
     SkeletonModule,
     FormsModule,

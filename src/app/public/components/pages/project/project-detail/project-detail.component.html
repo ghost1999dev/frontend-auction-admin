@@ -1,14 +1,14 @@
 <div class="project-container">
     <div *ngIf="isLoading" class="loading-state">
       <div class="spinner"></div>
-      <p>Loading project details...</p>
+      <p>Cargando detalles del proyecto...</p>
     </div>
   
     <!-- Error state -->
     <div *ngIf="error" class="error-state">
       <div class="error-icon">!</div>
       <h3>{{ error }}</h3>
-      <button class="back-button error" routerLink="/main/projects">Go Back</button>
+      <button class="back-button error" routerLink="/main/projects">Volver</button>
     </div>
   
     <!-- Project details -->
@@ -44,34 +44,35 @@
         
         <div class="meta-item">
           <span class="icon">📅</span>
-          <span>{{ project.days_available }} days available</span>
+          <span>{{ project.days_available }} días disponibles</span>
         </div>
       </div>
   
       <div class="project-description">
-        <h3>Description</h3>
-        <p>{{ project.description || 'No description provided' }}</p>
+        <h3>Descripción</h3>
+        <p>{{ project.description || 'No se proporciona descripción' }}</p>
       </div>
   
       <div class="project-timestamps">
-        <p>Created: {{ formatDate(project.createdAt) }}</p>
-        <p>Last updated: {{ formatDate(project.updatedAt) }}</p>
+        <p>Creado: {{ formatDate(project.createdAt) }}</p>
+        <p>Última actualización: {{ formatDate(project.updatedAt) }}</p>
       </div>
     </div>
 
     <div class="status-update-section mt-5" *ngIf="project">
-      <h3>Update project status</h3>
+      <h3>Actualizar el estado</h3>
       <div class="status-selector">
         <p-dropdown [options]="statusOptions" 
                     [(ngModel)]="selectedStatus"
                     optionLabel="label" 
                     optionValue="value"
-                    placeholder="Select status"
+                    [style]="{'width':'100%'}"
+                    placeholder="Seleccionar estado"
                     (onChange)="onStatusChange()">
         </p-dropdown>
         <button pButton 
-                label="Update Status" 
-                class="p-button-primary update-button ml-3"
+                label="Actualizar" 
+                class="p-button-primary update-button mt-3"
                 (click)="updateStatus()"
                 [disabled]="selectedStatus === project.status">
         </button>
