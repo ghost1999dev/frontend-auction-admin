@@ -59,6 +59,8 @@ import { AddEditAuctionComponent } from './auctions/add-edit-auction/add-edit-au
 import { CalendarModule } from 'primeng/calendar';
 import { DeveloperListComponent } from './developer-list/developer-list.component';
 import { CompanyListComponent } from './company-list/company-list.component';
+import { ProjectApplicationComponent } from './project-application/project-application.component';
+import { AddEditProjectApplicationComponent } from './project-application/add-edit-project-application/add-edit-project-application.component';
 
 const routes: Routes = [
   {
@@ -135,6 +137,12 @@ const routes: Routes = [
         component: CompanyListComponent,
         canActivate: [RoleGuard],
         data: { allowedRoles: [4] } 
+      },
+      {
+        path: 'project-application',
+        component: ProjectApplicationComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
       }
     ]
   },
@@ -162,7 +170,9 @@ const routes: Routes = [
     AddEditCategoryComponent,
     AddEditAuctionComponent,
     DeveloperListComponent,
-    CompanyListComponent
+    CompanyListComponent,
+    ProjectApplicationComponent,
+    AddEditProjectApplicationComponent
   ],
   imports: [
     CommonModule,

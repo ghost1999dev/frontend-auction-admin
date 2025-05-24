@@ -4,6 +4,8 @@ import { forkJoin } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { DeveloperService } from 'src/app/core/services/developer.service';
 import { getDeveloper } from 'src/app/core/models/developer';
+import { RatingService } from 'src/app/core/services/rating.service';
+import { PublicProfileResponse } from 'src/app/core/models/ratings';
 
 @Component({
   selector: 'app-developer-list',
@@ -18,6 +20,7 @@ export class DeveloperListComponent implements OnInit {
   developer: getDeveloper = {} as getDeveloper;
 
   showAddEditDialog = false;
+  showRatingDialog = false;
   currentDeveloperId?: number;
 
   deleteDeveloperDialog: boolean = false;
@@ -25,10 +28,14 @@ export class DeveloperListComponent implements OnInit {
 
   submitted: boolean = false;
   loading: boolean = false;
+  ratingLoading: boolean = false;
+
+  developerRatings: PublicProfileResponse | null = null;
 
   constructor(
     private developerService: DeveloperService,
     private notificationService: NotificationService,
+    private ratingService: RatingService
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +52,23 @@ export class DeveloperListComponent implements OnInit {
       error: (error) => {
         this.notificationService.showErrorCustom('Failed to load developers');
         this.loading = false;
+      }
+    });
+  }
+
+  viewRatings(developerId: number): void {
+    this.currentDeveloperId = developerId;
+    this.ratingLoading = true;
+    this.showRatingDialog = true;
+    
+    this.ratingService.getPublicProfile(developerId).subscribe({
+      next: (response: PublicProfileResponse) => {
+        this.developerRatings = response;
+        this.ratingLoading = false;
+      },
+      error: (error) => {
+        this.notificationService.showErrorCustom('Failed to load ratings');
+        this.ratingLoading = false;
       }
     });
   }

@@ -1,7 +1,7 @@
 <div class="card" *ngIf="!showAddEditDialog">
   <div class="flex justify-content-between align-items-center mb-4">
       <h1>Subastas</h1>
-      <button pButton pRipple label="Nueva subasta" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+      <!--<button pButton pRipple label="Nueva subasta" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>-->
   </div>
 
   <p-table #dt [value]="auctions" [loading]="loading" responsiveLayout="scroll" [rows]="10" 

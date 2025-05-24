@@ -4,6 +4,8 @@ import { forkJoin } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CompaniesService } from 'src/app/core/services/companies.service';
 import { companies } from 'src/app/core/models/companies';
+import { RatingService } from 'src/app/core/services/rating.service';
+import { PublicProfileResponse } from 'src/app/core/models/ratings';
 
 @Component({
   selector: 'app-company-list',
@@ -18,6 +20,7 @@ export class CompanyListComponent implements OnInit {
   company: companies = {} as companies;
 
   showAddEditDialog = false;
+  showRatingDialog = false;
   currentCompanyId?: number;
 
   deleteCompanyDialog: boolean = false;
@@ -25,10 +28,14 @@ export class CompanyListComponent implements OnInit {
 
   submitted: boolean = false;
   loading: boolean = false;
+  ratingLoading: boolean = false;
+
+  companyRatings: PublicProfileResponse | null = null;
 
   constructor(
     private companiesService: CompaniesService,
     private notificationService: NotificationService,
+    private ratingService: RatingService
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +52,23 @@ export class CompanyListComponent implements OnInit {
       error: (error) => {
         this.notificationService.showErrorCustom('Failed to load companies');
         this.loading = false;
+      }
+    });
+  }
+
+  viewRatings(companyId: number): void {
+    this.currentCompanyId = companyId;
+    this.ratingLoading = true;
+    this.showRatingDialog = true;
+    
+    this.ratingService.getPublicProfile(companyId).subscribe({
+      next: (response: PublicProfileResponse) => {
+        this.companyRatings = response;
+        this.ratingLoading = false;
+      },
+      error: (error) => {
+        this.notificationService.showErrorCustom('Failed to load ratings');
+        this.ratingLoading = false;
       }
     });
   }

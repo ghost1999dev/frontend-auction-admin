@@ -1,7 +1,7 @@
 <div class="card" *ngIf="!showAddEditDialog">
   <div class="flex justify-content-between align-items-center mb-4">
-      <h1>Empresas</h1>
-      <button pButton pRipple label="Nueva Empresa" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+      <h1>Compañias</h1>
+      <!--<button pButton pRipple label="Nueva Empresa" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>-->
   </div>
 
   <p-table #dt [value]="companies" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
@@ -24,6 +24,7 @@
               <th pSortableColumn="nrc_number">Número NRC <p-sortIcon field="nrc_number"></p-sortIcon></th>
               <th pSortableColumn="business_type">Tipo de Negocio <p-sortIcon field="business_type"></p-sortIcon></th>
               <th pSortableColumn="nit_number">Número NIT <p-sortIcon field="nit_number"></p-sortIcon></th>
+              <th style="width: 8rem">Acciones</th>
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-company>
@@ -44,9 +45,43 @@
                   <span class="p-column-title">Número NIT</span>
                   {{company.nit_number || 'N/A'}}
               </td>
+              <td>
+                  <button pButton pRipple icon="pi pi-star" class="p-button-rounded p-button-info" 
+                          (click)="viewRatings(company.id)" pTooltip="Ver ratings" tooltipPosition="top"></button>
+              </td>
           </tr>
       </ng-template>
   </p-table>
 </div>
+
+<p-dialog header="Ratings de la Compañía" [(visible)]="showRatingDialog" [style]="{width: '50vw'}" [modal]="true">
+    <div *ngIf="ratingLoading; else ratingContent">
+        <p-progressSpinner></p-progressSpinner>
+    </div>
+    <ng-template #ratingContent>
+        <div *ngIf="companyRatings">
+            <h3>Resumen de Ratings</h3>
+            <p>Puntuación promedio: {{companyRatings.ratingSummary.averageScore | number:'1.1-1'}}</p>
+            <p>Total de ratings: {{companyRatings.ratingSummary.totalRatings}}</p>
+            
+            <h3 class="mt-4">Ratings Recientes</h3>
+            <div *ngIf="companyRatings.recentRatings.length > 0; else noRatings">
+                <div *ngFor="let rating of companyRatings.recentRatings" class="mb-3 p-3 border-round border-1 surface-border">
+                    <div class="flex justify-content-between">
+                        <span class="font-bold">Puntuación: {{rating.score}}</span>
+                        <span class="text-sm">{{rating.createdAt | date}}</span>
+                    </div>
+                    <p class="mt-2">{{rating.comment || 'Sin comentario'}}</p>
+                </div>
+            </div>
+            <ng-template #noRatings>
+                <p>No hay ratings disponibles para esta compañía.</p>
+            </ng-template>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text" (click)="showRatingDialog=false"></button>
+    </ng-template>
+</p-dialog>
 
 <p-toast></p-toast>

@@ -1,0 +1,81 @@
+<div class="card">
+    <div class="flex justify-content-between align-items-center mb-5">
+      <h2>{{ applicationId ? 'Editar Solicitud' : 'Nueva Solicitud' }}</h2>
+    </div>
+  
+    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+      <div class="grid">
+        <div class="col-12 md:col-6">
+          <!-- Campo Proyecto -->
+          <div class="field mb-4">
+            <label for="project_id" class="block mb-2 font-medium">Proyecto*</label>
+            <p-dropdown 
+                id="project_id" 
+                formControlName="project_id" 
+                [options]="projects" 
+                optionLabel="project_name" 
+                optionValue="id" 
+                [filter]="true"
+                filterBy="project_name"
+                [filterPlaceholder]="'Buscar Proyecto...'"
+                [filterMatchMode]="'contains'"
+                [filterFields]="['project_name', 'otherField']"              
+                placeholder="Seleccionar Proyecto" 
+                class="w-full"
+                [ngClass]="{'ng-invalid ng-dirty': submitted && f['project_id'].errors}">
+            </p-dropdown>
+            <small class="p-error block mt-1" *ngIf="submitted && f['project_id'].errors?.['required']">
+              Seleccione un proyecto
+            </small>
+          </div>
+  
+          <!-- Campo Desarrollador -->
+          <div class="field mb-4">
+            <label for="developer_id" class="block mb-2 font-medium">Desarrollador*</label>
+            <p-dropdown 
+                id="developer_id" 
+                formControlName="developer_id" 
+                [options]="developers" 
+                optionLabel="user.name" 
+                optionValue="id" 
+                [filter]="true"
+                filterBy="user.name"
+                [filterPlaceholder]="'Buscar Proyecto...'"
+                [filterMatchMode]="'contains'"
+                [filterFields]="['user.name', 'otherField']"  
+                placeholder="Seleccionar desarrollador" 
+                class="w-full"
+                [ngClass]="{'ng-invalid ng-dirty': submitted && f['developer_id'].errors}">
+            </p-dropdown>
+            <small class="p-error block mt-1" *ngIf="submitted && f['developer_id'].errors?.['required']">
+              Seleccione un desarrollador
+            </small>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-6">
+          <!-- Selector de Estado -->
+          <div class="field mb-4">
+            <label for="status" class="block mb-2 font-medium">Estado*</label>
+            <p-dropdown id="status" formControlName="status" [options]="statusOptions" 
+                       optionLabel="label" optionValue="value" placeholder="Seleccionar estado" class="w-full"
+                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['status'].errors}">
+            </p-dropdown>
+            <small class="p-error block mt-1" *ngIf="submitted && f['status'].errors?.['required']">
+              Seleccione un estado
+            </small>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Acciones del Formulario -->
+      <div class="flex justify-content-end gap-3 mt-5">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+                class="p-button-outlined p-button-secondary" (click)="onCancel()" [disabled]="loading"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+                class="p-button-primary" type="submit" [disabled]="loading">
+          <i *ngIf="loading" class="pi pi-spinner pi-spin mr-2"></i>
+        </button>
+      </div>
+    </form>
+</div>
