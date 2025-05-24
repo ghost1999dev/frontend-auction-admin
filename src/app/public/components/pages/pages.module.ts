@@ -88,31 +88,31 @@ const routes: Routes = [
         path: 'auctions',
         component: AuctionsComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [4] } 
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'projects',
         component: ProjectComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [3, 4] } 
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'view/projects/:id',
         component: ProjectDetailComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [3, 4] } 
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'favorites',
         component: FavoritesComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [4] } 
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'users',
         component: UsersComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [4] } 
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'admins',
@@ -124,25 +124,25 @@ const routes: Routes = [
         path: 'categories',
         component: CategoriesComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [4] } 
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'developers',
         component: DeveloperListComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [4] } 
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'companies',
         component: CompanyListComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [4] } 
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'project-application',
         component: ProjectApplicationComponent,
         canActivate: [RoleGuard],
-        data: { allowedRoles: [4] } 
+        data: { allowedRoles: [3] } 
       }
     ]
   },

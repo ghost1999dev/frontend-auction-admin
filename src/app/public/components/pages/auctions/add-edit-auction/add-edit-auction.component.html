@@ -31,21 +31,33 @@
             </small>
         </div>
             
-          <div class="field mb-4" *ngIf="auctionId">
-            <label for="status" class="block mb-2 font-medium">Estado*</label>
-            <p-dropdown [style]="{'width':'100%'}" id="status" formControlName="status" [options]="statuses" 
-                       optionLabel="label" optionValue="value" placeholder="Seleccione un estado" class="w-full"
-                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['status'].errors}">
-            </p-dropdown>
-            <small class="p-error block mt-1" *ngIf="submitted && f['status'].errors?.['required']">
-              Se requiere estado
-            </small>
-          </div>
+        <div class="field mb-4" *ngIf="auctionId">
+          <label for="status" class="block mb-2 font-medium">Estado*</label>
+          <p-dropdown [style]="{'width':'100%'}" id="status" formControlName="status" [options]="statuses" 
+                      optionLabel="label" optionValue="value" placeholder="Seleccione un estado" class="w-full"
+                      [ngClass]="{'ng-invalid ng-dirty': submitted && f['status'].errors}">
+          </p-dropdown>
+          <small class="p-error block mt-1" *ngIf="submitted && f['status'].errors?.['required']">
+            Se requiere estado
+          </small>
+        </div>
   
         </div>
 
         <!-- Right Column -->
         <div class="col-12 md:col-6">
+
+          <!-- Start Date Field -->
+          <div class="field mb-4" *ngIf="!auctionId">
+            <label for="bidding_started_at" class="block mb-2 font-medium">Fecha de inicio*</label>
+            <input [disabled]="auctionId > 0" type="date" id="bidding_started_at" formControlName="bidding_started_at"  
+                       [minDate]="minStartDate" [maxDate]="maxStartDate" class="w-full"
+                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['bidding_started_at'].errors}"/>
+            <small class="p-error block mt-1" *ngIf="submitted && f['bidding_started_at'].errors?.['required']">
+              Se requiere fecha de inicio
+            </small>
+          </div>
+
           <!-- Deadline Field -->
           <div class="field mb-4" *ngIf="!auctionId">
             <label for="bidding_deadline" class="block mb-2 font-medium">Fecha límite*</label>
@@ -60,16 +72,6 @@
             </small>
           </div>
 
-          <!-- Start Date Field -->
-          <div class="field mb-4" *ngIf="!auctionId">
-            <label for="bidding_started_at" class="block mb-2 font-medium">Fecha de inicio*</label>
-            <input [disabled]="auctionId > 0" type="date" id="bidding_started_at" formControlName="bidding_started_at"  
-                       [minDate]="minStartDate" [maxDate]="maxStartDate" class="w-full"
-                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['bidding_started_at'].errors}"/>
-            <small class="p-error block mt-1" *ngIf="submitted && f['bidding_started_at'].errors?.['required']">
-              Se requiere fecha de inicio
-            </small>
-          </div>
         </div>
       </div>
   

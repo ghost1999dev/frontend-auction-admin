@@ -38,7 +38,6 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
-    console.log(this.users)
   }
 
   loadUsers(): void {

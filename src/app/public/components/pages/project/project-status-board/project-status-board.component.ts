@@ -64,7 +64,6 @@ export class ProjectStatusBoardComponent implements OnInit {
   onEditProject(project: any) {
     this.showProjectDetail = false;
     // Lógica para editar el proyecto
-    console.log('Edit project:', project);
   }
 
   onCloseDetail() {

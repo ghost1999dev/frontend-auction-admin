@@ -63,7 +63,6 @@ updateStatus(): void {
 // Método cuando cambia la selección (opcional)
 onStatusChange(): void {
   // Puedes agregar lógica adicional aquí si necesitas
-  console.log('Status changed to:', this.selectedStatus);
 }
 
 private updateProjectStatus(projectId: number, newStatus: number): void {

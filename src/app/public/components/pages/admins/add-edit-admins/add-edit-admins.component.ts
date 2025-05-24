@@ -137,7 +137,6 @@ export class AddEditAdminsComponent implements OnInit {
       });
     } else {
       // Create admin
-      console.log(this.adminForm.value)
       this.adminService.createAdmin(formData).subscribe({
         next: () => {
           this.notificationService.showSuccessCustom('Administrador creado exitosamente');

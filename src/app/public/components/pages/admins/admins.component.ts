@@ -108,7 +108,6 @@ export class AdminsComponent implements OnInit {
   openNew(): void {
     this.currentAdminId = undefined;
     this.showAddEditDialog = true;
-    console.log('showAddEditDialog:', this.showAddEditDialog); 
   }
 
   editAdmin(admin: Admin): void {

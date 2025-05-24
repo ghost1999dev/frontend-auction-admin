@@ -40,7 +40,7 @@ export class AddEditAuctionComponent implements OnInit {
       project_id: ['', Validators.required],
       bidding_started_at: [null, Validators.required], // Inicializar como null
       bidding_deadline: [null, Validators.required],  // Inicializar como null
-      status: ['', Validators.required]
+      status: [0]
     }, { validators: this.validateDates });
   }
 

@@ -35,7 +35,15 @@ export class SidebarComponent implements OnInit {
         label: 'Menú',
         items: [
           //{ label: 'Auctions', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
-          { label:  'Proyectos', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
+
+          { label:'Subastas', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
+          { label:'Proyectos', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
+          { label:'Aplicaciones a proyecto', icon: 'pi pi-fw pi-check', routerLink: ['/main/project-application'] },
+          //{ label:'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
+          { label:'Categorias', icon: 'pi pi-fw pi-box', routerLink: ['/main/categories'] },
+          { label:'Usuarios', icon: 'pi pi-fw pi-users', routerLink: ['/main/users'] },
+          { label:'Desarrolladores', icon: 'pi pi-fw pi-code', routerLink: ['/main/developers'] },
+          { label:'Compañias', icon: 'pi pi-fw pi-building', routerLink: ['/main/companies'] },
           //{ label: 'Administradores', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
           //{ label: 'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
           //{ label: 'Users', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/users'] }
@@ -55,15 +63,7 @@ export class SidebarComponent implements OnInit {
       {
         label: 'Menú',
         items: [
-          { label:'Aplicaciones a proyecto', icon: 'pi pi-fw pi-check', routerLink: ['/main/project-application'] },
-          { label:'Subastas', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/auctions'] },
-          { label:'Proyectos', icon: 'pi pi-fw pi-check-square', routerLink: ['/main/projects'] },
           { label:'Administradores', icon: 'pi pi-fw pi-id-card', routerLink: ['/main/admins'] },
-          //{ label:'Favorites', icon: 'pi pi-fw pi-bookmark', routerLink: ['/main/favorites'] },
-          { label:'Categorias', icon: 'pi pi-fw pi-box', routerLink: ['/main/categories'] },
-          { label:'Usuarios', icon: 'pi pi-fw pi-users', routerLink: ['/main/users'] },
-          { label:'Desarrolladores', icon: 'pi pi-fw pi-code', routerLink: ['/main/developers'] },
-          { label:'Compañias', icon: 'pi pi-fw pi-building', routerLink: ['/main/companies'] },
         ]
       },
     ];
