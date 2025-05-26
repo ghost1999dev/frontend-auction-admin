@@ -83,7 +83,7 @@ export class SidebarComponent implements OnInit {
     })
   }
 
-    getUserInfo() {
+  getUserInfo() {
     const token = this.getTokens();
     let payload;
     if (token) {
