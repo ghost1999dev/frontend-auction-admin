@@ -31,7 +31,7 @@
             </small>
         </div>
             
-        <div class="field mb-4" *ngIf="auctionId">
+        <div class="field mb-4" *ngIf="!auctionId">
           <label for="status" class="block mb-2 font-medium">Estado*</label>
           <p-dropdown [style]="{'width':'100%'}" id="status" formControlName="status" [options]="statuses" 
                       optionLabel="label" optionValue="value" placeholder="Seleccione un estado" class="w-full"
@@ -42,6 +42,21 @@
           </small>
         </div>
   
+        </div>
+
+        <div class="col-12" *ngIf="auctionId">
+           <div class="field mb-4">
+            <label for="bidding_deadline" class="block mb-2 font-medium">Fecha límite*</label>
+            <input type="date" id="bidding_deadline" formControlName="bidding_deadline" 
+                       [minDate]="minDeadlineDate" class="w-full"
+                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['bidding_deadline'].errors}"/>
+            <small class="p-error block mt-1" *ngIf="submitted && f['bidding_deadline'].errors?.['required']">
+              Se requiere fecha límite
+            </small>
+            <small class="p-error block mt-1" *ngIf="auctionForm.errors?.['deadlineBeforeStart']">
+              La fecha límite debe ser posterior a la fecha de inicio
+            </small>
+          </div>
         </div>
 
         <!-- Right Column -->
