@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectStatusUpdate } from 'src/app/core/models/admin';
 import { Project } from 'src/app/core/models/projects';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { LayoutService } from 'src/app/core/services/layout.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ProjectsService } from 'src/app/core/services/projects.service';
 
@@ -33,6 +34,7 @@ export class ProjectDetailComponent implements OnInit {
     private adminServices: AdminService,
     private notificationService: NotificationService,
     private projectService: ProjectsService,
+    public layoutService: LayoutService,
   ) {}
 
   ngOnInit(): void {

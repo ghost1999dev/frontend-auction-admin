@@ -1,7 +1,7 @@
 <div class="card" *ngIf="!showAddEditDialog">
   <div class="flex justify-content-between align-items-center mb-4">
       <h1>Subastas</h1>
-      <button pButton pRipple label="Nueva subasta" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+      <!--<button pButton pRipple label="Nueva subasta" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>-->
   </div>
 
   <p-table #dt [value]="auctions" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
@@ -24,7 +24,7 @@
               <th pSortableColumn="bidding_started_at">Fecha inicio <p-sortIcon field="bidding_started_at"></p-sortIcon></th>
               <th pSortableColumn="bidding_deadline">Fecha límite <p-sortIcon field="bidding_deadline"></p-sortIcon></th>
               <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
-              <th>Acciones</th>
+              <!--<th>Acciones</th>-->
           </tr>
       </ng-template>
       <ng-template pTemplate="body" let-auction>
@@ -45,14 +45,14 @@
                   <span class="p-column-title">Estado</span>
                   <p-tag [severity]="getStatusSeverity(auction.status)" [value]="getStatusLabel(auction.status)"></p-tag>
               </td>
-              <td>
+              <!--<td>
                   <div class="flex gap-2">
                       <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" 
                               (click)="editAuction(auction)"></button>
                       <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" 
-                              (click)="deleteAuction(auction)"></button>
+                              (click)="deleteAuction(auction)"></button> 
                   </div>
-              </td>
+              </td>-->
           </tr>
       </ng-template>
   </p-table>
