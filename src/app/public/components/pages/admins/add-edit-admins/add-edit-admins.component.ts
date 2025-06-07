@@ -11,14 +11,14 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 })
 export class AddEditAdminsComponent implements OnInit {
 
-  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
+emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
   @Input() adminId?: number;
   @Output() saved = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 
-  public roles: any =  [
-    { name: 'Admin', id: 'Administrador' },
-    { name: 'SuperAdmin', id: 'SuperAdministrador' }
+  public roles = [
+    { name: 'Admin', id: 3 },
+    { name: 'SuperAdmin', id: 4 }
   ];
 
   adminForm: FormGroup;
@@ -28,17 +28,16 @@ export class AddEditAdminsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
-    private notificationService: NotificationService,
+    private notificationService: NotificationService
   ) {
     this.adminForm = this.fb.group({
       full_name: ['', Validators.required],
       phone: [''],
       email: ['', [Validators.required, Validators.email]],
-      //username: ['', Validators.required],
-      password: ['', this.adminId ? null : Validators.required],
+      password: ['', [Validators.required]],
       image: [''],
-      role: [''],
-      //status: ['active']
+      role: ['', Validators.required], // Añadido Validators.required
+      status: ['']
     });
   }
 
@@ -46,6 +45,45 @@ export class AddEditAdminsComponent implements OnInit {
     if (this.adminId) {
       this.loadAdmin(this.adminId);
     }
+  }
+
+  loadAdmin(id: number): void {
+    this.loading = true;
+    this.adminService.getAdminById(id).subscribe({
+      next: (admin: any) => {
+        
+        // Verifica primero qué valor viene para el rol
+        const roleValue = this.determineRoleValue(admin);
+        
+        this.adminForm.patchValue({
+          full_name: admin.full_name,
+          phone: admin.phone,
+          email: admin.email,
+          password: admin.password,
+          username: admin.username,
+          image: admin.image,
+          role: roleValue, // Usa el valor determinado
+          status: admin.status
+        });
+        this.loading = false;
+      }
+    });
+  }
+
+  // Método para determinar el valor correcto del rol
+  private determineRoleValue(admin: any): string {
+    // Primero verifica si viene role_id y coincide con tus opciones
+    if (admin.role_id && this.roles.some(r => r.id === admin.role_id)) {
+      return admin.role_id;
+    }
+    
+    // Si no, verifica si viene role
+    if (admin.role && this.roles.some(r => r.id === admin.role)) {
+      return admin.role;
+    }
+    
+    // Si no coincide con nada, devuelve vacío o un valor por defecto
+    return '';
   }
 
   
@@ -87,28 +125,7 @@ export class AddEditAdminsComponent implements OnInit {
     });
   }
 
-  loadAdmin(id: number): void {
-    this.loading = true;
-    this.adminService.getAdminById(id).subscribe({
-      next: (admin: any) => {
-        this.adminForm.patchValue({
-          full_name: admin.full_name,
-          phone: admin.phone,
-          email: admin.email,
-          username: admin.username,
-          image: admin.image,
-          status: admin.status
-        });
-        this.adminForm.get('password')?.clearValidators();
-        this.adminForm.get('password')?.updateValueAndValidity();
-        this.loading = false;
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo cargar el administrador');
-        this.loading = false;
-      }
-    });
-  }
+
 
   onSubmit(): void {
     this.submitted = true;
@@ -128,7 +145,6 @@ export class AddEditAdminsComponent implements OnInit {
           this.saved.emit();
         },
         error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'No se pudo actualizar el administrador');
           this.loading = false;
         },
         complete: () => {

@@ -32,16 +32,6 @@
         </div>
 
         <!-- Role Dropdown -->
-          <div class="field mb-4">
-            <label for="role" class="block mb-2 font-medium">Role*</label>
-            <p-dropdown id="role" formControlName="role" [options]="roles" 
-                       optionLabel="name" optionValue="id" placeholder="Select a role" class="w-full category-dropdown option"
-                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['role'].errors}">
-            </p-dropdown>
-            <small class="p-error block mt-1" *ngIf="submitted && f['role'].errors?.['required']">
-              Se requiere rol
-            </small>
-          </div>
       </div>
 
       <!-- Right Column -->
@@ -76,7 +66,22 @@
           </small>
         </div>
 
-         
+                   <div class="field mb-4">
+            <label for="role" class="block mb-2 font-medium">Role*</label>
+            <p-dropdown 
+              id="role" 
+              formControlName="role" 
+              [options]="roles" 
+              optionLabel="name" 
+              optionValue="id"
+              placeholder="Select a role" 
+              class="w-full category-dropdown option"
+              [ngClass]="{'ng-invalid ng-dirty': submitted && f['role'].errors}">
+            </p-dropdown>
+            <small class="p-error block mt-1" *ngIf="submitted && f['role'].errors?.['required']">
+              Se requiere rol
+            </small>
+          </div>
 
       </div>
     </div>

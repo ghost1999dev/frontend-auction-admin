@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -113,37 +113,38 @@ export class AdminService {
     this.adminCache.delete(id);
   }
 
-  public handlerError(err: { error?: any, message?: any, status?: number }): Observable<never> {
-    if (!err) {
-      return throwError('Error desconocido');
-    }
-  
-    switch (err.error?.status) {
-      case 400:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      case 401:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      case 404:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      case 429:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      case 500:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      default:
-        this.notificationService.showErrorCustom(err.message || 'Unknown error occurred');
-    }
-
-    if (err.error?.details?.length) {
-      for (let i = 0; i < err.error.details.length; i++) {
-        this.notificationService.showErrorCustom(err.error.details[i]);
-      }
-    }
-  
-    return throwError(err);
+  public handlerError(err: any): Observable<never> {
+  if (!err) {
+    this.notificationService.showErrorCustom('Error desconocido');
+    return throwError('Error desconocido');
   }
+
+  let fullErrorMessage = '';
+
+  // Procesar el error (como antes)
+  if (err instanceof HttpErrorResponse) {
+    if (err.error && typeof err.error === 'object') {
+      const apiError = err.error;
+      if (apiError.message) fullErrorMessage += apiError.message + '\n';
+      if (apiError.errors) {
+        apiError.errors.forEach((error: any) => {
+          fullErrorMessage += `• Campo ${error.field ? `${error.field}: ` : ''}${error.message}\n`;
+        });
+      }
+    } else {
+      fullErrorMessage = err.message || `Error ${err.status}: ${err.statusText}`;
+    }
+  } else {
+    fullErrorMessage = err.message || 'Error en la aplicación';
+  }
+
+  // 👇 Ajuste para saltos de línea (elige una opción)
+  const formattedMessage = fullErrorMessage.trim()
+    .replace(/\n/g, '<br>'); // Para Toastr con enableHtml
+    // .replace(/\n/g, '\n');  // Para MatSnackBar
+
+  this.notificationService.showErrorCustom(formattedMessage);
+  return throwError(err);
+}
+  
 }
