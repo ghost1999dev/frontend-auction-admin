@@ -27,6 +27,7 @@ export interface AdminLoginRequest {
     status: string;
     createdAt?: string;
     updatedAt?: string;
+    role_id:number;
   }
   
   export interface AdminCreateRequest {
@@ -52,6 +53,7 @@ export interface AdminLoginRequest {
     error: boolean;
     message?: string;
     data: Admin | any;
+    admins: Admin | any;
     count?: number;
     project: any[]
     missingFields?: string[];

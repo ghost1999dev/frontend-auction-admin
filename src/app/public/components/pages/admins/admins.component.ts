@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MessageService, ConfirmationService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Admin } from 'src/app/core/models/admin';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { forkJoin } from 'rxjs';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   selector: 'app-admins',
@@ -29,13 +30,13 @@ export class AdminsComponent implements OnInit {
   loading: boolean = false;
 
   statuses = [
-    { label: 'Active', value: 'active' },
-    { label: 'Inactive', value: 'inactive' }
+    { label: 'Activo', value: 'Activo' },
+    { label: 'Inactivo', value: 'Inactivo' }
   ];
 
   constructor(
     private adminService: AdminService,
-    private messageService: MessageService,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -76,11 +77,7 @@ export class AdminsComponent implements OnInit {
   confirmDeleteSelected(): void {
     this.deleteAdminsDialog = false;
     if (!this.selectedAdmins || this.selectedAdmins.length === 0) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'No admins selected'
-      });
+      this.notificationService.showErrorCustom('No hay administradores seleccionados');
       return;
     }
 
@@ -90,20 +87,12 @@ export class AdminsComponent implements OnInit {
 
     forkJoin(deleteOperations).subscribe({
       next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: `${this.selectedAdmins.length} admins deleted`
-        });
+        this.notificationService.showSuccessCustom(`${this.selectedAdmins.length} Administradores eliminados`);
         this.loadAdmins();
         this.selectedAdmins = [];
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to delete some admins'
-        });
+        this.notificationService.showErrorCustom('No se pudieron eliminar algunos administradores');
       }
     });
   }
@@ -117,10 +106,8 @@ export class AdminsComponent implements OnInit {
   }
 
   openNew(): void {
-    console.log('Opening dialog...');  // Check if this fires
     this.currentAdminId = undefined;
     this.showAddEditDialog = true;
-    console.log('showAddEditDialog:', this.showAddEditDialog);  // Should be true
   }
 
   editAdmin(admin: Admin): void {

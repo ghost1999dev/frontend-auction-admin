@@ -1,61 +1,61 @@
 <div class="card" *ngIf="!showAddEditDialog">
     <div class="flex justify-content-between align-items-center mb-4">
-        <h1>Admin</h1>
-        <button pButton pRipple label="New Admin" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+        <h1>Administradores</h1>
+        <button pButton pRipple label="Nuevo administrador" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
     </div>
 
     <p-table #dt [value]="admins" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
             [globalFilterFields]="['full_name','email','username','status']" [paginator]="true" 
             [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
             [(selection)]="selectedAdmins" selectionMode="multiple" [rowHover]="true" dataKey="id">
         <ng-template pTemplate="caption">
             <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                 <h5 class="m-0"></h5>
                 <span class="block mt-2 md:mt-0 p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto"/>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..." class="w-full sm:w-auto"/>
                 </span>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="full_name">Name <p-sortIcon field="full_name"></p-sortIcon></th>
-                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
-                <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
-                <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon></th>
-                <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-                <th>Actions</th>
+                <th pSortableColumn="full_name">Nombre <p-sortIcon field="full_name"></p-sortIcon></th>
+                <th pSortableColumn="email">Correo electrónico <p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="username">Nombre de usuario <p-sortIcon field="username"></p-sortIcon></th>
+                <th pSortableColumn="phone">Teléfono <p-sortIcon field="phone"></p-sortIcon></th>
+                <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
+                <th>Comportamiento</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-admin>
             <tr>
                 <td>
-                    <span class="p-column-title">Name</span>
+                    <span class="p-column-title">Nombre</span>
                     {{admin.full_name}}
                 </td>
                 <td>
-                    <span class="p-column-title">Email</span>
+                    <span class="p-column-title">Correo electrónico</span>
                     {{admin.email}}
                 </td>
                 <td>
-                    <span class="p-column-title">Username</span>
+                    <span class="p-column-title">Nombre de usuario</span>
                     {{admin.username}}
                 </td>
                 <td>
-                    <span class="p-column-title">Phone</span>
+                    <span class="p-column-title">Teléfono</span>
                     {{admin.phone || 'N/A'}}
                 </td>
                 <td>
-                    <span class="p-column-title">Status</span>
+                    <span class="p-column-title">Estado</span>
                     <p-tag [value]="admin.status"></p-tag>
                 </td>
                 <td>
                     <div class="flex gap-2">
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" 
                                 (click)="editAdmin(admin)"></button>
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" 
-                                (click)="deleteAdmin(admin)"></button>
+                        <!--<button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" 
+                                (click)="deleteAdmin(admin)"></button>-->
                     </div>
                 </td>
             </tr>
@@ -73,22 +73,22 @@
 <p-dialog [(visible)]="deleteAdminDialog" [style]="{width: '450px'}" header="Confirm" [modal]="true">
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete <b>{{admin.full_name}}</b>?</span>
+        <span>¿Estás seguro de que quieres eliminar? <b>{{admin.full_name}}</b>?</span>
     </div>
     <ng-template pTemplate="footer">
         <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="deleteAdminDialog = false"></button>
-        <button pButton pRipple label="Yes" icon="pi pi-check" class="p-button-text" (click)="confirmDelete()"></button>
+        <button pButton pRipple label="Si" icon="pi pi-check" class="p-button-text" (click)="confirmDelete()"></button>
     </ng-template>
 </p-dialog>
 
 <p-dialog [(visible)]="deleteAdminsDialog" [style]="{width: '450px'}" header="Confirm" [modal]="true">
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete the selected admins?</span>
+        <span>¿Está seguro de que desea eliminar los administradores seleccionados?</span>
     </div>
     <ng-template pTemplate="footer">
         <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="deleteAdminsDialog = false"></button>
-        <button pButton pRipple label="Yes" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteSelected()"></button>
+        <button pButton pRipple label="Si" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteSelected()"></button>
     </ng-template>
 </p-dialog>
 

@@ -1,61 +1,82 @@
-<div class="project-container">
+<div class="project-container" [ngClass]="{'dark-theme': layoutService.config.colorScheme === 'dark'}">
+    <!-- Loading state -->
     <div *ngIf="isLoading" class="loading-state">
-      <div class="spinner"></div>
-      <p>Loading project details...</p>
+        <div class="spinner"></div>
+        <p>Cargando detalles del proyecto...</p>
     </div>
-  
+
     <!-- Error state -->
     <div *ngIf="error" class="error-state">
-      <div class="error-icon">!</div>
-      <h3>{{ error }}</h3>
-      <button class="back-button error" routerLink="/main/projects">Go Back</button>
+        <div class="error-icon">!</div>
+        <h3>{{ error }}</h3>
+        <button class="back-button error" routerLink="/main/projects">Volver</button>
     </div>
-  
+
     <!-- Project details -->
     <div *ngIf="project && !isLoading" class="project-details" style="margin-top: 35px;">
-      <button class="back-button circle" routerLink="/main/projects">
-        <span class="icon">←</span>
-      </button>
-  
-      <div class="project-header">
-        <h1>{{ project.project_name }}</h1>
-        <span class="status-badge" [class.active]="project.status === 1">
-          {{ getStatusText(project.status) }}
-        </span>
-      </div>
-  
-      <div class="divider"></div>
-  
-      <div class="project-meta">
-        <div class="meta-item">
-          <span class="icon">🏢</span>
-          <span>{{ project.company?.name || 'Company not specified' }}</span>
+        <button class="back-button circle" routerLink="/main/projects">
+            <span class="icon">←</span>
+        </button>
+
+        <div class="project-header">
+            <h1>{{ project.project_name }}</h1>
+            <span class="status-badge" [class.active]="project.status === 1">
+                {{ getStatusText(project.status) }}
+            </span>
         </div>
-        
-        <div class="meta-item">
-          <span class="icon">📁</span>
-          <span>{{ project.category?.name || 'Category not specified' }}</span>
+
+        <div class="divider"></div>
+
+        <div class="project-meta">
+            <div class="meta-item">
+                <span class="icon">🏢</span>
+                <span>{{ project.company?.name || 'Empresa no especificada' }}</span>
+            </div>
+            
+            <div class="meta-item">
+                <span class="icon">📁</span>
+                <span>{{ project.category?.name || 'Categoría no especificada' }}</span>
+            </div>
+            
+            <div class="meta-item">
+                <span class="icon">💰</span>
+                <span>{{ project.budget | currency }}</span>
+            </div>
+            
+            <div class="meta-item">
+                <span class="icon">📅</span>
+                <span>{{ project.days_available }} días disponibles</span>
+            </div>
         </div>
-        
-        <div class="meta-item">
-          <span class="icon">💰</span>
-          <span>{{ project.budget | currency }}</span>
+
+        <div class="project-description">
+            <h3>Descripción</h3>
+            <p>{{ project.description || 'No se proporciona descripción' }}</p>
         </div>
-        
-        <div class="meta-item">
-          <span class="icon">📅</span>
-          <span>{{ project.days_available }} days available</span>
+
+        <div class="project-timestamps">
+            <p>Creado: {{ formatDate(project.createdAt) }}</p>
+            <p>Última actualización: {{ formatDate(project.updatedAt) }}</p>
         </div>
-      </div>
-  
-      <div class="project-description">
-        <h3>Description</h3>
-        <p>{{ project.description || 'No description provided' }}</p>
-      </div>
-  
-      <div class="project-timestamps">
-        <p>Created: {{ formatDate(project.createdAt) }}</p>
-        <p>Last updated: {{ formatDate(project.updatedAt) }}</p>
-      </div>
     </div>
-  </div>
+
+    <div class="status-update-section" *ngIf="project">
+        <h3>Actualizar estado</h3>
+        <div class="status-selector">
+            <p-dropdown [options]="statusOptions" 
+                        [(ngModel)]="selectedStatus"
+                        optionLabel="label" 
+                        optionValue="value"
+                        [style]="{'width':'100%'}"
+                        placeholder="Seleccionar estado"
+                        (onChange)="onStatusChange()">
+            </p-dropdown>
+            <button pButton 
+                    label="Actualizar" 
+                    class="p-button-primary update-button mt-3"
+                    (click)="updateStatus()"
+                    [disabled]="selectedStatus === project.status">
+            </button>
+        </div>
+    </div>
+</div>

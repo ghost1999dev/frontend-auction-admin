@@ -61,7 +61,7 @@ export class ProjectsService {
   }
 
   hardDeleteProject(id: number): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${environment.server_url}projects/delete/${id}`)
+    return this.http.delete<{ message: string }>(`${environment.server_url}projects/desactivate/${id}`)
       .pipe(
         catchError((err) => this.handlerError(err))
       );
@@ -91,6 +91,9 @@ export class ProjectsService {
         this.notificationServices.showErrorCustom(err.error.message);
         break;
       case 401:
+        this.notificationServices.showErrorCustom(err.error.message);
+        break;
+      case 403:
         this.notificationServices.showErrorCustom(err.error.message);
         break;
       case 404:

@@ -1,0 +1,90 @@
+<div class="card" *ngIf="!showAddEditDialog">
+  <div class="flex justify-content-between align-items-center mb-4">
+      <h1>Aplicaciones a Proyecto</h1>
+      <!--<button pButton pRipple label="Nueva Solicitud" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>-->
+  </div>
+
+  <p-table #dt [value]="applications" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
+          [globalFilterFields]="['project.project_name','developer.name','status']" [paginator]="true" 
+          [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
+          [(selection)]="selectedApplications" selectionMode="multiple" [rowHover]="true" dataKey="id">
+      <ng-template pTemplate="caption">
+          <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+              <h5 class="m-0"></h5>
+              <span class="block mt-2 md:mt-0 p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..." class="w-full sm:w-auto"/>
+              </span>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+              <th pSortableColumn="project.project_name">Proyecto <p-sortIcon field="project.project_name"></p-sortIcon></th>
+              <th pSortableColumn="developer.name">Desarrollador <p-sortIcon field="developer.name"></p-sortIcon></th>
+              <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
+              <th pSortableColumn="createdAt">Fecha <p-sortIcon field="createdAt"></p-sortIcon></th>
+              <!-- <th style="width: 8rem">Acciones</th> -->
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-app>
+          <tr>
+              <td>
+                  <span class="p-column-title">Proyecto</span>
+                  {{app.project?.project_name || 'N/A'}}
+              </td>
+              <td>
+                  <span class="p-column-title">Desarrollador</span>
+                  {{app.developer?.name || 'N/A'}}
+              </td>
+              <td>
+                  <span class="p-column-title">Estado</span>
+                  <p-tag [severity]="getStatusSeverity(app.status)" [value]="getStatusLabel(app.status)"></p-tag>
+              </td>
+              <td>
+                  <span class="p-column-title">Fecha</span>
+                  {{app.createdAt | date}}
+              </td>
+             <!--  <td>
+                  <div class="flex gap-2">
+                      <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success" 
+                              (click)="editApplication(app)"></button>
+                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" 
+                              (click)="deleteApplication(app)"></button>
+                  </div>
+              </td> -->
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+<app-add-edit-project-application
+  *ngIf="showAddEditDialog"
+  [applicationId]="currentApplicationId"
+  (saved)="onApplicationSaved()"
+  (cancelled)="showAddEditDialog = false">
+</app-add-edit-project-application>
+
+<p-dialog [(visible)]="deleteApplicationDialog" [style]="{width: '450px'}" header="Confirmar" [modal]="true">
+  <div class="flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+      <span>¿Está seguro que desea eliminar esta solicitud?</span>
+  </div>
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="deleteApplicationDialog = false"></button>
+      <button pButton pRipple label="Sí" icon="pi pi-check" class="p-button-text" (click)="confirmDelete()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteApplicationsDialog" [style]="{width: '450px'}" header="Confirmar" [modal]="true">
+  <div class="flex align-items-center justify-content-center">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+      <span>¿Está seguro que desea eliminar las solicitudes seleccionadas?</span>
+  </div>
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="No" icon="pi pi-times" class="p-button-text" (click)="deleteApplicationsDialog = false"></button>
+      <button pButton pRipple label="Sí" icon="pi pi-check" class="p-button-text" (click)="confirmDeleteSelected()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

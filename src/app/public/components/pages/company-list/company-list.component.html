@@ -1,0 +1,154 @@
+<div class="card" *ngIf="!showAddEditDialog" [ngClass]="{'dark-theme': layoutService.config.colorScheme === 'dark'}">
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h1>Compañías</h1>
+        <!--<button pButton pRipple label="Nueva Empresa" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>-->
+    </div>
+
+    <p-table #dt [value]="companies" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
+            [globalFilterFields]="['user.name','nrc_number','business_type','nit_number']" [paginator]="true" 
+            [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
+            [(selection)]="selectedCompanies" selectionMode="multiple" [rowHover]="true" dataKey="id">
+        <ng-template pTemplate="caption">
+            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                <h5 class="m-0"></h5>
+                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..." class="w-full sm:w-auto"/>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="user.name">Nombre <p-sortIcon field="user.name"></p-sortIcon></th>
+                <th pSortableColumn="nrc_number">Número NRC <p-sortIcon field="nrc_number"></p-sortIcon></th>
+                <th pSortableColumn="business_type">Tipo de Negocio <p-sortIcon field="business_type"></p-sortIcon></th>
+                <th pSortableColumn="nit_number">Número NIT <p-sortIcon field="nit_number"></p-sortIcon></th>
+                <th style="width: 8rem">Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-company>
+            <tr>
+                <td>
+                    <span class="p-column-title">Nombre</span>
+                    {{company.user?.name || 'N/A'}}
+                </td>
+                <td>
+                    <span class="p-column-title">Número NRC</span>
+                    {{company.nrc_number || 'N/A'}}
+                </td>
+                <td>
+                    <span class="p-column-title">Tipo de Negocio</span>
+                    {{company.business_type || 'N/A'}}
+                </td>
+                <td>
+                    <span class="p-column-title">Número NIT</span>
+                    {{company.nit_number || 'N/A'}}
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-star" class="p-button-rounded p-button-info" 
+                            (click)="viewRatings(company.id)" pTooltip="Ver ratings" tooltipPosition="top"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog header="Ratings de la Compañía" [(visible)]="showRatingDialog" [style]="{width: '1200px'}" [modal]="true" 
+          [breakpoints]="{'960px': '75vw', '640px': '90vw'}" [styleClass]="'ratings-dialog'"
+          [ngClass]="{'dark-theme': layoutService.config.colorScheme === 'dark'}">
+    <div *ngIf="ratingLoading; else ratingContent">
+        <p-progressSpinner></p-progressSpinner>
+    </div>
+    
+    <ng-template #ratingContent>
+        <div *ngIf="companyRatings" class="ratings-container">
+            <!-- Sección de resumen mejorada -->
+            <div class="summary-section">
+                <div class="average-rating-card">
+                    <div class="average-content">
+                        <div class="average-score">
+                            {{companyRatings.ratingSummary?.averageScore | number:'1.1-1'}}
+                            <span class="max-rating">/5</span>
+                        </div>
+                        <div class="stars">
+                            <span *ngFor="let star of [1,2,3,4,5]" 
+                                  [class.filled]="star <= companyRatings.ratingSummary?.averageScore">
+                                ★
+                            </span>
+                        </div>
+                        <div class="total-ratings">
+                            Basado en {{companyRatings.ratingSummary?.totalRatings}} 
+                            {{companyRatings.ratingSummary?.totalRatings === 1 ? 'evaluación' : 'evaluaciones'}}
+                        </div>
+                    </div>
+                    <div class="rating-badge">
+                        <i class="pi pi-star-fill"></i>
+                        <span>Rating Promedio</span>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h4>Distribución de Ratings</h4>
+                    <p-chart *ngIf="chartData" type="bar" [data]="chartData" [options]="chartOptions" 
+                            width="100%" height="300px"></p-chart>
+                </div>
+            </div>
+
+            <div class="divider">
+                <span>Comentarios</span>
+            </div>
+
+            <!-- Sección de comentarios mejorada -->
+            <h3 class="section-title">Evaluaciones Recientes</h3>
+            <div *ngIf="companyRatings.recentRatings?.length > 0; else noRatings" class="comments-section">
+                <div *ngFor="let rating of companyRatings.recentRatings" class="comment-card">
+                    <div class="comment-header">
+                        <div class="user-info">
+                            <div class="avatar" [style.background]="getRandomColor()">
+                                {{rating.userName?.charAt(0)?.toUpperCase() || 'U'}}
+                            </div>
+                            <div class="user-details">
+                                <div class="user-name">{{rating.userName || 'Usuario anónimo'}}</div>
+                                <div class="rating-info">
+                                    <div class="rating-stars">
+                                        <span *ngFor="let star of [1,2,3,4,5]" 
+                                              [class.filled]="star <= rating.score">
+                                            ★
+                                        </span>
+                                    </div>
+                                    <div class="rating-date">
+                                        {{rating.createdAt | date:'mediumDate'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        <p>{{rating.comment || 'El usuario no dejó un comentario adicional'}}</p>
+                    </div>
+                    <div class="comment-footer">
+                        <i class="pi pi-quote-left"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <ng-template #noRatings>
+                <div class="no-ratings">
+                    <div class="no-ratings-icon">
+                        <i class="pi pi-star"></i>
+                    </div>
+                    <h4>No hay evaluaciones aún</h4>
+                    <p>Esta compañía no ha recibido ratings todavía.</p>
+                </div>
+            </ng-template>
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cerrar" icon="pi pi-times" 
+                class="p-button-rounded p-button-text" (click)="showRatingDialog=false"></button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

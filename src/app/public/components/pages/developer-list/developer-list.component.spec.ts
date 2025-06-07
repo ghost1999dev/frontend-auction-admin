@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewHeaderComponent } from './view-header.component';
+import { DeveloperListComponent } from './developer-list.component';
 
-describe('ViewHeaderComponent', () => {
-  let component: ViewHeaderComponent;
-  let fixture: ComponentFixture<ViewHeaderComponent>;
+describe('DeveloperListComponent', () => {
+  let component: DeveloperListComponent;
+  let fixture: ComponentFixture<DeveloperListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewHeaderComponent ]
+      declarations: [DeveloperListComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ViewHeaderComponent);
+    fixture = TestBed.createComponent(DeveloperListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,7 +1,7 @@
 <!-- add-edit-admin.component.html -->
 <div class="card">
   <div class="flex justify-content-between align-items-center mb-5">
-    <h2>{{ adminId ? 'Edit Admin' : 'Add New Admin' }}</h2>
+    <h2>{{ adminId ? 'Editar administrador' : 'Agregar nuevo administrador' }}</h2>
   </div>
 
   <form [formGroup]="adminForm" (ngSubmit)="onSubmit()">
@@ -10,67 +10,82 @@
       <div class="col-12 md:col-6">
         <!-- Full Name Field -->
         <div class="field mb-4">
-          <label for="full_name" class="block mb-2 font-medium">Full Name*</label>
-          <input type="text" pInputText id="full_name" formControlName="full_name" class="w-full"
+          <label for="full_name" class="block mb-2 font-medium">Nombre completo*</label>
+          <input type="text" onkeydown="return /[a-ñA-ZÑ, ]/i.test(event.key)" pInputText id="full_name" formControlName="full_name" class="w-full"
                 [ngClass]="{'ng-invalid ng-dirty': submitted && f['full_name'].errors}">
           <small class="p-error block mt-1" *ngIf="submitted && f['full_name'].errors?.['required']">
-            Full name is required
+            Se requiere nombre completo
           </small>
         </div>
 
         <!-- Email Field -->
         <div class="field mb-4">
-          <label for="email" class="block mb-2 font-medium">Email*</label>
-          <input type="email" pInputText id="email" formControlName="email" class="w-full"
+          <label for="email" class="block mb-2 font-medium">Correo electrónico*</label>
+          <input type="email" [pattern]="emailPattern" pInputText id="email" formControlName="email" class="w-full"
                 [ngClass]="{'ng-invalid ng-dirty': submitted && f['email'].errors}">
           <small class="p-error block mt-1" *ngIf="submitted && f['email'].errors?.['required']">
-            Email is required
+            Se requiere correo electrónico          
           </small>
           <small class="p-error block mt-1" *ngIf="submitted && f['email'].errors?.['email']">
-            Please enter a valid email
+            Por favor, introduzca un correo electrónico válido          
           </small>
         </div>
+
+        <!-- Role Dropdown -->
+          <div class="field mb-4">
+            <label for="role" class="block mb-2 font-medium">Role*</label>
+            <p-dropdown id="role" formControlName="role" [options]="roles" 
+                       optionLabel="name" optionValue="id" placeholder="Select a role" class="w-full category-dropdown option"
+                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['role'].errors}">
+            </p-dropdown>
+            <small class="p-error block mt-1" *ngIf="submitted && f['role'].errors?.['required']">
+              Se requiere rol
+            </small>
+          </div>
       </div>
 
       <!-- Right Column -->
       <div class="col-12 md:col-6">
         <!-- Username Field -->
-        <div class="field mb-4">
-          <label for="username" class="block mb-2 font-medium">Username*</label>
-          <input type="text" pInputText id="username" formControlName="username" class="w-full"
+        <!-- <div class="field mb-4">
+          <label for="username" class="block mb-2 font-medium">Nombre de usuario*</label>
+          <input type="text" onkeydown="return /[a-ñA-ZÑ, ]/i.test(event.key)" pInputText id="username" formControlName="username" class="w-full"
                 [ngClass]="{'ng-invalid ng-dirty': submitted && f['username'].errors}">
           <small class="p-error block mt-1" *ngIf="submitted && f['username'].errors?.['required']">
-            Username is required
+            El nombre de usuario es obligatorio          
           </small>
-        </div>
+        </div> -->
+
         <!-- Phone Field -->
         <div class="field mb-4">
-          <label for="phone" class="block mb-2 font-medium">Phone</label>
-          <input type="text" pInputText id="phone" formControlName="phone" class="w-full">
+          <label for="phone" class="block mb-2 font-medium">Teléfono</label>
+          <input type="text" (input)="formatPhone($event)" pInputText id="phone" formControlName="phone" class="w-full">
         </div>
 
         <!-- Password Field (Create Mode) -->
         <div class="field mb-4" *ngIf="!adminId">
-          <label for="password" class="block mb-2 font-medium">Password*</label>
+          <label for="password" class="block mb-2 font-medium">Contraseña*</label>
           <p-password id="password" formControlName="password" [feedback]="false" class="w-full"
                      [ngClass]="{'ng-invalid ng-dirty': submitted && f['password'].errors}">
           </p-password>
           <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['required']">
-            Password is required
+            Se requiere contraseña
           </small>
           <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['minlength']">
-            Password must be at least 6 characters
+            La contraseña debe tener al menos 6 caracteres
           </small>
         </div>
+
+         
 
       </div>
     </div>
 
     <!-- Form Actions -->
     <div class="flex justify-content-end gap-3 mt-5">
-      <button pButton pRipple label="Cancel" icon="pi pi-times" 
+      <button pButton pRipple label="Cancelar" icon="pi pi-times" 
               class="p-button-outlined p-button-secondary" (click)="onCancel()" [disabled]="loading"></button>
-      <button pButton pRipple label="Save" icon="pi pi-check" 
+      <button pButton pRipple label="Guardar" icon="pi pi-check" 
               class="p-button-primary" type="submit" [disabled]="loading">
         <i *ngIf="loading" class="pi pi-spinner pi-spin mr-2"></i>
       </button>

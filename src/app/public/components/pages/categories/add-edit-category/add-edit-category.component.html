@@ -1,0 +1,31 @@
+<div class="card">
+    <div class="flex justify-content-between align-items-center mb-5">
+      <h2>{{ categoryId ? 'Editar categoría' : 'Agregar nueva categoría' }}</h2>
+    </div>
+  
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+      <div class="grid">
+        <div class="col-12">
+          <!-- Name Field -->
+          <div class="field mb-4">
+            <label for="name" class="block mb-2 font-medium">Nombre*</label>
+            <input type="text" onkeydown="return /[a-ñA-ZÑ, ]/i.test(event.key)"  pInputText id="name" formControlName="name" class="w-full"
+                  [ngClass]="{'ng-invalid ng-dirty': submitted && f['name'].errors}">
+            <small class="p-error block mt-1" *ngIf="submitted && f['name'].errors?.['required']">
+              El nombre es obligatorio
+            </small>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Form Actions -->
+      <div class="flex justify-content-end gap-3 mt-5">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+                class="p-button-outlined p-button-secondary" (click)="onCancel()" [disabled]="loading"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" 
+                class="p-button-primary" type="submit" [disabled]="loading">
+          <i *ngIf="loading" class="pi pi-spinner pi-spin mr-2"></i>
+        </button>
+      </div>
+    </form>
+</div>

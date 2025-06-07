@@ -52,6 +52,15 @@ import { ProjectStatusBoardComponent } from './project/project-status-board/proj
 import { ProjectCardComponent } from './project/project-card/project-card.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ProjectDetailComponent } from './project/project-detail/project-detail.component';
+import { AddEditProjectsComponent } from './project/add-edit-projects/add-edit-projects.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { AddEditCategoryComponent } from './categories/add-edit-category/add-edit-category.component';
+import { AddEditAuctionComponent } from './auctions/add-edit-auction/add-edit-auction.component';
+import { CalendarModule } from 'primeng/calendar';
+import { DeveloperListComponent } from './developer-list/developer-list.component';
+import { CompanyListComponent } from './company-list/company-list.component';
+import { ProjectApplicationComponent } from './project-application/project-application.component';
+import { AddEditProjectApplicationComponent } from './project-application/add-edit-project-application/add-edit-project-application.component';
 
 const routes: Routes = [
   {
@@ -65,35 +74,75 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3, 4] } 
       },
       {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3, 4] } 
       },
       {
         path: 'auctions',
         component: AuctionsComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'projects',
-        component: ProjectComponent 
+        component: ProjectComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'view/projects/:id',
-        component: ProjectDetailComponent
+        component: ProjectDetailComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'favorites',
-        component: FavoritesComponent
+        component: FavoritesComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'users',
-        component: UsersComponent
+        component: UsersComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
       },
       {
         path: 'admins',
-        component: AdminsComponent
+        component: AdminsComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [4] } 
+      },
+      {
+        path: 'categories',
+        component: CategoriesComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
+      },
+      {
+        path: 'developers',
+        component: DeveloperListComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
+      },
+      {
+        path: 'companies',
+        component: CompanyListComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
+      },
+      {
+        path: 'project-application',
+        component: ProjectApplicationComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
       }
     ]
   },
@@ -116,6 +165,14 @@ const routes: Routes = [
     ProjectCardComponent,
     BoardDndListComponent,
     ProjectDetailComponent,
+    AddEditProjectsComponent,
+    CategoriesComponent,
+    AddEditCategoryComponent,
+    AddEditAuctionComponent,
+    DeveloperListComponent,
+    CompanyListComponent,
+    ProjectApplicationComponent,
+    AddEditProjectApplicationComponent
   ],
   imports: [
     CommonModule,
@@ -151,6 +208,7 @@ const routes: Routes = [
     CardModule,
     DividerModule,
     TagModule,
+    CalendarModule,
     TooltipModule,
     SkeletonModule,
     FormsModule,

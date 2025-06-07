@@ -1,0 +1,90 @@
+<div class="card">
+  <div class="flex justify-content-between align-items-center mb-5">
+    <h2>{{ projectId ? 'Editar proyecto' : 'Agregar nuevo proyecto' }}</h2>
+  </div>
+
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    <div class="grid">
+      <!-- Left Column -->
+      <div class="col-12 md:col-6">
+        <!-- Project Name Field -->
+        <div class="field mb-4">
+          <label for="project_name" class="block mb-2 font-medium">Nombre del proyecto*</label>
+          <input type="text" pInputText id="project_name" formControlName="project_name" class="w-full p-inputtext-sm"
+                [ngClass]="{'ng-invalid ng-dirty': submitted && f['project_name'].errors}">
+          <small class="p-error block mt-1" *ngIf="submitted && f['project_name'].errors?.['required']">
+            Se requiere el nombre del proyecto
+          </small>
+        </div>
+
+        <!-- Company Field -->
+        <div class="field mb-4">
+          <label for="company_id" class="block mb-2 font-medium">Empresa*</label>
+          <p-dropdown [options]="companies" optionLabel="name" optionValue="id" class="w-full p-inputtext-sm"
+                    [filter]="true"
+                    filterBy="name"
+                    [filterPlaceholder]="'Buscar empresa...'"
+                    [filterMatchMode]="'contains'"
+                    [filterFields]="['name', 'otherField']"
+                    formControlName="company_id" [showClear]="true" placeholder="Seleccione una empresa"
+                    [ngClass]="{'ng-invalid ng-dirty': submitted && f['company_id'].errors}"></p-dropdown>
+          <small class="p-error block mt-1" *ngIf="submitted && f['company_id'].errors?.['required']">
+            Se requiere seleccionar una empresa
+          </small>
+        </div>
+
+        <!-- Category Field -->
+        <div class="field mb-4">
+          <label for="category_id" class="block mb-2 font-medium">Categoría*</label>
+          <p-dropdown [options]="categories" optionLabel="name" optionValue="id" 
+                     formControlName="category_id" [showClear]="true" placeholder="Seleccione una categoría"
+                     [ngClass]="{'ng-invalid ng-dirty': submitted && f['category_id'].errors}"></p-dropdown>
+          <small class="p-error block mt-1" *ngIf="submitted && f['category_id'].errors?.['required']">
+            Se requiere seleccionar una categoría
+          </small>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-12 md:col-6">
+        <!-- Budget Field -->
+        <div class="field mb-4">
+          <label for="budget" class="block mb-2 font-medium">Presupuesto</label>
+          <p-inputNumber id="budget" formControlName="budget" mode="currency" currency="USD" locale="en-US" class="w-full"></p-inputNumber>
+        </div>
+
+        <!-- Days Available Field -->
+        <div class="field mb-4">
+          <label for="days_available" class="block mb-2 font-medium">Días disponibles</label>
+          <p-inputNumber id="days_available" formControlName="days_available" class="w-full"></p-inputNumber>
+        </div>
+
+        <!-- Status Field -->
+        <div class="field mb-4">
+          <label for="status" class="block mb-2 font-medium">Estado*</label>
+          <p-dropdown [options]="statusOptions" optionLabel="label" optionValue="value" 
+                     formControlName="status" class="w-full"></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Full Width Fields -->
+      <div class="col-12">
+        <!-- Description Field -->
+        <div class="field mb-4">
+          <label for="description" class="block mb-2 font-medium">Descripción</label>
+          <textarea pInputTextarea id="description" formControlName="description" rows="5" class="w-full"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex justify-content-end gap-3 mt-5">
+      <button pButton pRipple label="Cancelar" icon="pi pi-times" 
+              class="p-button-outlined p-button-secondary" (click)="onCancel()" [disabled]="loading"></button>
+      <button pButton pRipple label="Guardar" icon="pi pi-check" 
+              class="p-button-primary" type="submit" [disabled]="loading">
+        <i *ngIf="loading" class="pi pi-spinner pi-spin mr-2"></i>
+      </button>
+    </div>
+  </form>
+</div>
