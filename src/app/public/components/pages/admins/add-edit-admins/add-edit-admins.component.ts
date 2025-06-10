@@ -4,6 +4,7 @@ import { AdminUpdateRequest, AdminCreateRequest } from 'src/app/core/models/admi
 import { AdminStateService } from 'src/app/core/services/admin-state.service';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { CustomValidators } from 'src/app/core/validators/CustomValidators';
 
 @Component({
   selector: 'app-add-edit-admins',
@@ -36,7 +37,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
       full_name: ['', Validators.required],
       phone: [''],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(8), CustomValidators.passwordStrength]],
       image: [''],
       role: ['', Validators.required], // Añadido Validators.required
       status: ['active']
@@ -47,6 +48,32 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
     if (this.adminId) {
       this.loadAdmin(this.adminId);
     }
+  }
+
+  passwordChecks = {
+    length: false,
+    upper: false,
+    lower: false,
+    number: false,
+    special: false
+  };
+
+  updatePasswordChecks() {
+    const value = this.adminForm.get('password')?.value || '';
+    
+    this.passwordChecks = {
+      length: value.length >= 8,
+      upper: /[A-Z]/.test(value),
+      lower: /[a-z]/.test(value),
+      number: /[0-9]/.test(value),
+      special: /[!@#$%^&*]/.test(value)
+    };
+  }
+
+  getCheckIconClass(checkType: keyof typeof this.passwordChecks): string {
+    return this.passwordChecks[checkType] 
+      ? 'pi pi-check-circle text-green-500'
+      : 'pi pi-circle-off text-gray-400';
   }
 
   loadAdmin(id: number): void {
@@ -157,6 +184,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
         }
       });
     } else {
+      const base_url: any = window.location.origin + '/#/auth/reset-password'+'?email='+this.adminForm.get('email')?.value+'&token='
       // Create admin
       const createData: any = {
         full_name: this.adminForm.get('full_name')?.value,
@@ -164,6 +192,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
         email: this.adminForm.get('email')?.value,
         password: this.adminForm.get('password')?.value,
         role: this.adminForm.get('role')?.value,
+        url_base: base_url,
       }
 
       this.adminService.createAdmin(createData).subscribe({

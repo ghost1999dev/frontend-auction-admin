@@ -37,6 +37,7 @@ export interface AdminLoginRequest {
     username: string;
     password: string;
     image: string;
+    url_base: string;
   }
   
   export interface AdminUpdateRequest {

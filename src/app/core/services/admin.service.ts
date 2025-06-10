@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map, shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -79,14 +79,18 @@ export class AdminService {
   }
 
   // Password Operations
-  forgotPassword(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/forgot-password`, { email }).pipe(
+  forgotPassword(email: string, url_base: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email, url_base }).pipe(
       catchError(err => this.handlerErrorSrv.handlerError(err))
     );
   }
 
-  resetPassword(email: string, code: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reset-password`, { email, code, password }).pipe(
+  resetPassword(email: string, code: string, password: string, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,  
+      'Content-Type': 'application/json'  
+    });
+    return this.http.post(`${this.apiUrl}/reset-password`, { email, code, password }, { headers }).pipe(
       catchError(err => this.handlerErrorSrv.handlerError(err))
     );
   }
