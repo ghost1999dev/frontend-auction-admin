@@ -43,8 +43,7 @@ export class ProfileComponent implements OnInit {
         this.admin = response;
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom('No se pudo cargar el perfil de administrador');
+      error: () => {
         this.loading = false;
       }
     });
@@ -77,8 +76,7 @@ export class ProfileComponent implements OnInit {
         this.loadAdminProfile();
         this.profileDialog = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo actualizar el perfil');
+      error: () => {
         this.loading = false;
       }
     });

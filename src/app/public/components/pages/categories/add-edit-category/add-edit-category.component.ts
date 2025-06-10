@@ -43,8 +43,7 @@ export class AddEditCategoryComponent implements OnInit {
         });
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'Error al cargar categoría');
+      error: () => {
         this.loading = false;
       }
     });
@@ -67,8 +66,7 @@ export class AddEditCategoryComponent implements OnInit {
           this.notificationService.showSuccessCustom('Categoría actualizada');
           this.saved.emit();
         },
-        error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'Error al actualizar categoría');
+        error: () => {
           this.loading = false;
         }
       });
@@ -79,8 +77,7 @@ export class AddEditCategoryComponent implements OnInit {
           this.notificationService.showSuccessCustom('Categoría creada');
           this.saved.emit();
         },
-        error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'Error al crear categoría');
+        error: () => {
           this.loading = false;
         }
       });

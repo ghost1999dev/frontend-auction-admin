@@ -42,8 +42,7 @@ export class CategoriesComponent implements OnInit {
         this.categories = categories;
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al cargar categorías');
+      error: () => {
         this.loading = false;
       }
     });
@@ -61,9 +60,6 @@ export class CategoriesComponent implements OnInit {
         this.notificationService.showSuccessCustom('Categoría eliminada');
         this.loadCategories();
         this.category = {} as Category;
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'Error al eliminar categoría');
       }
     });
   }
@@ -84,9 +80,6 @@ export class CategoriesComponent implements OnInit {
         this.notificationService.showSuccessCustom(`${this.selectedCategories.length} categorías eliminadas`);
         this.loadCategories();
         this.selectedCategories = [];
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al eliminar algunas categorías');
       }
     });
   }

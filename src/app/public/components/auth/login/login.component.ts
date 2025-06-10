@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/main/dashboard']);
       },
       error: (error: any) => {
-        this.notificationService.showErrorCustom(error.error.message || 'Error de inicio de sesion');
         this.loading = false;
       },
       complete: () => {

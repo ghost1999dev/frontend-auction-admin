@@ -47,9 +47,6 @@ export class BoardDndListComponent {
     this.adminServices.updateProjectStatus(projectId, statusUpdate).subscribe({
       next: () => {
         this.notificationService.showSuccessCustom('Project status updated');
-      },
-      error: () => {
-        this.notificationService.showErrorCustom('Failed to update project status');
       }
     });
   }

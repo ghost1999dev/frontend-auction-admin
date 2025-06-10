@@ -3,8 +3,9 @@ import { ConfirmationService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Admin } from 'src/app/core/models/admin';
 import { AdminService } from 'src/app/core/services/admin.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { AdminStateService } from 'src/app/core/services/admin-state.service';
 
 @Component({
   selector: 'app-admins',
@@ -17,8 +18,8 @@ export class AdminsComponent implements OnInit {
   admins: Admin[] = [];
   selectedAdmins: Admin[] = [];
   admin: Admin = {} as Admin;
+  private subscriptions = new Subscription();
 
-  // In admin-list.component.ts
   showAddEditDialog = false;
   currentAdminId?: number;
 
@@ -37,20 +38,32 @@ export class AdminsComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private notificationService: NotificationService,
+    private adminStateService: AdminStateService
   ) { }
 
-  ngOnInit(): void {
+ ngOnInit(): void {
     this.loadAdmins();
+    
+    // Suscríbete a los cambios
+    this.subscriptions.add(
+      this.adminService.adminsChanged$.subscribe(() => {
+        this.loadAdmins();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   loadAdmins(): void {
     this.loading = true;
     this.adminService.getAllAdmins().subscribe({
-      next: (response: any) => {
-        this.admins = response;
+      next: (admins: any) => {
+        this.admins = admins;
         this.loading = false;
       },
-      error: (error) => {
+      error: () => {
         this.loading = false;
       }
     });
@@ -64,12 +77,13 @@ export class AdminsComponent implements OnInit {
   confirmDelete() {
     this.adminService.deleteAdmin(this.admin.id).subscribe({
       next: () => {
-        
-        this.loadAdmins();
+        this.adminStateService.removeAdmin(this.admin.id);
         this.deleteAdminDialog = false;
         this.admin = {} as Admin;
+        this.notificationService.showSuccessCustom('Administrador eliminado');
       },
-      error: (error) => {
+      error: () => {
+        this.deleteAdminDialog = false;
       }
     });
   }
@@ -87,12 +101,11 @@ export class AdminsComponent implements OnInit {
 
     forkJoin(deleteOperations).subscribe({
       next: () => {
+        this.selectedAdmins.forEach(admin => {
+          this.adminStateService.removeAdmin(admin.id);
+        });
         this.notificationService.showSuccessCustom(`${this.selectedAdmins.length} Administradores eliminados`);
-        this.loadAdmins();
         this.selectedAdmins = [];
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('No se pudieron eliminar algunos administradores');
       }
     });
   }

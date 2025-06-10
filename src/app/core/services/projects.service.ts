@@ -20,7 +20,8 @@ export class ProjectsService {
 
   constructor(
     private http: HttpClient,  
-    private notificationServices: NotificationService
+    private notificationServices: NotificationService,
+    private HandlerErrorSrv: HandlerErrorService,
   ) { }
 
   getAllProjects(filter?: ProjectFilter): Observable<Project[]> {
@@ -41,7 +42,7 @@ export class ProjectsService {
     return this.http.post<ProjectResponseById>(`${environment.server_url}projects/create`, data)
       .pipe(
         map(response => response.project),
-        catchError((err) => this.handlerError(err))
+        catchError((err) => this.HandlerErrorSrv.handlerError(err))
       );
   }
 
@@ -49,21 +50,21 @@ export class ProjectsService {
     return this.http.put<ProjectResponseById>(`${environment.server_url}projects/update/${id}`, data)
       .pipe(
         map(response => response.project),
-        catchError((err) => this.handlerError(err))
+        catchError((err) => this.HandlerErrorSrv.handlerError(err))
       );
   }
 
   deactivateProject(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${environment.server_url}projects/desactivate/${id}`)
       .pipe(
-        catchError((err) => this.handlerError(err))
+        catchError((err) => this.HandlerErrorSrv.handlerError(err))
       );
   }
 
   hardDeleteProject(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${environment.server_url}projects/desactivate/${id}`)
       .pipe(
-        catchError((err) => this.handlerError(err))
+        catchError((err) => this.HandlerErrorSrv.handlerError(err))
       );
   }
 

@@ -68,7 +68,7 @@ export class AdminLoginService {
 
   private decodeAndSetAdmin(token: string): void {
     const decodedToken = this.jwtHelper.decodeToken(token);
-    const adminProfile: AdminProfile = {
+    const adminProfile: any = {
       id: decodedToken.id,
       full_name: decodedToken.full_name,
       email: decodedToken.email,

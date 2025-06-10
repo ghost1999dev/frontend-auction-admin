@@ -29,6 +29,7 @@ export class AuthService {
     private companiesService: CompaniesService,
     private developerService: DeveloperService,
     private notificationServices: NotificationService,
+    private HandlerErrorSrv: HandlerErrorService,
     ) {
     this.checkToken();
   }
@@ -47,16 +48,13 @@ export class AuthService {
         this.loggedIn.next(true);
         return res;
       }),
-      catchError((err) => this.handlerError(err))
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
     );
   }
 
   public logout():void{
     localStorage.removeItem('admin_token');
     localStorage.removeItem('isLoggedin');
-    this.userService.clearCache()
-    this.developerService.clearDevelopersCache()
-    this.companiesService.clearCompaniesCache()
 
     this.loggedIn.next(false);
     this.router.navigate(['auth/login']);

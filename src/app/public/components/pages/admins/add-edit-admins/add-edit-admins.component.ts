@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AdminUpdateRequest, AdminCreateRequest } from 'src/app/core/models/admin';
+import { AdminStateService } from 'src/app/core/services/admin-state.service';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 
@@ -28,7 +29,8 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
   constructor(
     private fb: FormBuilder,
     private adminService: AdminService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private adminStateService: AdminStateService
   ) {
     this.adminForm = this.fb.group({
       full_name: ['', Validators.required],
@@ -37,7 +39,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
       password: ['', [Validators.required]],
       image: [''],
       role: ['', Validators.required], // Añadido Validators.required
-      status: ['']
+      status: ['active']
     });
   }
 
@@ -51,7 +53,6 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
     this.loading = true;
     this.adminService.getAdminById(id).subscribe({
       next: (admin: any) => {
-        
         // Verifica primero qué valor viene para el rol
         const roleValue = this.determineRoleValue(admin);
         
@@ -135,34 +136,43 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
     }
 
     this.loading = true;
-    const formData = this.adminForm.value;
 
     if (this.adminId) {
       // Update admin
-      this.adminService.updateAdmin(this.adminId, formData).subscribe({
-        next: () => {
+      const updateData: any = {
+        full_name: this.adminForm.get('full_name')?.value,
+        email: this.adminForm.get('email')?.value,
+        //phone: this.adminForm.get('phone')?.value,
+        status: this.adminForm.get('status')?.value,
+      }
+      
+      this.adminService.updateAdmin(this.adminId, updateData).subscribe({
+        next: (updatedAdmin: any) => {
+          this.adminService.notifyAdminsChanged(); // Notifica el cambio
           this.notificationService.showSuccessCustom('Administrador actualizado exitosamente');
           this.saved.emit();
         },
-        error: (error) => {
-          this.loading = false;
-        },
-        complete: () => {
+        error: () => {
           this.loading = false;
         }
       });
     } else {
       // Create admin
-      this.adminService.createAdmin(formData).subscribe({
-        next: () => {
+      const createData: any = {
+        full_name: this.adminForm.get('full_name')?.value,
+        phone: this.adminForm.get('phone')?.value,
+        email: this.adminForm.get('email')?.value,
+        password: this.adminForm.get('password')?.value,
+        role: this.adminForm.get('role')?.value,
+      }
+
+      this.adminService.createAdmin(createData).subscribe({
+        next: (newAdmin: any) => {
+          this.adminService.notifyAdminsChanged(); // Notifica el cambio
           this.notificationService.showSuccessCustom('Administrador creado exitosamente');
           this.saved.emit();
         },
-        error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'No se pudo crear el administrador');
-          this.loading = false;
-        },
-        complete: () => {
+        error: () => {
           this.loading = false;
         }
       });
