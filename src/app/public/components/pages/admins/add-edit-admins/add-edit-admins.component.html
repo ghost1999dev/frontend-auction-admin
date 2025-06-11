@@ -112,6 +112,18 @@
           </small>
       </div>
 
+              <div class="field mb-4" >
+          <label for="status" class="block mb-2 font-medium">Estado*</label>
+          <p-dropdown [style]="{'width':'100%'}" id="status" formControlName="status" [options]="statuses" 
+                      optionLabel="label" optionValue="value" placeholder="Seleccione un estado" class="w-full"
+                      [ngClass]="{'ng-invalid ng-dirty': submitted && f['status'].errors}">
+          </p-dropdown>
+          <small class="p-error block mt-1" *ngIf="submitted && f['status'].errors?.['required']">
+            Se requiere estado
+          </small>
+        </div>
+  
+
           <div class="field mb-4">
             <label for="role" class="block mb-2 font-medium">Role*</label>
             <p-dropdown 
