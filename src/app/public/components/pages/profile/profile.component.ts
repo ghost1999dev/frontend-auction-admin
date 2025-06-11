@@ -48,6 +48,71 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+  
+  preventNonDigits(event: KeyboardEvent) {
+    const allowedKeys = [
+      'Backspace', 'Delete', 
+      'ArrowLeft', 'ArrowRight', 
+      'Tab', 'Home', 'End'
+    ];
+
+    // Permitir teclas de control
+    if (allowedKeys.includes(event.key)) return true;
+
+    // Bloquear si no es un número (0-9)
+    if (!/^\d$/.test(event.key)) {
+      event.preventDefault();
+      return false;
+    }
+
+    return true;
+  }
+
+  formatPhone(event: Event) {
+  const input = event.target as HTMLInputElement;
+  let value = input.value;
+
+  // Permitir borrado completo
+  if (value === '+(503) ') {
+    this.adminUpdate.phone = '';
+    return;
+  }
+
+  // Eliminar todo excepto dígitos (incluyendo el "+" inicial si existe)
+  let digits = value.replace(/[^\d]/g, '');
+
+  // Si no hay dígitos, limpiar el campo
+  if (digits === '') {
+    this.adminUpdate.phone = '';
+    return;
+  }
+
+  // Forzar el código de país 503
+  if (!digits.startsWith('503')) {
+    digits = '503' + digits; // Agregar 503 si no está presente
+  }
+
+  // Limitar a 8 dígitos después del 503 (máximo permitido: 50312345678 → se convierte en 50312345678)
+  digits = digits.substring(0, 11); // 503 + 8 dígitos = 11 caracteres máx.
+
+  // Formatear como +(503) 1234-5678
+  let formattedValue = `+(${digits.substring(0, 3)}) `;
+  if (digits.length > 3) {
+    formattedValue += digits.substring(3, 7);
+  }
+  if (digits.length > 7) {
+    formattedValue += `-${digits.substring(7, 11)}`;
+  }
+
+  // Actualizar el valor en el modelo y el input
+  this.adminUpdate.phone = formattedValue;
+  input.value = formattedValue;
+
+  // Mover el cursor al final
+  setTimeout(() => {
+    input.setSelectionRange(formattedValue.length, formattedValue.length);
+  });
+}
 
   showEditDialog(): void {
     this.adminUpdate = { ...this.admin };

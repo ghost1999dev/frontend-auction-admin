@@ -38,7 +38,7 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  public login(authData: UserAuth):Observable<UserResponseAuth | void> {
+  public login(authData: UserAuth):Observable<UserResponseAuth> {
     return this.http
     .post<UserResponseAuth>(`${environment.server_url}users/auth`, authData)
     .pipe(

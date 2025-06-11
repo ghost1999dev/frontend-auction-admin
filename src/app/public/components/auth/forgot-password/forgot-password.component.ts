@@ -27,15 +27,15 @@ export class ForgotPasswordComponent {
       email: ['', [Validators.required, Validators.email]],
       url_base: [''],
     });
-
-    const base_url: any = window.location.origin + '/#/auth/reset-password'+'?email='+this.forgotForm.get('email')?.value+'&token='
-    this.forgotForm.get('url_base')?.setValue(base_url);
   }
 
   onSubmit(): void {
     if (this.forgotForm.invalid) {
       return;
     }
+
+    const base_url: any = window.location.origin + '/#/auth/reset-password'+'?email='+this.forgotForm.get('email')?.value+'&token='
+    this.forgotForm.get('url_base')?.setValue(base_url);
 
     this.loading = true;
     const email = this.forgotForm.get('email')?.value;
@@ -47,7 +47,7 @@ export class ForgotPasswordComponent {
           this.loading = false;
           this.notificationService.showSuccessCustom('Email, Enviado a su Correo');
           // Navigate to reset password with email as query param
-          this.router.navigate(['/auth/login'], { 
+          this.router.navigate(['/auth/reset-password'], { 
             queryParams: { email } 
           });
         },

@@ -69,11 +69,12 @@
             class="w-full"
             [ngClass]="{'ng-invalid ng-dirty': submitted && f['password'].errors}"
             (input)="updatePasswordChecks()"
-            [toggleMask]="true"
+            [toggleMask]="false"
+            [feedback]="false" 
           >
           
           <!-- Checklist manual -->
-          <div class="password-checklist mt-2 text-sm">
+          <div class="password-checklist mt-2 text-sm" [ngClass]="{'surface-ground': layoutService.config.colorScheme === 'dark'}">                            
             <p class="font-medium mb-2">Requisitos:</p>
             <ul>
               <li class="flex items-center gap-2" [class.text-green-500]="passwordChecks.length">

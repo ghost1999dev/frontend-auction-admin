@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AdminUpdateRequest, AdminCreateRequest } from 'src/app/core/models/admin';
 import { AdminStateService } from 'src/app/core/services/admin-state.service';
 import { AdminService } from 'src/app/core/services/admin.service';
+import { LayoutService } from 'src/app/core/services/layout.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CustomValidators } from 'src/app/core/validators/CustomValidators';
 
@@ -31,7 +32,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
     private fb: FormBuilder,
     private adminService: AdminService,
     private notificationService: NotificationService,
-    private adminStateService: AdminStateService
+    public layoutService: LayoutService,
   ) {
     this.adminForm = this.fb.group({
       full_name: ['', Validators.required],
@@ -152,8 +153,6 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
       input.setSelectionRange(newCursorPosition, newCursorPosition);
     });
   }
-
-
 
   onSubmit(): void {
     this.submitted = true;

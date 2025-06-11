@@ -51,7 +51,8 @@ export class LoginComponent implements OnInit {
         this.notificationService.showSuccessCustom('Inicio de sesión exitoso');
         this.router.navigate(['/main/dashboard']);
       },
-      error: (error: any) => {
+      error: (error:any) => {
+        this.notificationService.showErrorCustom(error.error.message)
         this.loading = false;
       },
       complete: () => {

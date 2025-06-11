@@ -59,6 +59,19 @@ export class ConfigComponent {
       this.layoutService.showConfigSidebar();
   }
 
+    get isDarkMode(): boolean {
+      return this.layoutService.config.colorScheme === 'dark';
+    }
+  
+    toggleTheme() {
+      const newScheme = this.isDarkMode ? 'light' : 'dark';
+      localStorage.setItem('themePreference', newScheme);
+      this.changeTheme(
+        newScheme === 'dark' ? 'bootstrap4-dark-blue' : 'lara-light-indigo',
+        newScheme
+      );
+    }
+
   changeTheme(theme: string, colorScheme: string) {
       const themeLink = <HTMLLinkElement>document.getElementById('theme-css');
       const newHref = themeLink.getAttribute('href')!.replace(this.layoutService.config.theme, theme);

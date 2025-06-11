@@ -210,3 +210,68 @@ li {
 .pi {
   font-size: 1rem;
 }
+
+/* En reset-password.component.scss */
+.password-checklist {
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-top: 0.75rem;
+  box-sizing: border-box;
+  transition: height 0.3s ease;
+  overflow: hidden;
+  
+  /* Estilos para modo claro */
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  color: #495057;
+  
+  /* Estilos para modo oscuro - se activará con la clase surface-ground */
+  &:host-context(.dark-mode) &,
+  &.surface-ground {
+    background-color: var(--surface-ground);
+    border: 1px solid var(--surface-border);
+    color: var(--text-color);
+    
+    .pi {
+      color: var(--text-color);
+    }
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  
+  .pi {
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+}
+
+/* Mensajes de error - Estilos consistentes */
+.small.p-error {
+  display: block;
+  min-height: 1.25rem;
+  margin-top: 0.25rem;
+  line-height: 1.3;
+  white-space: normal;
+  color: var(--red-500); /* Usar variable para consistencia */
+  
+  &:host-context(.dark-mode) & {
+    color: var(--red-300); /* Color más claro para modo oscuro */
+  }
+}

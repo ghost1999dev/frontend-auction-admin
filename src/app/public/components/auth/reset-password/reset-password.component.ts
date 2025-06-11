@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { LayoutService } from 'src/app/core/services/layout.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { CustomValidators } from 'src/app/core/validators/CustomValidators';
 
 @Component({
@@ -29,6 +30,7 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public AdminSrv: AdminService,
+    private notificationService: NotificationService,
     public layoutService: LayoutService,
   ) {
     this.resetForm = this.fb.group({
@@ -77,6 +79,7 @@ export class ResetPasswordComponent implements OnInit {
       this.token
     ).subscribe({
       next: (response) => {
+        this.notificationService.showSuccessCustom('Email, Enviado a su Correo');
         this.loading = false;
         this.router.navigate(['/auth/login']);
       },
