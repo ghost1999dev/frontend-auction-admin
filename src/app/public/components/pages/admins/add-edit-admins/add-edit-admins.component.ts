@@ -63,7 +63,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
     const value = this.adminForm.get('password')?.value || '';
     
     this.passwordChecks = {
-      length: value.length >= 8,
+      length: value.length >= 6,
       upper: /[A-Z]/.test(value),
       lower: /[a-z]/.test(value),
       number: /[0-9]/.test(value),
@@ -91,7 +91,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
           password: admin.password,
           username: admin.username,
           image: admin.image,
-          role: roleValue, // Usa el valor determinado
+          role: admin.role_id, // Usa el valor determinado
           status: admin.status
         });
         this.loading = false;
@@ -168,7 +168,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
       const updateData: any = {
         full_name: this.adminForm.get('full_name')?.value,
         email: this.adminForm.get('email')?.value,
-        //phone: this.adminForm.get('phone')?.value,
+        role: this.adminForm.get('role')?.value,
         status: this.adminForm.get('status')?.value,
       }
       
