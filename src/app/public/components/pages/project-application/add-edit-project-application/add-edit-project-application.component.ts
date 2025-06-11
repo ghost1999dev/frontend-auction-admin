@@ -58,9 +58,6 @@ export class AddEditProjectApplicationComponent implements OnInit {
     this.projectsService.getAllProjects().subscribe({
       next: (projects) => {
         this.projects = projects;
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al cargar proyectos');
       }
     });
   }
@@ -69,9 +66,6 @@ export class AddEditProjectApplicationComponent implements OnInit {
     this.developerService.getAllDevelopers().subscribe({
       next: (developers) => {
         this.developers = developers;
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al cargar desarrolladores');
       }
     });
   }
@@ -87,8 +81,7 @@ export class AddEditProjectApplicationComponent implements OnInit {
         });
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'Error al cargar la solicitud');
+      error: () => {
         this.loading = false;
       }
     });
@@ -111,8 +104,7 @@ export class AddEditProjectApplicationComponent implements OnInit {
           this.notificationService.showSuccessCustom('Solicitud actualizada correctamente');
           this.saved.emit();
         },
-        error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'Error al actualizar la solicitud');
+        error: () => {
           this.loading = false;
         }
       });
@@ -123,8 +115,7 @@ export class AddEditProjectApplicationComponent implements OnInit {
           this.notificationService.showSuccessCustom('Solicitud creada correctamente');
           this.saved.emit();
         },
-        error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'Error al crear la solicitud');
+        error: () => {
           this.loading = false;
         }
       });

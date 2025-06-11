@@ -13,9 +13,9 @@ import { ProjectApplicationsService } from 'src/app/core/services/project-applic
 export class ProjectApplicationComponent implements OnInit {
   @ViewChild('dt') dt: Table | undefined;
   
-  applications: Application[] = [];
-  selectedApplications: Application[] = [];
-  application: Application = {} as Application;
+  applications: any[] = [];
+  selectedApplications: any[] = [];
+  application: any = {} as any;
 
   showAddEditDialog = false;
   currentApplicationId?: number;
@@ -48,8 +48,7 @@ export class ProjectApplicationComponent implements OnInit {
         this.applications = applications;
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Failed to load applications');
+      error: () => {
         this.loading = false;
       }
     });
@@ -67,9 +66,6 @@ export class ProjectApplicationComponent implements OnInit {
         this.notificationService.showSuccessCustom('Application deleted successfully');
         this.loadApplications();
         this.application = {} as Application;
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'Failed to delete application');
       }
     });
   }
@@ -90,9 +86,6 @@ export class ProjectApplicationComponent implements OnInit {
         this.notificationService.showSuccessCustom(`${this.selectedApplications.length} applications deleted`);
         this.loadApplications();
         this.selectedApplications = [];
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Failed to delete some applications');
       }
     });
   }

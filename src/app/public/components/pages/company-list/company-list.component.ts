@@ -195,9 +195,7 @@ export class CompanyListComponent implements OnInit {
                 this.ratingLoading = false;
             }, 0);
         },
-        error: (error) => {
-            console.error('Error loading ratings:', error);
-            this.notificationService.showErrorCustom('Error al cargar los ratings');
+        error: () => {
             this.ratingLoading = false;
             this.companyRatings = this.getDefaultRatings();
             this.updateChartData();
@@ -240,8 +238,7 @@ export class CompanyListComponent implements OnInit {
         this.companies = companies;
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Failed to load companies');
+      error: () => {
         this.loading = false;
       }
     });

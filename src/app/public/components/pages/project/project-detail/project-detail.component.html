@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <div class="status-update-section" *ngIf="project">
+    <div class="status-update-section" *ngIf="project?.status === 0">
         <h3>Actualizar estado</h3>
         <div class="status-selector">
             <p-dropdown [options]="statusOptions" 
@@ -68,14 +68,12 @@
                         optionLabel="label" 
                         optionValue="value"
                         [style]="{'width':'100%'}"
-                        placeholder="Seleccionar estado"
-                        (onChange)="onStatusChange()">
+                        placeholder="Seleccionar estado">
             </p-dropdown>
             <button pButton 
                     label="Actualizar" 
                     class="p-button-primary update-button mt-3"
-                    (click)="updateStatus()"
-                    [disabled]="selectedStatus === project.status">
+                    (click)="updateStatus()">
             </button>
         </div>
     </div>

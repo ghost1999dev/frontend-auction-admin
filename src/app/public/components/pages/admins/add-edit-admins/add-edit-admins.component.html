@@ -11,8 +11,15 @@
         <!-- Full Name Field -->
         <div class="field mb-4">
           <label for="full_name" class="block mb-2 font-medium">Nombre completo*</label>
-          <input type="text" onkeydown="return /[a-ñA-ZÑ, ]/i.test(event.key)" pInputText id="full_name" formControlName="full_name" class="w-full"
-                [ngClass]="{'ng-invalid ng-dirty': submitted && f['full_name'].errors}">
+          <input 
+            type="text" 
+            onkeydown="return /^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]$/.test(event.key) || event.key === 'Backspace' || event.key === 'Delete' || event.key === 'Tab'"
+            pInputText 
+            id="full_name" 
+            formControlName="full_name" 
+            class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': submitted && f['full_name'].errors}"
+          >
           <small class="p-error block mt-1" *ngIf="submitted && f['full_name'].errors?.['required']">
             Se requiere nombre completo
           </small>
@@ -32,16 +39,6 @@
         </div>
 
         <!-- Role Dropdown -->
-          <div class="field mb-4">
-            <label for="role" class="block mb-2 font-medium">Role*</label>
-            <p-dropdown id="role" formControlName="role" [options]="roles" 
-                       optionLabel="name" optionValue="id" placeholder="Select a role" class="w-full category-dropdown option"
-                       [ngClass]="{'ng-invalid ng-dirty': submitted && f['role'].errors}">
-            </p-dropdown>
-            <small class="p-error block mt-1" *ngIf="submitted && f['role'].errors?.['required']">
-              Se requiere rol
-            </small>
-          </div>
       </div>
 
       <!-- Right Column -->
@@ -57,26 +54,80 @@
         </div> -->
 
         <!-- Phone Field -->
-        <div class="field mb-4">
+        <div class="field mb-4" *ngIf="!adminId">
           <label for="phone" class="block mb-2 font-medium">Teléfono</label>
           <input type="text" (input)="formatPhone($event)" pInputText id="phone" formControlName="phone" class="w-full">
         </div>
 
-        <!-- Password Field (Create Mode) -->
         <div class="field mb-4" *ngIf="!adminId">
           <label for="password" class="block mb-2 font-medium">Contraseña*</label>
-          <p-password id="password" formControlName="password" [feedback]="false" class="w-full"
-                     [ngClass]="{'ng-invalid ng-dirty': submitted && f['password'].errors}">
-          </p-password>
+          <input 
+            pPassword
+            type="password"
+            id="password"
+            formControlName="password"
+            class="w-full"
+            [ngClass]="{'ng-invalid ng-dirty': submitted && f['password'].errors}"
+            (input)="updatePasswordChecks()"
+            [toggleMask]="false"
+            [feedback]="false" 
+          >
+          
+          <!-- Checklist manual -->
+          <div class="password-checklist mt-2 text-sm" [ngClass]="{'surface-ground': layoutService.config.colorScheme === 'dark'}">                            
+            <p class="font-medium mb-2">Requisitos:</p>
+            <ul>
+              <li class="flex items-center gap-2" [class.text-green-500]="passwordChecks.length">
+                <i [class]="passwordChecks.length ? 'pi pi-check-circle' : 'pi pi-circle-off'"></i>
+                <span>Mínimo 6 caracteres</span>
+              </li>
+              <li class="flex items-center gap-2" [class.text-green-500]="passwordChecks.upper">
+                <i [class]="passwordChecks.upper ? 'pi pi-check-circle' : 'pi pi-circle-off'"></i>
+                <span>1 letra mayúscula (A-Z)</span>
+              </li>
+              <li class="flex items-center gap-2" [class.text-green-500]="passwordChecks.lower">
+                <i [class]="passwordChecks.lower ? 'pi pi-check-circle' : 'pi pi-circle-off'"></i>
+                <span>1 letra minúscula (a-z)</span>
+              </li>
+              <li class="flex items-center gap-2" [class.text-green-500]="passwordChecks.number">
+                <i [class]="passwordChecks.number ? 'pi pi-check-circle' : 'pi pi-circle-off'"></i>
+                <span>1 número (0-9)</span>
+              </li>
+              <li class="flex items-center gap-2" [class.text-green-500]="passwordChecks.special">
+                <i [class]="passwordChecks.special ? 'pi pi-check-circle' : 'pi pi-circle-off'"></i>
+                <span>1 carácter especial (!#$%^&*)</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Mensajes de error -->
           <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['required']">
             Se requiere contraseña
           </small>
           <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['minlength']">
-            La contraseña debe tener al menos 6 caracteres
+            La contraseña debe tener al menos 8 caracteres
           </small>
-        </div>
+          <small class="p-error block mt-1" *ngIf="submitted && f['password'].errors?.['passwordStrength']">
+            La contraseña no cumple con todos los requisitos
+          </small>
+      </div>
 
-         
+          <div class="field mb-4">
+            <label for="role" class="block mb-2 font-medium">Role*</label>
+            <p-dropdown 
+              id="role" 
+              formControlName="role" 
+              [options]="roles" 
+              optionLabel="name" 
+              optionValue="id"
+              placeholder="Select a role" 
+              class="w-full category-dropdown option"
+              [ngClass]="{'ng-invalid ng-dirty': submitted && f['role'].errors}">
+            </p-dropdown>
+            <small class="p-error block mt-1" *ngIf="submitted && f['role'].errors?.['required']">
+              Se requiere rol
+            </small>
+          </div>
 
       </div>
     </div>
