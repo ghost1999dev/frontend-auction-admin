@@ -71,9 +71,6 @@ loadCompanies(): void {
         name: company.user.name  // Tomamos el name del objeto user dentro de company
         // Puedes incluir otros campos si los necesitas
       }));
-    },
-    error: (error) => {
-      this.notificationService.showErrorCustom('Error al cargar las empresas');
     }
   });
 }
@@ -82,9 +79,6 @@ loadCompanies(): void {
     this.categoriesServices.getAllCategories().subscribe({
       next: (categories: any) => {
         this.categories = categories;
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al cargar las categorías');
       }
     });
   }
@@ -104,8 +98,7 @@ loadCompanies(): void {
         });
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo cargar el proyecto');
+      error: () => {
         this.loading = false;
       }
     });
@@ -133,14 +126,8 @@ loadCompanies(): void {
             next: () => {
               this.notificationService.showSuccessCustom('Proyecto actualizado exitosamente');
               this.saved.emit();
-            },
-            error: (error) => {
-            this.notificationService.showErrorCustom(error.error?.message || 'No se pudo actualizar el proyecto');
             }
           });
-        },
-        error: (error) => {
-          console.error(error)
         },
         complete: () => {
           this.loading = false;
@@ -153,8 +140,7 @@ loadCompanies(): void {
           this.notificationService.showSuccessCustom('Proyecto creado exitosamente');
           this.saved.emit();
         },
-        error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'No se pudo crear el proyecto');
+        error: () => {
           this.loading = false;
         },
         complete: () => {

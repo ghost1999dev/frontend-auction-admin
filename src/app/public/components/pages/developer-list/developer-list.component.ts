@@ -194,9 +194,7 @@ viewRatings(developerId: number): void {
                 this.ratingLoading = false;
             }, 0);
         },
-        error: (error) => {
-            console.error('Error loading ratings:', error);
-            this.notificationService.showErrorCustom('Error al cargar los ratings');
+        error: () => {
             this.ratingLoading = false;
             this.developerRatings = this.getDefaultRatings();
             this.updateChartData();
@@ -238,8 +236,7 @@ private getDefaultRatings(): any {
         this.developers = developers;
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Failed to load developers');
+      error: () => {
         this.loading = false;
       }
     });

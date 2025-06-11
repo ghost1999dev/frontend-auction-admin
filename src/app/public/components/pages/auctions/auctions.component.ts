@@ -50,8 +50,7 @@ export class AuctionsComponent implements OnInit {
         this.auctions = auctions;
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al cargar las subastas');
+      error: () => {
         this.loading = false;
       }
     });
@@ -90,9 +89,6 @@ export class AuctionsComponent implements OnInit {
         this.loadAuctions();
         this.auction = {} as Auction;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'Error al eliminar la subasta');
-      }
     });
   }
 
@@ -112,9 +108,6 @@ export class AuctionsComponent implements OnInit {
         this.notificationService.showSuccessCustom(`${this.selectedAuctions.length} subastas eliminadas`);
         this.loadAuctions();
         this.selectedAuctions = [];
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al eliminar algunas subastas');
       }
     });
   }

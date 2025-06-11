@@ -110,8 +110,7 @@ export class AddEditUsersComponent implements OnInit {
         this.userForm.get('password')?.updateValueAndValidity();
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo cargar el usuario');
+      error: () => {
         this.loading = false;
       }
     });
@@ -128,8 +127,7 @@ export class AddEditUsersComponent implements OnInit {
         this.notificationService.showSuccessCustom('Código de verificación enviado al correo electrónico');
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'No se pudo enviar el código de verificación');
+      error: () => {
         this.loading = false;
       }
     });
@@ -158,8 +156,7 @@ export class AddEditUsersComponent implements OnInit {
           this.notificationService.showSuccessCustom('Usuario Actualizado exitosamente');
           this.saved.emit();
         },
-        error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'No se pudo actualizar el usuario');
+        error: () => {
           this.loading = false;
         }
       });
@@ -179,8 +176,7 @@ export class AddEditUsersComponent implements OnInit {
           this.notificationService.showSuccessCustom('Usuario creado exitosamente');
           this.saved.emit();
         },
-        error: (error) => {
-          this.notificationService.showErrorCustom(error.error?.message || 'Error al crear el usuario');
+        error: () => {
           this.loading = false;
         }
       });

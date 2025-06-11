@@ -63,8 +63,7 @@
                         [value]="statusMap[project.status]?.label || 'Desconocido'"></p-tag>
                 <td>
                     <div class="flex gap-2">
-                        <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info ml-2 mr-2" [routerLink]="['/main/view/projects/', project.id]" 
-                                (click)="deleteProject(project)"></button>
+                        <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info ml-2 mr-2" [routerLink]="['/main/view/projects/', project.id]"></button>
                         <!-- @if (project.status === 0) {
                             <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" 
                                 (click)="editProject(project)"></button>

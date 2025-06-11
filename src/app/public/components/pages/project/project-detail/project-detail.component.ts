@@ -47,10 +47,8 @@ export class ProjectDetailComponent implements OnInit {
         this.selectedStatus = project.status; // Inicializa con el estado actual
         this.isLoading = false;
       },
-      error: (err) => {
-        this.error = 'Failed to load project details';
+      error: () => {
         this.isLoading = false;
-        console.error(err);
       }
     });
   }
@@ -60,11 +58,6 @@ updateStatus(): void {
   if (this.project && this.selectedStatus !== undefined) {
     this.updateProjectStatus(this.project.id, this.selectedStatus);
   }
-}
-
-// Método cuando cambia la selección (opcional)
-onStatusChange(): void {
-  // Puedes agregar lógica adicional aquí si necesitas
 }
 
 private updateProjectStatus(projectId: number, newStatus: number): void {
@@ -80,8 +73,6 @@ private updateProjectStatus(projectId: number, newStatus: number): void {
       }
     },
     error: () => {
-      this.notificationService.showErrorCustom('Failed to update project status');
-      // Revertir la selección si falla
       if (this.project) {
         this.selectedStatus = this.project.status;
       }

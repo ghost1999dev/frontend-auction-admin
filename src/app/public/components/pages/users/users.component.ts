@@ -47,8 +47,7 @@ export class UsersComponent implements OnInit {
         this.users = response;
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Failed to load users');
+      error: () => {
         this.loading = false;
       }
     });
@@ -66,9 +65,6 @@ export class UsersComponent implements OnInit {
         this.notificationService.showSuccessCustom('User deleted successfully');
         this.loadUsers();
         this.user = {} as usersWithImage;
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom(error.error?.message || 'Failed to delete user');
       }
     });
   }
@@ -89,9 +85,6 @@ export class UsersComponent implements OnInit {
         this.notificationService.showSuccessCustom(`${this.selectedUsers.length} users deleted`);
         this.loadUsers();
         this.selectedUsers = [];
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Failed to delete some users');
       }
     });
   }

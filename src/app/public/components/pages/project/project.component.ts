@@ -63,8 +63,7 @@ export class ProjectComponent implements OnInit {
         this.filteredProjects = [...this.projects]; // Inicialmente muestra todos
         this.loading = false;
       },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al cargar los proyectos');
+      error: () => {
         this.loading = false;
       }
     });
@@ -90,7 +89,6 @@ export class ProjectComponent implements OnInit {
 
   deleteProject(project: Project): void {
     this.project = { ...project };
-    this.deleteProjectDialog = true;
   }
 
   confirmDelete() {
@@ -100,9 +98,6 @@ export class ProjectComponent implements OnInit {
         this.loadProjects();
         this.deleteProjectDialog = false;
         this.project = {} as Project;
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('Error al eliminar el proyecto');
       }
     });
   }
@@ -123,16 +118,13 @@ export class ProjectComponent implements OnInit {
         this.notificationService.showSuccessCustom(`${this.selectedProjects.length} proyectos eliminados`);
         this.loadProjects();
         this.selectedProjects = [];
-      },
-      error: (error) => {
-        this.notificationService.showErrorCustom('No se pudieron eliminar algunos proyectos');
       }
     });
   }
 
-  openNew(): void {
+  openNew(project: Project): void {
+    this.project = { ...project };
     this.currentProjectId = undefined;
-    this.showAddEditDialog = true;
   }
 
   editProject(project: Project): void {

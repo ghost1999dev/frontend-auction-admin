@@ -113,13 +113,22 @@
 
     <div class="field">
       <label for="username">Nombre de Usuario</label>
-      <input type="text" pInputText id="username" [(ngModel)]="adminUpdate.username"/>
+      <input [disabled]="true" type="text" pInputText id="username" [(ngModel)]="adminUpdate.username"/>
     </div>
 
     <div class="field">
       <label for="phone">Teléfono</label>
-      <input type="text" pInputText id="phone" [(ngModel)]="adminUpdate.phone"/>
-    </div>
+      <input 
+          (input)="formatPhone($event)" 
+          (keydown)="preventNonDigits($event)"
+          pInputText 
+          type="tel"
+          id="phone" 
+          [(ngModel)]="adminUpdate.phone"
+          maxlength="16" 
+          placeholder="+(503) 1234-5678"
+        />    
+      </div>
   </ng-template>
 
   <ng-template pTemplate="footer">

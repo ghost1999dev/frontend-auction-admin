@@ -6,82 +6,60 @@ import { activateReq, activateRes, addUser, addUserResponse, updateFieldsGoogle,
 import { environment } from 'src/environments/environment';
 import { DeveloperService } from './developer.service';
 import { CompaniesService } from './companies.service';
+import { HandlerErrorService } from './handler-error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private usersCache: Observable<usersWithImage[]> | null = null;
-  private userCache = new Map<number, Observable<usersWithImage[]>>();
-
   constructor(
     private http: HttpClient,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private HandlerErrorSrv: HandlerErrorService,
   ) { }
-
-  // Cache management
-  clearCache(): void {
-    this.usersCache = null;
-    this.userCache.clear();
-  }
-
-  clearUserCache(id: number): void {
-    this.userCache.delete(id);
-  }
 
   // User CRUD Operations
   getAllUsers(): Observable<usersWithImage[]> {
-    if (!this.usersCache) {
-      this.usersCache = this.http.get<userResponse>(`${environment.server_url}users/show/all`).pipe(
-        map(response => response.users),
-        shareReplay(1),
-        catchError((err) => this.handlerError(err))
-      );
-    }
-    return this.usersCache;
+    return this.http.get<userResponse>(`${environment.server_url}users/show/all`).pipe(
+      map(response => response.users),
+      shareReplay(1),
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
+    );
   }
 
   getUserById(id: number): Observable<usersWithImage[]> {
-    if (!this.userCache.has(id)) {
-      const user$ = this.http.get<userResponseById>(`${environment.server_url}users/show/${id}`).pipe(
+    return this.http.get<userResponseById>(`${environment.server_url}users/show/${id}`).pipe(
         map(response => response.user),
         shareReplay(1),
-        catchError((err) => this.handlerError(err))
+        catchError((err) => this.HandlerErrorSrv.handlerError(err))
       );
-      this.userCache.set(id, user$);
-    }
-    return this.userCache.get(id)!;
   }
 
   createUser(userData: addUser): Observable<addUserResponse> {
     return this.http.post<addUserResponse>(`${environment.server_url}users/create`, userData).pipe(
       map(response => {
-        this.clearCache();
         return response;
       }),
-      catchError((err) => this.handlerError(err))
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
     );
   }
 
   updateUser(id: number, userData: updateUser): Observable<updateUserResponse> {
     return this.http.put<updateUserResponse>(`${environment.server_url}users/update/${id}`, userData).pipe(
       map(response => {
-        this.clearUserCache(id);
         return response;
       }),
-      catchError((err) => this.handlerError(err))
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
     );
   }
 
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${environment.server_url}users/delete/${id}`).pipe(
       map(response => {
-        this.clearCache();
-        this.clearUserCache(id);
         return response;
       }),
-      catchError((err) => this.handlerError(err))
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
     );
   }
 
@@ -90,7 +68,7 @@ export class UserService {
       `${environment.server_url}users/update-password/${id}`, 
       passwordData
     ).pipe(
-      catchError((err) => this.handlerError(err))
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
     );
   }
 
@@ -100,16 +78,15 @@ export class UserService {
     formData.append('file', image);
     return this.http.put(`${environment.server_url}users/upload-image/${id}`, formData).pipe(
       map(response => {
-        this.clearUserCache(id);
         return response;
       }),
-      catchError((err) => this.handlerError(err))
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
     );
   }
 
   verifyEmail(emailData: activateReq): Observable<activateRes> {
     return this.http.post<activateRes>(`${environment.server_url}users/validate-email`, emailData).pipe(
-      catchError((err) => this.handlerError(err))
+      catchError((err) => this.HandlerErrorSrv.handlerError(err))
     );
   }
 
@@ -119,10 +96,9 @@ export class UserService {
       fields
     ).pipe(
       map(response => {
-        this.clearUserCache(id);
         return response;
       }),
-      catchError((err: any) => this.handlerError(err))
+      catchError((err: any) => this.HandlerErrorSrv.handlerError(err))
     );
   }
 
