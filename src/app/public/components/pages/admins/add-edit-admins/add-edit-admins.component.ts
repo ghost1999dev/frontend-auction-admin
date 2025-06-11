@@ -37,7 +37,7 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
       full_name: ['', Validators.required],
       phone: [''],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8), CustomValidators.passwordStrength]],
+      password: ['', [Validators.required, Validators.minLength(6), CustomValidators.passwordStrength]],
       image: [''],
       role: ['', Validators.required], // Añadido Validators.required
       status: ['active']
