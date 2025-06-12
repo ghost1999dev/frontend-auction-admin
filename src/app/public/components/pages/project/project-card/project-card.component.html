@@ -7,7 +7,7 @@
     </div>
     
     <div class="card-body">
-      <p class="card-description">{{ project.description || 'No description provided' }}</p>
+      <p class="card-description">{{ (project.description || 'No se proporciona descripción').slice(0, 100) }}{{ (project.description || '').length > 100 ? '...' : '' }}</p>
       
       <div class="card-meta-row">
         <span class="meta-item" *ngIf="project.budget">
