@@ -172,7 +172,7 @@ export class CompanyListComponent implements OnInit {
     this.ratingLoading = true;
     this.showRatingDialog = true;
     
-    this.ratingService.getPublicProfile(companyId).subscribe({
+    this.ratingService.getAverageRatingByCompany(companyId).subscribe({
         next: (response: any) => {
             this.companyRatings = {
                 ratingSummary: {
