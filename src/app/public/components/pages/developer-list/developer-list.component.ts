@@ -171,7 +171,7 @@ viewRatings(developerId: number): void {
     this.ratingLoading = true;
     this.showRatingDialog = true;
     
-    this.ratingService.getPublicProfile(developerId).subscribe({
+    this.ratingService.getAverageRatingByDeveloper(developerId).subscribe({
         next: (response: any) => {
             this.developerRatings = {
                 ratingSummary: {
