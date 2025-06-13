@@ -167,6 +167,12 @@ export class AdminService {
     );
   }
 
+  getReportById(id: number): Observable<any> {
+    return this.http.get<{ data: any }>(`${this.apiUrl}/get-report/${id}`).pipe(
+        catchError(err => this.handlerErrorSrv.handlerError(err))
+    );
+  }
+
   respondToReport(id: number, responseMessage: string, newStatus: string): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/respond-to-report/${id}`, { 
       responseMessage, 

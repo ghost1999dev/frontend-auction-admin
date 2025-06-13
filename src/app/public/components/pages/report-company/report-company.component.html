@@ -1,0 +1,72 @@
+<!-- report-company.component.html -->
+<div class="card" *ngIf="!showAddEditDialog">
+    <div class="flex justify-content-between align-items-center mb-4">
+        <h1>Reportes a Compañías</h1>
+    </div>
+
+    <p-table #dt [value]="reports" [loading]="loading" responsiveLayout="scroll" [rows]="10" 
+            [globalFilterFields]="['reporter_name','reportedUser_name','project_name','reason','status']" [paginator]="true" 
+            [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" 
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" 
+            [(selection)]="selectedReports" selectionMode="multiple" [rowHover]="true" dataKey="id">
+        <ng-template pTemplate="caption">
+            <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                <h5 class="m-0"></h5>
+                <span class="block mt-2 md:mt-0 p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..." class="w-full sm:w-auto"/>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="reporter_name">Reportado por <p-sortIcon field="reporter_name"></p-sortIcon></th>
+                <th pSortableColumn="reportedUser_name">Compañía reportada <p-sortIcon field="reportedUser_name"></p-sortIcon></th>
+                <th pSortableColumn="project_name">Proyecto <p-sortIcon field="project_name"></p-sortIcon></th>
+                <th pSortableColumn="reason">Razón <p-sortIcon field="reason"></p-sortIcon></th>
+                <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-report>
+            <tr>
+                <td>
+                    <span class="p-column-title">Reportado por</span>
+                    {{report.reporter_name}}
+                </td>
+                <td>
+                    <span class="p-column-title">Compañía reportada</span>
+                    {{report.reportedUser_name}}
+                </td>
+                <td>
+                    <span class="p-column-title">Proyecto</span>
+                    {{report.project_name || 'N/A'}}
+                </td>
+                <td>
+                    <span class="p-column-title">Razón</span>
+                    {{report.reason}}
+                </td>
+                <td>
+                    <span class="p-column-title">Estado</span>
+                    <p-tag [severity]="getSeverity(report.status)" [value]="report.status"></p-tag>
+                </td>
+                <td>
+                    <div class="flex gap-2">
+                        <button pButton pRipple icon="pi pi-comment" class="p-button-rounded p-button-info" 
+                                (click)="respondToReport(report)"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<app-add-edit-report-company
+    *ngIf="showAddEditDialog"
+    [reportId]="currentReportId"
+    [report]="report"
+    (saved)="onReportResponded()"
+    (cancelled)="showAddEditDialog = false">
+</app-add-edit-report-company>
+
+<p-toast></p-toast>

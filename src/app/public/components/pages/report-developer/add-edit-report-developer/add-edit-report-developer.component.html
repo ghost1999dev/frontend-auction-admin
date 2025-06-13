@@ -1,0 +1,46 @@
+<p-dialog [(visible)]="reportId" [style]="{width: '600px'}" [modal]="true" [closable]="false" [closeOnEscape]="false">
+    <ng-template pTemplate="header">
+        <h2>{{ reportId ? 'Responder Reporte' : 'Nuevo Reporte' }}</h2>
+    </ng-template>
+
+    <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+        <div class="p-fluid grid">
+            <div class="field col-12">
+                <label for="reportedUser">Desarrollador Reportado</label>
+                <input pInputText id="reportedUser" [value]="report.reportedUser_name" readonly />
+            </div>
+
+            <div class="field col-12">
+                <label for="reason">Razón del Reporte</label>
+                <textarea pInputTextarea id="reason" [value]="report.reason" readonly rows="3"></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="comment">Comentario Original</label>
+                <textarea pInputTextarea id="comment" [value]="report.comment || 'N/A'" readonly rows="3"></textarea>
+            </div>
+
+            <div class="field col-12">
+                <label for="newStatus">Nuevo Estado *</label>
+                <p-dropdown id="newStatus" formControlName="newStatus" [options]="statusOptions" 
+                            optionLabel="label" optionValue="value" placeholder="Seleccione un estado"></p-dropdown>
+                <small *ngIf="reportForm.get('newStatus')?.invalid && reportForm.get('newStatus')?.touched" 
+                       class="p-error">Este campo es requerido</small>
+            </div>
+
+            <div class="field col-12">
+                <label for="responseMessage">Respuesta del Administrador *</label>
+                <textarea pInputTextarea id="responseMessage" formControlName="responseMessage" rows="5"></textarea>
+                <small *ngIf="reportForm.get('responseMessage')?.invalid && reportForm.get('responseMessage')?.touched" 
+                       class="p-error">Este campo es requerido</small>
+            </div>
+        </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" 
+                (click)="onCancel()" [disabled]="loading"></button>
+        <button *ngIf="report.status === 'Pendiente'" pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-success" 
+                (click)="onSubmit()" [disabled]="reportForm.invalid || loading"></button>
+    </ng-template>
+</p-dialog>

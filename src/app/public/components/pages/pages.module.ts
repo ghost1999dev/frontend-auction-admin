@@ -61,6 +61,10 @@ import { DeveloperListComponent } from './developer-list/developer-list.componen
 import { CompanyListComponent } from './company-list/company-list.component';
 import { ProjectApplicationComponent } from './project-application/project-application.component';
 import { AddEditProjectApplicationComponent } from './project-application/add-edit-project-application/add-edit-project-application.component';
+import { ReportDeveloperComponent } from './report-developer/report-developer.component';
+import { AddEditReportDeveloperComponent } from './report-developer/add-edit-report-developer/add-edit-report-developer.component';
+import { ReportCompanyComponent } from './report-company/report-company.component';
+import { AddEditReportCompanyComponent } from './report-company/add-edit-report-company/add-edit-report-company.component';
 
 const routes: Routes = [
   {
@@ -143,6 +147,18 @@ const routes: Routes = [
         component: ProjectApplicationComponent,
         canActivate: [RoleGuard],
         data: { allowedRoles: [3] } 
+      },
+      {
+        path: 'report-developers',
+        component: ReportDeveloperComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
+      },
+      {
+        path: 'report-companies',
+        component: ReportCompanyComponent,
+        canActivate: [RoleGuard],
+        data: { allowedRoles: [3] } 
       }
     ]
   },
@@ -172,7 +188,11 @@ const routes: Routes = [
     DeveloperListComponent,
     CompanyListComponent,
     ProjectApplicationComponent,
-    AddEditProjectApplicationComponent
+    AddEditProjectApplicationComponent,
+    ReportDeveloperComponent,
+    AddEditReportDeveloperComponent,
+    ReportCompanyComponent,
+    AddEditReportCompanyComponent
   ],
   imports: [
     CommonModule,
