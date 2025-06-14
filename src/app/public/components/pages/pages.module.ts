@@ -112,12 +112,12 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         data: { allowedRoles: [3] } 
       },
-      {
+/*       {
         path: 'users',
         component: UsersComponent,
         canActivate: [RoleGuard],
         data: { allowedRoles: [3] } 
-      },
+      }, */
       {
         path: 'admins',
         component: AdminsComponent,
