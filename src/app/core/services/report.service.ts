@@ -22,8 +22,6 @@ import { HandlerErrorService } from './handler-error.service';
   providedIn: 'root'
 })
 export class ReportService {
-  private reportsCache: Observable<Report[]> | null = null;
-  private reportCache = new Map<number, Observable<Report>>();
 
   constructor(
     private http: HttpClient,
@@ -31,21 +29,9 @@ export class ReportService {
     private handlerErrorSrv: HandlerErrorService,
   ) { }
 
-  // Cache management
-  clearCache(): void {
-    this.reportsCache = null;
-    this.reportCache.clear();
-  }
-
-  clearReportCache(id: number): void {
-    this.reportCache.delete(id);
-  }
-
-  // Report CRUD Operations
   createReport(reportData: CreateReportRequest): Observable<Report> {
     return this.http.post<ReportResponseById>(`${environment.server_url}reports/create`, reportData).pipe(
       map(response => {
-        this.clearCache();
         return response.report;
       }),
       catchError((err) => this.handlerErrorSrv.handlerError(err))
@@ -70,22 +56,16 @@ export class ReportService {
   }
 
   getReportById(id: number): Observable<Report> {
-    if (!this.reportCache.has(id)) {
-      const report$ = this.http.get<ReportResponseById>(`${environment.server_url}reports/show/${id}`).pipe(
+    return this.http.get<ReportResponseById>(`${environment.server_url}reports/show/${id}`).pipe(
         map(response => response.report),
         shareReplay(1),
         catchError((err) => this.handlerErrorSrv.handlerError(err))
       );
-      this.reportCache.set(id, report$);
-    }
-    return this.reportCache.get(id)!;
   }
 
   updateReport(id: number, reportData: UpdateReportRequest): Observable<Report> {
     return this.http.put<ReportResponseById>(`${environment.server_url}reports/update/${id}`, reportData).pipe(
       map(response => {
-        this.clearReportCache(id);
-        this.clearCache();
         return response.report;
       }),
       catchError((err) => this.handlerErrorSrv.handlerError(err))
@@ -95,8 +75,6 @@ export class ReportService {
   deleteReport(id: number): Observable<any> {
     return this.http.delete(`${environment.server_url}reports/delete/${id}`).pipe(
       map(response => {
-        this.clearCache();
-        this.clearReportCache(id);
         return response;
       }),
       catchError((err) => this.handlerErrorSrv.handlerError(err))

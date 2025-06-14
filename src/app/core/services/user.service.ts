@@ -102,38 +102,6 @@ export class UserService {
     );
   }
 
-  public handlerError(err: { error?: any, message?: any, status?: number }): Observable<never> {
-    if (!err) {
-      return throwError('Error desconocido');
-    }
-  
-    switch (err.error.status) {
-      case 400:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      case 401:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      case 404:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      case 429:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      case 500:
-        this.notificationService.showErrorCustom(err.error.message);
-        break;
-      default:
-        this.notificationService.showErrorCustom(err.message .message);
-    }
-
-    for (let i = 0; i < err.error.details.length; i++) {
-      this.notificationService.showErrorCustom(err.error.details[i])
-    }
-  
-    return throwError(err);
-  }
-
 }
 
   
