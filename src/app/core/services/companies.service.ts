@@ -23,7 +23,7 @@ export class CompaniesService {
       `${environment.server_url}companies/show/all`
     ).pipe(
       map(response => response.companies),
-      shareReplay(1) // Cache the response and replay to future subscribers
+      shareReplay(1) 
     );
   }
 
@@ -43,7 +43,6 @@ export class CompaniesService {
       );
   }
 
-  // Optional: Method to force refresh (clear cache and fetch new data)
   refreshCompanies(): Observable<companies[]> {
     return this.getAllCompanies();
   }
@@ -58,36 +57,5 @@ export class CompaniesService {
     );
   }
 
-  public handlerError(err: { error?: any, message?: any, status?: number }): Observable<never> {
-    if (!err) {
-      return throwError('Error desconocido');
-    }
-  
-    switch (err.error.status) {
-      case 400:
-        this.notificationServices.showErrorCustom(err.error.message);
-        break;
-      case 401:
-        this.notificationServices.showErrorCustom(err.error.message);
-        break;
-      case 404:
-        this.notificationServices.showErrorCustom(err.error.message);
-        break;
-      case 429:
-        this.notificationServices.showErrorCustom(err.error.message);
-        break;
-      case 500:
-        this.notificationServices.showErrorCustom(err.error.message);
-        break;
-      default:
-        this.notificationServices.showErrorCustom(err.message .message);
-    }
-
-    for (let i = 0; i < err.error.details.length; i++) {
-      this.notificationServices.showErrorCustom(err.error.details[i])
-    }
-  
-    return throwError(err);
-  }
 
 }

@@ -78,43 +78,4 @@ export class ProjectApplicationsService {
     );
   }
 
-  private handlerError(err: { error?: any, message?: any, status?: number }): Observable<never> {
-    if (!err) {
-      return throwError(() => 'Error desconocido');
-    }
-
-    switch (err.error?.status) {
-      case 400:
-        this.notificationService.showErrorCustom(err.error?.message || 'Solicitud incorrecta');
-        break;
-      case 401:
-        this.notificationService.showErrorCustom(err.error?.message || 'No autorizado');
-        break;
-      case 404:
-        this.notificationService.showErrorCustom(err.error?.message || 'Recurso no encontrado');
-        break;
-      case 409:
-        this.notificationService.showErrorCustom(err.error?.message || 'Conflicto con el estado actual');
-        break;
-      case 422:
-        this.notificationService.showErrorCustom(err.error?.message || 'Entidad no procesable');
-        break;
-      case 429:
-        this.notificationService.showErrorCustom(err.error?.message || 'Demasiadas solicitudes');
-        break;
-      case 500:
-        this.notificationService.showErrorCustom(err.error?.message || 'Error del servidor');
-        break;
-      default:
-        this.notificationService.showErrorCustom(err.message || 'Error desconocido');
-    }
-
-    if (err.error?.details?.length) {
-      for (const detail of err.error.details) {
-        this.notificationService.showErrorCustom(detail);
-      }
-    }
-
-    return throwError(() => err);
-  }
 }
