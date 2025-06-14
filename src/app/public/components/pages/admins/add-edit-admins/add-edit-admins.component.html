@@ -38,6 +38,23 @@
           </small>
         </div>
 
+        <div class="field mb-4" *ngIf="!adminId">
+            <label for="role" class="block mb-2 font-medium">Role*</label>
+            <p-dropdown 
+              id="role" 
+              formControlName="role" 
+              [options]="roles" 
+              optionLabel="name" 
+              optionValue="id"
+              placeholder="Select a role" 
+              class="w-full category-dropdown option"
+              [ngClass]="{'ng-invalid ng-dirty': submitted && f['role'].errors}">
+            </p-dropdown>
+            <small class="p-error block mt-1" *ngIf="submitted && f['role'].errors?.['required']">
+              Se requiere rol
+            </small>
+          </div>
+
         <!-- Role Dropdown -->
       </div>
 
@@ -112,7 +129,19 @@
           </small>
       </div>
 
-          <div class="field mb-4">
+              <div class="field mb-4" *ngIf="adminId">
+          <label for="status" class="block mb-2 font-medium">Estado*</label>
+          <p-dropdown [style]="{'width':'100%'}" id="status" formControlName="status" [options]="statuses" 
+                      optionLabel="label" optionValue="value" placeholder="Seleccione un estado" class="w-full"
+                      [ngClass]="{'ng-invalid ng-dirty': submitted && f['status'].errors}">
+          </p-dropdown>
+          <small class="p-error block mt-1" *ngIf="submitted && f['status'].errors?.['required']">
+            Se requiere estado
+          </small>
+        </div>
+  
+
+          <div class="field mb-4" *ngIf="adminId">
             <label for="role" class="block mb-2 font-medium">Role*</label>
             <p-dropdown 
               id="role" 

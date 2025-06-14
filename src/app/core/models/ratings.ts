@@ -27,10 +27,12 @@ export interface Rating {
 
 export interface RatingAverageResponse {
     developer_id?: number;
+    developer_name?: string;
     company_id?: number;
+    company_name?: string;
     averageScore: number;
     totalRatings: number;
-    type?: string;
+    rating: Rating;
 }
 
 export interface PublicProfileResponse {

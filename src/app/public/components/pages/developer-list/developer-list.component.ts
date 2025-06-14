@@ -171,19 +171,19 @@ viewRatings(developerId: number): void {
     this.ratingLoading = true;
     this.showRatingDialog = true;
     
-    this.ratingService.getPublicProfile(developerId).subscribe({
+    this.ratingService.getAverageRatingByDeveloper(developerId).subscribe({
         next: (response: any) => {
             this.developerRatings = {
                 ratingSummary: {
-                    averageScore: response.ratingSummary?.averageScore || 0,
-                    totalRatings: response.ratingSummary?.totalRatings || 0,
-                    scoreDistribution: this.calculateScoreDistribution(response.recentRatings || [])
+                    averageScore: response?.averageScore || 0,
+                    totalRatings: response?.totalRatings || 0,
+                    scoreDistribution: this.calculateScoreDistribution(response.ratings || [])
                 },
-                recentRatings: (response.recentRatings || []).map((rating: any) => ({
+                recentRatings: (response.ratings || []).map((rating: any) => ({
                     score: rating.score,
                     comment: rating.comment,
                     createdAt: rating.createdAt,
-                    userName: rating.reviewer?.user?.name || 'Usuario anónimo'
+                    userName: rating.author_name || 'Usuario anónimo'
                 }))
             };
             

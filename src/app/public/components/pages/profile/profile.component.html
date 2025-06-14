@@ -102,7 +102,7 @@
       </small>
     </div>
     
-    <div class="field">
+    <div class="field" *ngIf="this.admin.role_id === 4">
       <label for="email">Correo electrónico*</label>
       <input type="email" pInputText id="email" [(ngModel)]="adminUpdate.email" required 
              [ngClass]="{'ng-invalid ng-dirty': submitted && !adminUpdate.email}"/>

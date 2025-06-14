@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Console } from 'console';
 import { Admin, AdminResponse } from 'src/app/core/models/admin';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -134,8 +135,29 @@ export class ProfileComponent implements OnInit {
 
     this.loading = true;
     const adminId = this.admin.id;
+    var updateData: any;
+
+
+    if(this.admin.role_id === 3){
+      updateData = {
+        full_name: this.adminUpdate.full_name,
+        //email: this.adminUpdate.email,
+        //role: this.adminUpdate.role,
+        phone: this.adminUpdate.phone,
+        //status: this.adminUpdate.status
+      }
+    }else if(this.admin.role_id === 4){
+      updateData = {
+        full_name: this.adminUpdate.full_name,
+        email: this.adminUpdate.email,
+        //role: this.adminUpdate.role,
+        phone: this.adminUpdate.phone,
+        //status: this.adminUpdate.status
+      }
+    }
+      
     
-    this.adminService.updateAdmin(adminId, this.adminUpdate).subscribe({
+    this.adminService.updateAdmin(adminId, updateData).subscribe({
       next: (response) => {
         this.notificationService.showSuccessCustom('Perfil actualizado exitosamente');
         this.loadAdminProfile();
