@@ -27,9 +27,9 @@ export class ProjectApplicationComponent implements OnInit {
   loading: boolean = false;
 
   statusOptions = [
-    { label: 'Pending', value: 0 },
-    { label: 'Accepted', value: 1 },
-    { label: 'Rejected', value: 2 }
+    { label: 'Activo', value: 0 },
+    { label: 'Ganado', value: 1 },
+    { label: 'Rechazado', value: 2 }
   ];
 
   constructor(
@@ -116,8 +116,8 @@ export class ProjectApplicationComponent implements OnInit {
 
   getStatusSeverity(status: any): any {
     switch(status) {
-      case 0: return 'warning';
-      case 1: return 'success';
+      case 0: return 'success';
+      case 1: return 'warning';
       case 2: return 'danger';
       default: return 'info';
     }
