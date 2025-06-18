@@ -70,6 +70,7 @@ export class ConfigComponent {
         newScheme === 'dark' ? 'bootstrap4-dark-blue' : 'lara-light-indigo',
         newScheme
       );
+      window.location.reload()
     }
 
   changeTheme(theme: string, colorScheme: string) {

@@ -1,7 +1,7 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="/main/dashboard">
-        <img src="assets/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>CodeBid Panel</span>
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/images/logo-white.svg" alt="logo">
+        <span>CodeBid</span>
     </a>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
@@ -19,7 +19,16 @@
         </button>
         <button (click)="onLogout()" class="p-link layout-topbar-button">
             <i class="pi pi-power-off"></i>
-            <span>Cerrar Sesión</span>
+            <span>Cerrar sesión</span>
         </button>
+
+        <!-- Toggle Switch -->
+        <label class="toggle-switch flex mt-2 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
+            <input type="checkbox" [checked]="isDarkMode" (change)="toggleTheme()">
+            <span class="slider round">
+              <span class="icon sun">☀️</span>
+              <span class="icon moon">🌙</span>
+            </span>
+        </label>
     </div>
 </div>

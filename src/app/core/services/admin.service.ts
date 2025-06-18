@@ -95,6 +95,17 @@ export class AdminService {
     );
   }
 
+  resendCode(token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,  // Usa 'Authorization' y el formato 'Bearer'
+      'Content-Type': 'application/json'
+    });
+    
+    return this.http.post(`${this.apiUrl}/resendCode`, {}, { headers }).pipe(
+      catchError(err => this.handlerErrorSrv.handlerError(err))
+    );
+  }
+
   // Admin Status Operations
   reactivateAdmin(id: number): Observable<AdminResponse> {
     return this.http.put<AdminResponse>(`${this.apiUrl}/reactivatedAdmin/${id}`, {}).pipe(

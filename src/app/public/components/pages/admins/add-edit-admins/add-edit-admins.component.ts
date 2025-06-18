@@ -19,6 +19,8 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
   @Output() saved = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 
+  public status: string | any;
+
   public roles = [
     { name: 'Admin', id: 3 },
     { name: 'SuperAdmin', id: 4 }
@@ -100,6 +102,8 @@ emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
           status: admin.status
         });
         this.loading = false;
+
+        this.status = admin.status;
       }
     });
   }
