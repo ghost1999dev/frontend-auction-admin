@@ -18,12 +18,12 @@ export class ProjectDetailComponent implements OnInit {
   error: string | null = null;
 
   statusOptions = [
-    { label: 'Pendiente', value: 0 },
+    //{ label: 'Pendiente', value: 0 },
     { label: 'Activo', value: 1 },
-    { label: 'Inactivo', value: 2 },
+    //{ label: 'Inactivo', value: 2 },
     { label: 'Rechazado', value: 3 },
-    { label: 'Completado', value: 4 },
-    { label: 'Republicado', value: 5 }
+    //{ label: 'Completado', value: 4 },
+    //{ label: 'Republicado', value: 5 }
   ];
 
   selectedStatus!: number;

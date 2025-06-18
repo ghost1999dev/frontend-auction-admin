@@ -30,10 +30,10 @@ export class ProjectComponent implements OnInit {
     { label: 'Todos', value: null },
     { label: 'Pendiente', value: 0 },
     { label: 'Activo', value: 1 },
-    { label: 'Inactivo', value: 2 },
+    //{ label: 'Inactivo', value: 2 },
     { label: 'Rechazado', value: 3 },
     { label: 'Completado', value: 4 },
-    { label: 'Republicado', value: 5 }
+    //{ label: 'Republicado', value: 5 }
   ];
   
   selectedStatusFilter: number | null = null;
@@ -42,7 +42,7 @@ export class ProjectComponent implements OnInit {
   public statusMap: any = {
     0: { label: 'Pendiente', severity: 'warning' },
     1: { label: 'Activo', severity: 'success' },
-    2: { label: 'Inactivo', severity: 'danger' },
+    //2: { label: 'Inactivo', severity: 'danger' },
     3: { label: 'Rechazado', severity: 'danger' },
     4: { label: 'Completado', severity: 'info' }
   };
