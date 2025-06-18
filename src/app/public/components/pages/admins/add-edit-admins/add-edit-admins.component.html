@@ -165,6 +165,10 @@
     <div class="flex justify-content-end gap-3 mt-5">
       <button pButton pRipple label="Cancelar" icon="pi pi-times" 
               class="p-button-outlined p-button-secondary" (click)="onCancel()" [disabled]="loading"></button>
+<!--       <button *ngIf="adminId && this.status === 'inactive'" pButton pRipple label="Reenviar Codigo" icon="pi pi-refresh" 
+              class="p-button-primary" type="submit" [disabled]="loading">
+        <i *ngIf="loading" class="pi pi-spinner pi-spin mr-2"></i>
+      </button> -->
       <button pButton pRipple label="Guardar" icon="pi pi-check" 
               class="p-button-primary" type="submit" [disabled]="loading">
         <i *ngIf="loading" class="pi pi-spinner pi-spin mr-2"></i>

@@ -15,6 +15,7 @@
                     <h5 >Filtros: </h5>
                     <p-dropdown [options]="statusFilterOptions" optionLabel="label" optionValue="value" 
                             [(ngModel)]="selectedStatusFilter" (onChange)="filterByStatus()"
+                            [style]="{'width':'200px'}"
                             placeholder="Filtrar por estado" [showClear]="true">
                     </p-dropdown>
                 </div>
