@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectStatusUpdate } from 'src/app/core/models/admin';
 import { Project } from 'src/app/core/models/projects';
@@ -13,7 +14,7 @@ import { ProjectsService } from 'src/app/core/services/projects.service';
   styleUrls: ['./project-detail.component.scss']
 })
 export class ProjectDetailComponent implements OnInit {
-  project: Project | null = null;
+  project: any | null = null;
   isLoading: boolean = true;
   error: string | null = null;
 
@@ -27,7 +28,7 @@ export class ProjectDetailComponent implements OnInit {
   ];
 
   selectedStatus!: number;
-
+  sanitizedLongDescription: any;
 
   constructor(
     private router: Router,
@@ -36,6 +37,7 @@ export class ProjectDetailComponent implements OnInit {
     private notificationService: NotificationService,
     private projectService: ProjectsService,
     public layoutService: LayoutService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -43,9 +45,13 @@ export class ProjectDetailComponent implements OnInit {
     
     this.projectService.getProjectById(id)
     .subscribe({
-      next: (project) => {
+      next: (project: any) => {
         this.project = project;
-        this.selectedStatus = project.status; // Inicializa con el estado actual
+        
+        this.selectedStatus = project.status; 
+        this.sanitizedLongDescription = project.long_description || 
+                                 project.full_description || 
+                                 'No hay descripción disponible';
         this.isLoading = false;
       },
       error: () => {

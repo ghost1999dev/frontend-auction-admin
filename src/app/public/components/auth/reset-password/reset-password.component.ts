@@ -68,7 +68,8 @@ export class ResetPasswordComponent implements OnInit {
     this.loading = true;
 
     this.AdminSrv.resendCode(
-      this.token
+      this.token,
+      this.email
     ).subscribe({
       next: (response) => {
         this.notificationService.showSuccessCustom(response.message);

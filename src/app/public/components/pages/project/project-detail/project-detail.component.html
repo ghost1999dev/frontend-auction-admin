@@ -51,7 +51,12 @@
 
         <div class="project-description">
             <h3>Descripción</h3>
-            <p>{{ (project.description || 'No se proporciona descripción').slice(0, 100) }}{{ (project.description || '').length > 100 ? '...' : '' }}</p>
+            <p>{{ project.description }}</p>
+        </div>
+
+    <div class="project-description">
+            <h3>Descripción Completa</h3>
+            <div [innerHTML]="sanitizedLongDescription"></div>
         </div>
 
         <div class="project-timestamps">
