@@ -104,7 +104,7 @@ export class AdminService {
       });
     }else{
       headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`,  // Usa 'Authorization' y el formato 'Bearer'
+        'Authorization': `Bearer ${token}`, 
         'Content-Type': 'application/json'
       });
     }
