@@ -57,16 +57,17 @@ export class AdminsComponent implements OnInit {
   }
 
   loadAdmins(): void {
-    this.loading = true;
-    this.adminService.getAllAdmins().subscribe({
-      next: (admins: any) => {
-        this.admins = admins;
-        this.loading = false;
-      },
-      error: () => {
-        this.loading = false;
-      }
-    });
+      this.loading = true;
+      this.adminService.getAllAdmins().subscribe({
+          next: (admins: any) => {
+              // Filtrar el administrador actual (excluirlo de la lista)
+              this.admins = admins.filter((admin: Admin) => admin.id !== this.id);
+              this.loading = false;
+          },
+          error: () => {
+              this.loading = false;
+          }
+      });
   }
 
   deleteAdmin(admin: Admin): void {
@@ -133,5 +134,23 @@ export class AdminsComponent implements OnInit {
       this.showAddEditDialog = false;
       this.loadAdmins();
   }
+
+  getUserInfo() {
+    const token = this.getTokens();
+    let payload;
+    if (token) {
+      payload = token.split(".")[1];
+      payload = window.atob(payload);
+      return JSON.parse(payload)['id'];
+    } else {
+      return null;
+    }
+  }
+  
+  getTokens() {
+    return localStorage.getItem("admin_token");
+  }
+
+  id: any = this.getUserInfo();
 }
 
