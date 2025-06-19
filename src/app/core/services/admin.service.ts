@@ -95,13 +95,20 @@ export class AdminService {
     );
   }
 
-  resendCode(token: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`,  // Usa 'Authorization' y el formato 'Bearer'
-      'Content-Type': 'application/json'
-    });
-    
-    return this.http.post(`${this.apiUrl}/resendCode`, {}, { headers }).pipe(
+  resendCode(token: string, email: string): Observable<any> {
+    var headers: any;
+    console.log(token)
+    if(token === undefined){
+      headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+    }else{
+      headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`,  // Usa 'Authorization' y el formato 'Bearer'
+        'Content-Type': 'application/json'
+      });
+    }
+    return this.http.post(`${this.apiUrl}/resendCode?email=${email}`, {}, { headers }).pipe(
       catchError(err => this.handlerErrorSrv.handlerError(err))
     );
   }
