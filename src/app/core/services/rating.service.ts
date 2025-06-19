@@ -109,38 +109,4 @@ export class RatingService {
     );
   }
 
-  // Error handling
-  private handlerError(err: { error?: any, message?: any, status?: number }): Observable<never> {
-    if (!err) {
-      return throwError('Error desconocido');
-    }
-  
-    switch (err.error?.status || err.status) {
-      case 400:
-        this.notificationService.showErrorCustom(err.error?.message || 'Solicitud incorrecta');
-        break;
-      case 401:
-        this.notificationService.showErrorCustom(err.error?.message || 'No autorizado');
-        break;
-      case 403:
-        this.notificationService.showErrorCustom(err.error?.message || 'Prohibido');
-        break;
-      case 404:
-        this.notificationService.showErrorCustom(err.error?.message || 'No encontrado');
-        break;
-      case 500:
-        this.notificationService.showErrorCustom(err.error?.message || 'Error interno del servidor');
-        break;
-      default:
-        this.notificationService.showErrorCustom(err.message || 'Error desconocido');
-    }
-
-    if (err.error?.details) {
-      for (let i = 0; i < err.error.details.length; i++) {
-        this.notificationService.showErrorCustom(err.error.details[i]);
-      }
-    }
-  
-    return throwError(err);
-  }
 }

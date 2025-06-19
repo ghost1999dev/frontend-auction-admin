@@ -22,7 +22,8 @@ export class ProjectDetailComponent implements OnInit {
     { label: 'Activo', value: 1 },
     //{ label: 'Inactivo', value: 2 },
     { label: 'Rechazado', value: 3 },
-    //{ label: 'Completado', value: 4 }
+    //{ label: 'Completado', value: 4 },
+    //{ label: 'Republicado', value: 5 }
   ];
 
   selectedStatus!: number;
@@ -83,15 +84,19 @@ private updateProjectStatus(projectId: number, newStatus: number): void {
   getStatusText(status: number): string {
     switch (status) {
       case 0:
-        return "Inactivo";
+        return "Pendiente";
       case 1:
         return "Activo";
       case 2:
-        return "Pendiente";
+        return "Inactivo";
       case 4:
         return "Completado";
       case 3:
         return "Rechazado";
+      case 4:
+        return "Completado";
+      case 5:
+        return "Republicado";
       default:
         return "Desconocido";
     }

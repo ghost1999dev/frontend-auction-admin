@@ -53,7 +53,6 @@ export class AddEditReportDeveloperComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        this.notificationService.showErrorCustom('Error al cargar el reporte');
         this.loading = false;
         this.onCancel();
       }
@@ -85,7 +84,6 @@ export class AddEditReportDeveloperComponent implements OnInit {
         this.loading = false;
       },
       error: () => {
-        this.notificationService.showErrorCustom('Error al actualizar el reporte');
         this.loading = false;
       }
     });

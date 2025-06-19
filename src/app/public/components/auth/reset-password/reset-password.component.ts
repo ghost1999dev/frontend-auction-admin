@@ -64,6 +64,22 @@ export class ResetPasswordComponent implements OnInit {
       ? null : { mismatch: true };
   }
 
+  resendCodeApply(){
+    this.loading = true;
+
+    this.AdminSrv.resendCode(
+      this.token
+    ).subscribe({
+      next: (response) => {
+        this.notificationService.showSuccessCustom(response.message);
+        this.loading = false;
+      },
+      error: (error) => {
+        this.loading = false;
+      }
+    });
+  }
+
   onSubmit(): void {
     if (this.resetForm.invalid) {
       return;

@@ -30,14 +30,11 @@ export class ProjectComponent implements OnInit {
     { label: 'Todos', value: null },
     { label: 'Pendiente', value: 0 },
     { label: 'Activo', value: 1 },
-    //{ label: 'Inactivo', value: 2 },
+    { label: 'Inactivo', value: 2 },
     { label: 'Rechazado', value: 3 },
-    { label: 'Completado', value: 4 }
+    { label: 'Completado', value: 4 },
   ];
   
-  selectedStatusFilter: number | null = null;
-  filteredProjects: Project[] = [];
-
   public statusMap: any = {
     0: { label: 'Pendiente', severity: 'warning' },
     1: { label: 'Activo', severity: 'success' },
@@ -45,6 +42,9 @@ export class ProjectComponent implements OnInit {
     3: { label: 'Rechazado', severity: 'danger' },
     4: { label: 'Completado', severity: 'info' }
   };
+
+  selectedStatusFilter: number | null = null;
+  filteredProjects: Project[] = [];
 
   constructor(
     private projectsService: ProjectsService,
