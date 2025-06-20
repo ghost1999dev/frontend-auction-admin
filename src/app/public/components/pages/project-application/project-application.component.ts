@@ -114,12 +114,21 @@ export class ProjectApplicationComponent implements OnInit {
     return this.statusOptions.find(opt => opt.value === status)?.label || 'Unknown';
   }
 
+  getStatusText(status: number): string {
+    const statusTexts: Record<number, string> = {
+      0: 'Activo',
+      1: 'Ganado',
+      2: 'Rechazado'
+    };
+    return statusTexts[status] || 'Desconocido';
+  }
+
   getStatusSeverity(status: any): any {
-    switch(status) {
-      case 0: return 'success';
-      case 1: return 'warning';
-      case 2: return 'danger';
-      default: return 'info';
-    }
+    const severityMap: Record<number, string> = {
+      0: 'success',
+      1: 'warning',
+      2: 'danger'
+    };
+    return severityMap[status] || 'info';
   }
 }
