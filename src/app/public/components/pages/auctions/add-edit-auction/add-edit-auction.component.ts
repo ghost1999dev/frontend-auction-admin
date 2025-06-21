@@ -132,12 +132,6 @@ export class AddEditAuctionComponent implements OnInit {
       );
     }
 
-    console.log('Datos a enviar:', {
-      ...formData,
-      bidding_started_at: formData.bidding_started_at,
-      bidding_deadline: formData.bidding_deadline
-    });
-
     // Eliminar los campos temporales que ya no necesitamos
     delete formData.bidding_started_at_date;
     delete formData.bidding_started_at_time;

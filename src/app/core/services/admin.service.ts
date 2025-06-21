@@ -97,7 +97,6 @@ export class AdminService {
 
   resendCode(token: string, email: string): Observable<any> {
     var headers: any;
-    console.log(token)
     if(token === undefined){
       headers = new HttpHeaders({
         'Content-Type': 'application/json'
