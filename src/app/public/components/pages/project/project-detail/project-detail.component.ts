@@ -26,6 +26,7 @@ export class ProjectDetailComponent implements OnInit {
     //{ label: 'Completado', value: 4 },
     //{ label: 'Republicado', value: 5 }
   ];
+  withdrawReason: string = '';
 
   selectedStatus!: number;
   sanitizedLongDescription: any;
@@ -68,7 +69,7 @@ updateStatus(): void {
 }
 
 private updateProjectStatus(projectId: number, newStatus: number): void {
-  const statusUpdate: ProjectStatusUpdate = { newStatus };
+  const statusUpdate: ProjectStatusUpdate = { newStatus, reason: this.withdrawReason };
   
   this.adminServices.updateProjectStatus(projectId, statusUpdate).subscribe({
     next: () => {

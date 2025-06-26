@@ -29,7 +29,8 @@ export class ProjectApplicationComponent implements OnInit {
   statusOptions = [
     { label: 'Activo', value: 0 },
     { label: 'Ganado', value: 1 },
-    { label: 'Rechazado', value: 2 }
+    { label: 'Rechazado', value: 2 },
+    { label: 'Eliminado', value: 3 }
   ];
 
   constructor(
@@ -118,7 +119,8 @@ export class ProjectApplicationComponent implements OnInit {
     const statusTexts: Record<number, string> = {
       0: 'Activo',
       1: 'Ganado',
-      2: 'Rechazado'
+      2: 'Rechazado',
+      3: 'Eliminado'
     };
     return statusTexts[status] || 'Desconocido';
   }
@@ -127,7 +129,8 @@ export class ProjectApplicationComponent implements OnInit {
     const severityMap: Record<number, string> = {
       0: 'success',
       1: 'warning',
-      2: 'danger'
+      2: 'danger',
+      3: 'danger'
     };
     return severityMap[status] || 'info';
   }

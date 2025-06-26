@@ -120,7 +120,7 @@ loadCompanies(): void {
         next: () => {
           
           const newStatus: number = this.projectForm.value.status;
-          const statusUpdate: ProjectStatusUpdate = { newStatus };
+          const statusUpdate: ProjectStatusUpdate = { newStatus, reason: '' };
               
           this.adminServices.updateProjectStatus(this.projectId, statusUpdate).subscribe({
             next: () => {

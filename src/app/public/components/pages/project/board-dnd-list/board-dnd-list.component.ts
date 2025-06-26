@@ -37,18 +37,7 @@ export class BoardDndListComponent {
         event.currentIndex
       );
       
-      this.updateProjectStatus(project.id, newStatus);
     }
-  }
-
-  private updateProjectStatus(projectId: number, newStatus: number): void {
-    const statusUpdate: ProjectStatusUpdate = { newStatus };
-    
-    this.adminServices.updateProjectStatus(projectId, statusUpdate).subscribe({
-      next: () => {
-        this.notificationService.showSuccessCustom('Project status updated');
-      }
-    });
   }
 
 }

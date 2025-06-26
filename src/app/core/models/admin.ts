@@ -63,6 +63,7 @@ export interface AdminLoginRequest {
   
   export interface ProjectStatusUpdate {
     newStatus: number; // 0: Pending, 1: Active, 3: Rejected, 4: Completed
+    reason: any;
   }
 
   export interface AdminLoginRequest {
