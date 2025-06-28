@@ -13,6 +13,7 @@ import { MenuModule } from 'primeng/menu'; // Import MenuModule
 import { ChartModule } from 'primeng/chart'; // Import ChartModule
 import { AuctionsComponent } from './auctions/auctions.component';
 import { ToastModule } from 'primeng/toast';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
@@ -226,6 +227,7 @@ const routes: Routes = [
     BadgeModule,
     ButtonModule,
     CardModule,
+    ProgressBarModule,
     DividerModule,
     TagModule,
     CalendarModule,

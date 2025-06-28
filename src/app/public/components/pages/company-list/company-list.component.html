@@ -47,14 +47,14 @@
                 </td>
                 <td>
                     <button pButton pRipple icon="pi pi-star" class="p-button-rounded p-button-info" 
-                            (click)="viewRatings(company.id)" pTooltip="Ver ratings" tooltipPosition="top"></button>
+                            (click)="viewRatings(company.id)" pTooltip="Ver Calificaciones" tooltipPosition="top"></button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
 
-<p-dialog header="Ratings de la Compañía" [(visible)]="showRatingDialog" [style]="{width: '1200px'}" [modal]="true" 
+<p-dialog header="Calificaciones de la Compañía" [(visible)]="showRatingDialog" [style]="{width: '1200px'}" [modal]="true" 
           [breakpoints]="{'960px': '75vw', '640px': '90vw'}" [styleClass]="'ratings-dialog'"
           [ngClass]="{'dark-theme': layoutService.config.colorScheme === 'dark'}">
     <div *ngIf="ratingLoading; else ratingContent">
@@ -89,7 +89,7 @@
                 </div>
                 
                 <div class="chart-container">
-                    <h4>Distribución de Ratings</h4>
+                    <h4>Distribución de Calificaciones</h4>
                     <p-chart *ngIf="chartData" type="bar" [data]="chartData" [options]="chartOptions" 
                             width="100%" height="300px"></p-chart>
                 </div>

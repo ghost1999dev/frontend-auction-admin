@@ -125,7 +125,7 @@ updateChartData(): void {
     this.chartData = {
         labels: ['1 estrella', '2 estrellas', '3 estrellas', '4 estrellas', '5 estrellas'],
         datasets: [{
-            label: 'Distribución de Ratings',
+            label: 'Distribución de Calificaciones',
             backgroundColor: isDark ? [
                 'rgba(110, 142, 251, 0.7)', // 1 estrella
                 'rgba(110, 142, 251, 0.8)', // 2 estrellas
