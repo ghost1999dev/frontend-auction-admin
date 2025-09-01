@@ -38,7 +38,7 @@ export class ReportDeveloperComponent implements OnInit {
   loadReports(): void {
     this.loading = true;
 
-    this.adminService.getAllUserReports('', '2').subscribe({
+    this.adminService.getAllUserReports('', '1').subscribe({
       next: (response: any) => {
         this.reports = response.data;
         this.loading = false;

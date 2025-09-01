@@ -44,7 +44,7 @@ export class ReportCompanyComponent implements OnInit {
       limit: 100, */
     }
 
-    this.adminService.getAllUserReports('', '1').subscribe({
+    this.adminService.getAllUserReports('', '2').subscribe({
       next: (response: any) => {
         this.reports = response.data;
         this.loading = false;
